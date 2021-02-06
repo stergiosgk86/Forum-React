@@ -6,6 +6,16 @@ stages:
 
 build project:
   stage: build
+  except:
+    - develop
+  script:
+    - npm install
+    - npm run build
+
+build develop project:
+  stage: build
+  only:
+    - develop
   script:
     - npm install
     - npm run build
