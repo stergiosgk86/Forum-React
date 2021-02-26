@@ -8,7 +8,7 @@ class Navigationbar extends Component {
             <>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark color-nav">
                     <div className="container">
-                        <NavLink exact to="/" className="navbar-brand">Forum</NavLink>
+                        <NavLink exact to="/" className="navbar-brand">Devills</NavLink>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
@@ -20,16 +20,16 @@ class Navigationbar extends Component {
                                     <NavLink exact to="/" activeClassName="active" className="nav-link" >Home</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink exact to="/styling" activeClassName="active" className="nav-link" >Trips</NavLink>
+                                    <NavLink exact to="/trips" activeClassName="active" className="nav-link" >Trips</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink exact to="/scissors" activeClassName="active" className="nav-link" >Features</NavLink>
+                                    <NavLink exact to="/features" activeClassName="active" className="nav-link" >Features</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink exact to="/razors" activeClassName="active" className="nav-link" >News</NavLink>
+                                    <NavLink exact to="/news" activeClassName="active" className="nav-link" >News</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink exact to="/combs" activeClassName="active" className="nav-link" >About us</NavLink>
+                                    <NavLink exact to="/about us" activeClassName="active" className="nav-link" >About us</NavLink>
                                 </li>
 
                             </ul>

@@ -1,37 +1,12 @@
 import React from 'react';
-import { Carousel } from 'react-bootstrap';
+// import { NavLink } from 'react-router-dom';
 
 import './Home.css';
-import Trip1 from '../../Img/Trip1.jpg';
-import Trip2 from '../../Img/Trip2.jpg';
-import Trip3 from '../../Img/Trip3.jpg';
 
 const Home = () => {
     return (
         <>
-            <div className="pb-5">
-                <Carousel>
-                    <Carousel.Item>
-                        <img className="carousel" src={Trip1} alt="" />
-                        <Carousel.Caption>
-                            <h3>This is the first slide</h3>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img className="carousel" src={Trip2} alt="" />
-                        <Carousel.Caption>
-                            <h3>This is the second slide</h3>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img className="carousel" src={Trip3} alt="" />
-                        <Carousel.Caption>
-                            <h3>This is the third slide</h3>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                </Carousel>
-            </div>
-
+            <div className="forum-image"></div>
             <div className="pt-5">
                 <div className="container">
                     <ul className="list-inline header text-uppercase p-4 text-white font-weight-bold  d-flex align-items-center row">
@@ -44,20 +19,89 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline p-3 body d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Best And Worst</div>
+                            <div className="title">First Forum</div>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
-                        <li className="list-inline-item col-md text-center font-weight-bold">2</li>
-                        <li className="list-inline-item col-md text-center font-weight-bold">3</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">2</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">3</li>
                         <li className="list-inline-item col-md-3 text-center">10 months, 1 week ago</li>
                     </ul>
                 </div>
                 <div className="container">
-                    <ul className="list-inline body p-3 font-weight-bold col-md-12">
-                        <li className="list-inline-item col-md-5">forum</li>
-                        <li className="list-inline-item col-md-2 text-center">0</li>
-                        <li className="list-inline-item col-md-2 text-center">0</li>
-                        <li className="list-inline-item col-md-2 text-right">last post</li>
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Second Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">0</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">0</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
+                    </ul>
+                </div>
+                <div className="container">
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Third Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">5</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">25</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
+                    </ul>
+                </div>
+                <div className="container">
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Forth Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">3</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">42</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
+                    </ul>
+                </div>
+                <div className="container">
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Fifth Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">1</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">68</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
+                    </ul>
+                </div>
+                <div className="container">
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Sixth Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">17</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">36</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
+                    </ul>
+                </div>
+                <div className="container">
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Seventh Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">14</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">26</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
+                    </ul>
+                </div>
+                <div className="container">
+                    <ul className="list-inline body p-3 d-flex align-items-center row">
+                        <li className="list-inline-item col-md-6 seperate">
+                            <div className="title">Eighth Forum</div>
+                            <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
+                        </li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">13</li>
+                        <li className="list-inline-item col-md text-center font-weight-bold seperate">9</li>
+                        <li className="list-inline-item col-md-3 text-center">11 months, 3 weeks ago</li>
                     </ul>
                 </div>
             </div>

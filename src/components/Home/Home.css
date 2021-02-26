@@ -1,6 +1,10 @@
-.carousel {
-    height: 30vh;
-    width: fit-content;
+.forum-image {
+    background-image: url(../../Img/Trip1.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding: 150px 20px;
+    box-sizing: border-box;
 }
 
 .header {
@@ -14,7 +18,7 @@
 }
 
 .seperate {
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 2px solid rgba(0, 0, 0, 0.05);
 }
 
 .inscription {
