@@ -24,10 +24,10 @@ build develop project:
     paths:
      - ./build
   
-test project:
-  stage: test
-  script:
-    - echo "Testing App"
-    - npm install
-    - CI=true npm test
-    - echo "Test successfully!"
+# test project:
+#   stage: test
+#   script:
+#     - echo "Testing App"
+#     - npm install
+#     - CI=true npm test
+#     - echo "Test successfully!"

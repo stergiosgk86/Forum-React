@@ -1,0 +1,16 @@
+.userphoto {
+    background-image: url(../../Img/userphoto.png);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding: 70px 20px;
+}
+
+.comments-image {
+    background-image: url(../../Img/Trip2.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding: 150px 20px;
+    box-sizing: border-box;
+}

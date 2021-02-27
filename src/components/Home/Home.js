@@ -1,5 +1,5 @@
 import React from 'react';
-// import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './Home.css';
 
@@ -19,7 +19,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline p-3 body d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">First Forum</div>
+                            <Link to="/posts" className="link">First Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">2</li>
@@ -30,7 +30,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Second Forum</div>
+                            <Link to="/posts" className="link">Second Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">0</li>
@@ -41,7 +41,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Third Forum</div>
+                            <Link to="/posts" className="link">Third Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">5</li>
@@ -52,7 +52,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Forth Forum</div>
+                            <Link to="/posts" className="link">Forth Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">3</li>
@@ -63,7 +63,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Fifth Forum</div>
+                            <Link to="/posts" className="link">Fifth Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">1</li>
@@ -74,7 +74,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Sixth Forum</div>
+                            <Link to="/posts" className="link">Sixth Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">17</li>
@@ -85,7 +85,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Seventh Forum</div>
+                            <Link to="/posts" className="link">Seventh Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">14</li>
@@ -96,7 +96,7 @@ const Home = () => {
                 <div className="container">
                     <ul className="list-inline body p-3 d-flex align-items-center row">
                         <li className="list-inline-item col-md-6 seperate">
-                            <div className="title">Eighth Forum</div>
+                            <Link to="/posts" className="link">Eighth Forum</Link>
                             <div className="inscription">Lorem ipsum dolor sit amet consectetur adipisicing</div>
                         </li>
                         <li className="list-inline-item col-md text-center font-weight-bold seperate">13</li>

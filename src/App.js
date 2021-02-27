@@ -2,6 +2,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import './App.css';
 import Home from './components/Home/Home';
+import Posts from './components/Posts/Posts';
+import Comments from './components/Comments/Comments';
 import Navigationbar from './components/Navigationbar/Navigationbar';
 import NotFound from './components/NotFound/NotFound';
 import Scrolltopbtn from './components/Scrolltopbtn/Scrolltopbtn';
@@ -16,6 +18,8 @@ function App() {
           <Navigationbar />
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/posts" exact component={Posts} />
+            <Route path="/comments" exact component={Comments} />
             <Route component={NotFound} />
           </Switch>
         </div>
