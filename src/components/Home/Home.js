@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { api } from "../../utils/Api";
 
 import Spinner from "../Spinner/Spinner";
-import { API_URL } from "../../Constants";
 import "./Home.css";
 
 const Home = () => {
@@ -13,16 +12,14 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      axios
-        .get(API_URL)
-        .then((res) => {
-          setCategories(res.data);
-          setLoading(false);
-        })
+      api.getCategories().then((res) => {
+        setCategories(res.data);
+        setLoading(false);
+      })
         .catch((err) => {
           console.log(err);
         });
-    }, 5000);
+    }, 0);
   }, []);
 
   return (
@@ -60,7 +57,7 @@ const Home = () => {
                     {category.numComments}
                   </li>
                   <li className="list-inline-item col-md-3 text-center">
-                    {category.id}
+                    {category?.lastComment?.dateCreated}
                   </li>
                 </ul>
               </div>
