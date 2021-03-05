@@ -1,13 +1,14 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route } from "react-router-dom";
 
-import './App.css';
-import Home from './components/Home/Home';
-import Posts from './components/Posts/Posts';
-import Comments from './components/Comments/Comments';
-import Navigationbar from './components/Navigationbar/Navigationbar';
-import NotFound from './components/NotFound/NotFound';
-import Scrolltopbtn from './components/Scrolltopbtn/Scrolltopbtn';
-import Footer from './components/Footer/Footer';
+import "./App.css";
+import Home from "./components/Home/Home";
+import Categories from "./components/Categories/Categories";
+import Posts from "./components/Posts/Posts";
+import Comments from "./components/Comments/Comments";
+import Navigationbar from "./components/Navigationbar/Navigationbar";
+import NotFound from "./components/NotFound/NotFound";
+import Scrolltopbtn from "./components/Scrolltopbtn/Scrolltopbtn";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Navigationbar />
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/categories" exact component={Categories} />
             <Route path="/posts" exact component={Posts} />
             <Route path="/comments" exact component={Comments} />
             <Route component={NotFound} />

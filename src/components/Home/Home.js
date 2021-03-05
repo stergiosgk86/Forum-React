@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../utils/Api";
-
 import Spinner from "../Spinner/Spinner";
 import "./Home.css";
 
@@ -11,15 +10,16 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    setTimeout(() => {
-      api.getCategories().then((res) => {
+
+    api
+      .getCategories()
+      .then((res) => {
         setCategories(res.data);
         setLoading(false);
       })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 0);
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -64,6 +64,11 @@ const Home = () => {
             ))}
           </>
         )}
+        <div className="container">
+          <Link to="/categories" className="btn btn-success">
+            Add Category
+          </Link>
+        </div>
       </div>
     </>
   );
