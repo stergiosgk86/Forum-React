@@ -20,7 +20,7 @@ build develop project:
     - npm install
     - npm run build
   artifacts:
-    expire_in: 1 hour
+    # expire_in: 1 hour
     paths:
      - ./build
   
