@@ -4,16 +4,28 @@ import { Link } from "react-router-dom";
 import "./Posts.css";
 
 class Posts extends Component {
-    
+  
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
   render() {
     return (
-      <div>
-        <div className="post-image"></div>
-        <div className="pt-5">
+      <>
+        <div className="post-cover-image mb-5"></div>
+
+        <div className="post-photo container">
+          {/* <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" /> */}
+        </div>
+
+        <div className="container">
+          <Link to="/createposts" className="btn btn-success">
+            Add Post
+          </Link>
+        </div>
+
+        {/* <div className="pt-5">
           <div className="container">
             <ul className="list-inline header text-uppercase p-4 text-white font-weight-bold  d-flex align-items-center row">
               <li className="list-inline-item col-md-6">posts</li>
@@ -59,8 +71,8 @@ class Posts extends Component {
               </li>
             </ul>
           </div>
-        </div>
-      </div>
+        </div> */}
+      </>
     );
   }
 }

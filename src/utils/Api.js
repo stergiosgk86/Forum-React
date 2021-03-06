@@ -11,8 +11,8 @@ const api = {
   getCategoryPosts: (categoryId) => {
     return axios.get(`${BASE_URL}/categories/${categoryId}/posts`);
   },
-  savePost: (categoryId, payload) => {
-    return axios.post(`${BASE_URL}/categories/${categoryId}/posts`, payload);
+  savePost: (categoryId, post) => {
+    return axios.post(`${BASE_URL}/categories/${categoryId}/posts`, post);
   },
   getPostComments: (postId) => {
     return axios.get(`${BASE_URL}/posts/${postId}/comments`);

@@ -2,7 +2,8 @@ import { Switch, Route } from "react-router-dom";
 
 import "./App.css";
 import Home from "./components/Home/Home";
-import Categories from "./components/Categories/Categories";
+import CreateCategories from "./components/CreateCategories/CreateCategories";
+import CreatePosts from "./components/CreatePosts/CreatePosts";
 import Posts from "./components/Posts/Posts";
 import Comments from "./components/Comments/Comments";
 import Navigationbar from "./components/Navigationbar/Navigationbar";
@@ -19,7 +20,8 @@ function App() {
           <Navigationbar />
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/categories" exact component={Categories} />
+            <Route path="/createcategories" exact component={CreateCategories}/>
+            <Route path="/createposts" exact component={CreatePosts} />
             <Route path="/posts" exact component={Posts} />
             <Route path="/comments" exact component={Comments} />
             <Route component={NotFound} />

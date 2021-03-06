@@ -1,8 +1,20 @@
-.post-image {
+.post-cover-image {
     background-image: url(../../Img/Trip3.jpg);
     background-size: cover;
     background-position: center;
     width: 100%;
     padding: 150px 20px;
     box-sizing: border-box;
+}
+
+.post-photo {
+    background-size: cover;
+    background-position: center;
+    width: 500px;
+    height: 500px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }

@@ -65,7 +65,7 @@ const Home = () => {
           </>
         )}
         <div className="container">
-          <Link to="/categories" className="btn btn-success">
+          <Link to="/createcategories" className="btn btn-success">
             Add Category
           </Link>
         </div>
