@@ -51,7 +51,10 @@ const Home = () => {
               <div className="container" key={category.id}>
                 <ul className="list-inline p-3 body d-flex align-items-center row">
                   <li className="list-inline-item col-md-6 seperate">
-                    <Link to="/posts" className="link text-truncate d-block">
+                    <Link
+                      to={{ pathname: "/posts", categoryId: category.id }}
+                      className="link"
+                    >
                       {category.title}
                     </Link>
                     <div className="description text-truncate">

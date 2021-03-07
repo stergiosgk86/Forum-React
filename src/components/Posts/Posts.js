@@ -4,20 +4,47 @@ import { Link } from "react-router-dom";
 import "./Posts.css";
 
 class Posts extends Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShow: true,
+      categoryId: this.props.location?.categoryId,
+      image: null,
+      description: null,
+      title: null,
+      userId: "", // userId hardcoded value
+    };
+  }
 
   componentDidMount() {
     window.scrollTo(0, 0);
   }
+
+  encodeImage = (e) => {
+    const file = e.target.files[0];
+    let reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.setState((prevState) => {
+          prevState.image = reader.result;
+          return { prevState };
+        });
+      };
+    }
+    console.log(this.state); //  for debugging
+  };
 
   render() {
     return (
       <>
         <div className="post-cover-image mb-5"></div>
 
-        {/* <div className="post-photo container">
-          <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" />
-        </div> */}
+        <input type="file" id="imageFile" onChange={this.encodeImage} />
+
+        <div className="post-photo container">
+          {/* <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" /> */}
+        </div>
 
         <div className="container">
           <Link to="/createposts" className="btn btn-success">
