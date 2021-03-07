@@ -1,23 +1,62 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { api } from "../../utils/Api";
+import { forumSession } from "../../utils/SessionStorage";
 import "./Posts.css";
 
 class Posts extends Component {
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      isShow: true,
+      loading: true,
+      categoryId: forumSession.category.getId(),
+      posts: [],
+    };
+  }
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    api
+      .getCategoryPosts(this.state.categoryId)
+      .then((res) => {
+        this.setState((state) => {
+          state.posts = res.data;
+          state.loading = true;
+          return { state };
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
+  encodeImage = (e) => {
+    const file = e.target.files[0];
+    let reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.setState((prevState) => {
+          prevState.image = reader.result;
+          return { prevState };
+        });
+      };
+    }
+  };
 
   render() {
     return (
       <>
         <div className="post-cover-image mb-5"></div>
 
-        {/* <div className="post-photo container">
-          <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" />
-        </div> */}
+        <input type="file" id="imageFile" onChange={this.encodeImage} />
+
+        {this.state.posts.map((post) => console.log(post))}
+
+        <div className="post-photo container">
+          {/* <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" /> */}
+        </div>
 
         <div className="container">
           <Link to="/createposts" className="btn btn-success">
