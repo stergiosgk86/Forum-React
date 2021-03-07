@@ -15,9 +15,9 @@ class Posts extends Component {
       <>
         <div className="post-cover-image mb-5"></div>
 
-        <div className="post-photo container">
-          {/* <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" /> */}
-        </div>
+        {/* <div className="post-photo container">
+          <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" />
+        </div> */}
 
         <div className="container">
           <Link to="/createposts" className="btn btn-success">

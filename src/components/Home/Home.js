@@ -25,13 +25,19 @@ const Home = () => {
   return (
     <>
       <div className="forum-image"></div>
-      <div className="pt-5">
+      <div className="wrapper container pt-5">
         <div className="container">
           <ul className="list-inline header text-uppercase p-4 text-white font-weight-bold  d-flex align-items-center row">
-            <li className="list-inline-item col-md-6">forum</li>
-            <li className="list-inline-item col-md text-center">posts</li>
-            <li className="list-inline-item col-md text-center">comments</li>
-            <li className="list-inline-item col-md-3 text-center">last post</li>
+            <li className="list-inline-item col-md-6 row">forum</li>
+            <li className="list-inline-item col-md d-none d-md-block text-center row">
+              posts
+            </li>
+            <li className="list-inline-item col-md d-none d-md-block text-center row">
+              comments
+            </li>
+            <li className="list-inline-item col-md-3 d-none d-md-block text-center row">
+              last post
+            </li>
           </ul>
         </div>
         {loading && (
@@ -45,18 +51,20 @@ const Home = () => {
               <div className="container" key={category.id}>
                 <ul className="list-inline p-3 body d-flex align-items-center row">
                   <li className="list-inline-item col-md-6 seperate">
-                    <Link to="/posts" className="link">
+                    <Link to="/posts" className="link text-truncate d-block">
                       {category.title}
                     </Link>
-                    <div className="inscription">{category.description}</div>
+                    <div className="description text-truncate">
+                      {category.description}
+                    </div>
                   </li>
-                  <li className="list-inline-item col-md text-center font-weight-bold seperate">
+                  <li className="list-inline-item col-md d-none d-md-block text-center font-weight-bold seperate row">
                     {category.numPosts}
                   </li>
-                  <li className="list-inline-item col-md text-center font-weight-bold seperate">
+                  <li className="list-inline-item col-md d-none d-md-block text-center font-weight-bold seperate row">
                     {category.numComments}
                   </li>
-                  <li className="list-inline-item col-md-3 text-center">
+                  <li className="list-inline-item col-md-3 d-none d-md-block text-center row">
                     {category?.lastComment?.dateCreated}
                   </li>
                 </ul>
