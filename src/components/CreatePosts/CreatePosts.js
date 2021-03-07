@@ -12,7 +12,10 @@ class CreatePosts extends Component {
   initialState = {
     title: "",
     description: "",
-    image: null,
+    image: {
+      data: null,
+      name: null,
+    },
     userId: "5247",
   };
 
@@ -24,6 +27,10 @@ class CreatePosts extends Component {
       reader.onload = () => {
         this.setState((state) => {
           state.image = reader.result;
+          state.image = {
+            data: reader.result,
+            name: file.name,
+          };
           return { state };
         });
       };

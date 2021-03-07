@@ -37,7 +37,6 @@ class Posts extends Component {
         <div className="post-cover-image mb-5"></div>
 
         {this.state.posts.map((post) => console.log(post))}
-        {/* <img alt="this s an " src={`${post.image}`} /> */}
 
         {this.state.posts.map((post) => console.log(post))}
 
