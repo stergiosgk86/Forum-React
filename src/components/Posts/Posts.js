@@ -31,26 +31,13 @@ class Posts extends Component {
       });
   }
 
-  encodeImage = (e) => {
-    const file = e.target.files[0];
-    let reader = new FileReader();
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.setState((prevState) => {
-          prevState.image = reader.result;
-          return { prevState };
-        });
-      };
-    }
-  };
-
   render() {
     return (
       <>
         <div className="post-cover-image mb-5"></div>
 
-        <input type="file" id="imageFile" onChange={this.encodeImage} />
+        {this.state.posts.map((post) => console.log(post))}
+        {/* <img alt="this s an " src={`${post.image}`} /> */}
 
         {this.state.posts.map((post) => console.log(post))}
 

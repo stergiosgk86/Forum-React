@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { Form, Card, Button } from "react-bootstrap";
 import { api } from "../../utils/Api";
+import { forumSession } from "../../utils/SessionStorage";
 
 class CreatePosts extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
-    // this.handleImage = this.handleImage.bind(this);
-    this.postChange = this.postChange.bind(this);
-    this.submitPost = this.submitPost.bind(this);
   }
 
   initialState = {
@@ -18,16 +16,33 @@ class CreatePosts extends Component {
     userId: "5247",
   };
 
+  encodeImage = (e) => {
+    const file = e.target.files[0];
+    let reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.setState((state) => {
+          state.image = reader.result;
+          return { state };
+        });
+      };
+    }
+  };
+
   submitPost = (event) => {
     event.preventDefault();
 
+    const categoryId = forumSession.category.getId();
     const post = {
       title: this.state.title,
       description: this.state.description,
+      image: this.state.image,
+      userId: "292",
     };
 
     api
-      .savePost(post)
+      .savePost(categoryId, post)
       .then((response) => {
         if (response.data != null) {
           this.setState(this.initialState);
@@ -51,12 +66,8 @@ class CreatePosts extends Component {
     });
   };
 
-//   handleImage(event) {
-
-//   }
-
   render() {
-      const { title, description } = this.state;
+    const { title, description } = this.state;
 
     return (
       <div className="container pt-5">
@@ -87,6 +98,7 @@ class CreatePosts extends Component {
                   onChange={this.postChange}
                   placeholder="Enter Description"
                 />
+                <input type="file" id="imageFile" onChange={this.encodeImage} />
               </Form.Group>
             </Card.Body>
             <Card.Footer>
