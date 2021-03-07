@@ -26,7 +26,6 @@ class CreatePosts extends Component {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.setState((state) => {
-          state.image = reader.result;
           state.image = {
             data: reader.result,
             name: file.name,
