@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { api } from "../../utils/Api";
+import { forumSession } from "../../utils/SessionStorage";
 import "./Posts.css";
 
 class Posts extends Component {
@@ -8,16 +9,26 @@ class Posts extends Component {
     super(props);
     this.state = {
       isShow: true,
-      categoryId: this.props.location?.categoryId,
-      image: null,
-      description: null,
-      title: null,
-      userId: "", // userId hardcoded value
+      loading: true,
+      categoryId: forumSession.category.getId(),
+      posts: [],
     };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
+    api
+      .getCategoryPosts(this.state.categoryId)
+      .then((res) => {
+        this.setState((state) => {
+          state.posts = res.data;
+          state.loading = true;
+          return { state };
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   encodeImage = (e) => {
@@ -32,7 +43,6 @@ class Posts extends Component {
         });
       };
     }
-    console.log(this.state); //  for debugging
   };
 
   render() {
@@ -41,6 +51,8 @@ class Posts extends Component {
         <div className="post-cover-image mb-5"></div>
 
         <input type="file" id="imageFile" onChange={this.encodeImage} />
+
+        {this.state.posts.map((post) => console.log(post))}
 
         <div className="post-photo container">
           {/* <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" /> */}

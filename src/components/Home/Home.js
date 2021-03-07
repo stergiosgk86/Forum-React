@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../utils/Api";
+import { forumSession } from "../../utils/SessionStorage";
 import Spinner from "../Spinner/Spinner";
 import "./Home.css";
 
@@ -52,7 +53,8 @@ const Home = () => {
                 <ul className="list-inline p-3 body d-flex align-items-center row">
                   <li className="list-inline-item col-md-6 seperate">
                     <Link
-                      to={{ pathname: "/posts", categoryId: category.id }}
+                      to="/posts"
+                      onClick={() => forumSession.category.saveId(category.id)}
                       className="link"
                     >
                       {category.title}
