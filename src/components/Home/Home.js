@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <>
       <div className="forum-image"></div>
-      <div className="wrapper container pt-5">
+      <div className="container pt-5">
         <div className="container">
           <ul className="list-inline header text-uppercase p-4 text-white font-weight-bold  d-flex align-items-center row">
             <li className="list-inline-item col-md-6 row">forum</li>
@@ -51,7 +51,7 @@ const Home = () => {
             {categories.map((category) => (
               <div className="container" key={category.id}>
                 <ul className="list-inline p-3 body d-flex align-items-center row">
-                  <li className="list-inline-item col-md-6 seperate">
+                  <li className="list-inline-item col-md-6 seperate text-truncate">
                     <Link
                       to="/posts"
                       onClick={() => forumSession.category.saveId(category.id)}

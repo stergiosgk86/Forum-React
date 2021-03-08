@@ -41,7 +41,7 @@ class Posts extends Component {
         {this.state.posts.map((post) => console.log(post))}
 
         <div className="post-photo container">
-          {/* <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" /> */}
+          <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" />
         </div>
 
         <div className="container">
