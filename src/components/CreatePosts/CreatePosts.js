@@ -50,16 +50,13 @@ class CreatePosts extends Component {
     api
       .savePost(categoryId, post)
       .then((response) => {
-        if (response.data != null) {
-          this.setState(this.initialState);
-          //   alert("Category Saved Successfully");
+        if (response.data) {
+          this.props.history.push("/posts");
         }
       })
       .catch((err) => {
         console.log(err);
       });
-
-    this.props.history.push("/posts");
   };
 
   resetPost = () => {

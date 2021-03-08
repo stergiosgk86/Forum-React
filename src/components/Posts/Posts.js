@@ -34,10 +34,6 @@ class Posts extends Component {
   render() {
     return (
       <>
-        {/* <div className="post-cover-image mb-5"></div> */}
-
-        {/* {this.state.posts.map((post) => console.log(post))} */}
-
         {this.state.posts.map((post) => (
           <div className="post-box mb-5 rounded shadow-lg mt-5" key={post.id}>
             <div className="post-title py-2 text-center font-weight-bold border-bottom">
@@ -56,7 +52,11 @@ class Posts extends Component {
               {post.description}
             </div>
             <div className="post-photo container">
-              <img src={`data:image/jpeg;base64,${post.image}`} />
+              {post.image ? (
+                <img alt="" src={`data:image/jpeg;base64,${post.image}`} />
+              ) : (
+                ""
+              )}
             </div>
             <div className="container post-footer d-flex justify-content-between px-4 py-2">
               <div className="text-secondary">
