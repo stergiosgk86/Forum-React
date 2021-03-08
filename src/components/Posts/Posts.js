@@ -34,14 +34,49 @@ class Posts extends Component {
   render() {
     return (
       <>
-        <div className="post-cover-image mb-5"></div>
+        {/* <div className="post-cover-image mb-5"></div> */}
 
         {this.state.posts.map((post) => console.log(post))}
 
         {this.state.posts.map((post) => console.log(post))}
 
-        <div className="post-photo container">
-          <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" />
+        <div className="post-box mb-5 rounded shadow-lg mt-5">
+          <div className="post-title py-2 text-center font-weight-bold border-bottom">
+            Post Title
+          </div>
+          <div className="post-header p-3 row">
+            <div className="user-photo mr-3 border rounded-circle"></div>
+            <div className="">
+              <div className="mb-2 text-capitalize font-weight-bold">
+                john doe
+              </div>
+              <div className="postDateCreated">April 7, 2020 at 3:29 pm</div>
+            </div>
+          </div>
+          <div className="post-description p-3 border-bottom">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic nam
+            quaerat iure facere atque error iste! Facere deserunt odio culpa ad
+            alias quia iste nulla ex, distinctio at doloribus laborum.
+          </div>
+          <div className="post-photo container">
+            <img src="https://www.wallpapertip.com/wmimgs/179-1794513_erin-moriarty-hd.jpg" />
+          </div>
+          <div className="container post-footer d-flex justify-content-between px-4 py-2">
+            <div className="text-secondary">
+              0 <i className="fas fa-heart"></i>
+            </div>
+            <div className="text-secondary">2 Comments</div>
+          </div>
+          <div className="container border-top d-flex justify-content-between px-5 py-3">
+            <div className="likeCommentBtn">
+              <i className="far fa-thumbs-up"></i> Like
+            </div>
+            <Link to="/comments" className="likeCommentBtn">
+              <div className="">
+                <i className="far fa-comment"></i> Comment
+              </div>
+            </Link>
+          </div>
         </div>
 
         <div className="container">
@@ -49,54 +84,6 @@ class Posts extends Component {
             Add Post
           </Link>
         </div>
-
-        {/* <div className="pt-5">
-          <div className="container">
-            <ul className="list-inline header text-uppercase p-4 text-white font-weight-bold  d-flex align-items-center row">
-              <li className="list-inline-item col-md-6">posts</li>
-              <li className="list-inline-item col-md text-center">comments</li>
-              <li className="list-inline-item col-md-3 text-center">
-                last post
-              </li>
-            </ul>
-          </div>
-          <div className="container">
-            <ul className="list-inline p-3 body d-flex align-items-center row">
-              <li className="list-inline-item col-md-6 seperate">
-                <Link to="/comments" className="link">
-                  First Post
-                </Link>
-                <div className="inscription">
-                  Lorem ipsum dolor sit amet consectetur adipisicing
-                </div>
-              </li>
-              <li className="list-inline-item col-md text-center font-weight-bold seperate">
-                2
-              </li>
-              <li className="list-inline-item col-md-3 text-center">
-                10 months, 1 week ago
-              </li>
-            </ul>
-          </div>
-          <div className="container">
-            <ul className="list-inline body p-3 d-flex align-items-center row">
-              <li className="list-inline-item col-md-6 seperate">
-                <Link to="/comments" className="link">
-                  Second Post
-                </Link>
-                <div className="inscription">
-                  Lorem ipsum dolor sit amet consectetur adipisicing
-                </div>
-              </li>
-              <li className="list-inline-item col-md text-center font-weight-bold seperate">
-                0
-              </li>
-              <li className="list-inline-item col-md-3 text-center">
-                11 months, 3 weeks ago
-              </li>
-            </ul>
-          </div>
-        </div> */}
       </>
     );
   }

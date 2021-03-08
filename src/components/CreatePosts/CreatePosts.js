@@ -44,7 +44,7 @@ class CreatePosts extends Component {
       title: this.state.title,
       description: this.state.description,
       image: this.state.image,
-      userId: "292",
+      userId: "5247",
     };
 
     api
