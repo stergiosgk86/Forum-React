@@ -60,7 +60,7 @@ class Posts extends Component {
             </div>
             <div className="container post-footer d-flex justify-content-between px-4 py-2">
               <div className="text-secondary">
-                0 <i className="fas fa-heart"></i>
+                {post.likes} <i className="fas fa-heart"></i>
               </div>
               <div className="text-secondary">2 Comments</div>
             </div>
