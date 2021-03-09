@@ -19,6 +19,10 @@ class CreatePosts extends Component {
     userId: forumSession.user.getId(),
   };
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   encodeImage = (e) => {
     const file = e.target.files[0];
     let reader = new FileReader();
@@ -73,7 +77,7 @@ class CreatePosts extends Component {
     const { title, description } = this.state;
 
     return (
-      <div className="container pt-5">
+      <div className="container pt-5 animated fadeInUp">
         <Card>
           <Card.Header>Add a Post</Card.Header>
           <Form onSubmit={this.submitPost} onReset={this.resetPost}>
@@ -101,7 +105,23 @@ class CreatePosts extends Component {
                   onChange={this.postChange}
                   placeholder="Enter Description"
                 />
-                <input type="file" id="imageFile" onChange={this.encodeImage} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Image</Form.Label>
+                <div className="input-group mb-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">Upload</span>
+                  </div>
+                  <div className="custom-file">
+                    <input
+                      type="file"
+                      className="custom-file-input"
+                      id="imageFile"
+                      onChange={this.encodeImage}
+                    />
+                    <label className="custom-file-label">Choose an Image</label>
+                  </div>
+                </div>
               </Form.Group>
             </Card.Body>
             <Card.Footer>
@@ -116,9 +136,6 @@ class CreatePosts extends Component {
             </Card.Footer>
           </Form>
         </Card>
-        {/* <div>
-          <input type="file" onChange={this.handleImage} />
-        </div> */}
       </div>
     );
   }

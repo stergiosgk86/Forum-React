@@ -37,7 +37,7 @@ const Home = () => {
               comments
             </li>
             <li className="list-inline-item col-md-3 d-none d-md-block text-center row">
-              last post
+              last comment
             </li>
           </ul>
         </div>
@@ -49,7 +49,7 @@ const Home = () => {
         {!loading && (
           <>
             {categories.map((category) => (
-              <div className="container" key={category.id}>
+              <div className="container animated fadeInUp" key={category.id}>
                 <ul className="list-inline p-3 body d-flex align-items-center row">
                   <li className="list-inline-item col-md-6 seperate text-truncate">
                     <Link
@@ -70,7 +70,18 @@ const Home = () => {
                     {category.numComments}
                   </li>
                   <li className="list-inline-item col-md-3 d-none d-md-block text-center row">
-                    {category?.lastComment?.dateCreated}
+                    {category.lastComment ? (
+                      <>
+                        <div className="text-secondary">
+                          {category?.lastComment?.dateCreated}
+                        </div>
+                        <div className="">
+                          {category?.lastComment?.username}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="font-weight-bold">No Comments</div>
+                    )}
                   </li>
                 </ul>
               </div>

@@ -15,6 +15,10 @@ class CreateCategories extends Component {
     description: "",
   };
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   submitCategory = (event) => {
     event.preventDefault();
 
@@ -28,7 +32,6 @@ class CreateCategories extends Component {
       .then((response) => {
         if (response.data != null) {
           this.setState(this.initialState);
-          //   alert("Category Saved Successfully");
         }
       })
       .catch((err) => {
@@ -52,7 +55,7 @@ class CreateCategories extends Component {
     const { title, description } = this.state;
 
     return (
-      <div className="container pt-5">
+      <div className="container pt-5 animated fadeInUp">
         <Card>
           <Card.Header>Add a Category</Card.Header>
           <Form onSubmit={this.submitCategory} onReset={this.resetCategory}>
