@@ -11,7 +11,7 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    forumSession.user.saveId("292");
+    forumSession.user.saveId("5247");
     api
       .getCategories()
       .then((res) => {
