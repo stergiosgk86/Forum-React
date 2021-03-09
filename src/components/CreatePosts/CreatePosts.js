@@ -16,7 +16,7 @@ class CreatePosts extends Component {
       data: null,
       name: null,
     },
-    userId: "5247",
+    userId: forumSession.user.getId(),
   };
 
   encodeImage = (e) => {
@@ -44,7 +44,7 @@ class CreatePosts extends Component {
       title: this.state.title,
       description: this.state.description,
       image: this.state.image,
-      userId: "5247",
+      userId: this.state.userId,
     };
 
     api

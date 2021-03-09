@@ -12,7 +12,9 @@ class Posts extends Component {
       loading: true,
       categoryId: forumSession.category.getId(),
       posts: [],
+      userId: forumSession.user.getId(),
     };
+    this.submitLike = this.submitLike.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +27,25 @@ class Posts extends Component {
           state.loading = true;
           return { state };
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  submitLike(postId) {
+    api
+      .submitLike(postId, this.state.userId)
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState((state) => {
+            state.posts = [...this.state.posts].map((post) => {
+              post.likes = post.id === postId ? res.data.likes : post.likes;
+              return post;
+            });
+            return { state };
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -65,7 +86,12 @@ class Posts extends Component {
               <div className="text-secondary">2 Comments</div>
             </div>
             <div className="container border-top d-flex justify-content-between px-5 py-3">
-              <div className="likeCommentBtn">
+              <div
+                className="likeCommentBtn"
+                onClick={() => {
+                  this.submitLike(post.id);
+                }}
+              >
                 <i className="far fa-thumbs-up"></i> Like
               </div>
               <Link to="/comments" className="likeCommentBtn">
