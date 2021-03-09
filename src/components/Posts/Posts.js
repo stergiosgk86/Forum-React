@@ -66,7 +66,7 @@ class Posts extends Component {
           <>
             {this.state.posts.map((post) => (
               <div
-                className="post-box mb-5 rounded shadow-lg mt-5 animated fadeInU"
+                className="post-box mb-5 rounded shadow-lg mt-5 animated fadeInUp"
                 key={post.id}
               >
                 <div className="post-title py-2 text-center font-weight-bold border-bottom">
