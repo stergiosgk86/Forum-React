@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
+import moment from "moment";
 import "./Posts.css";
 
 class Posts extends Component {
@@ -77,7 +78,11 @@ class Posts extends Component {
                     <div className="mb-2 text-capitalize font-weight-bold">
                       {post.username}
                     </div>
-                    <div className="postDateCreated">{post.dateCreated}</div>
+                    <div className="postDateCreated">
+                      {moment(post.dateCreated).format(
+                        "MMMM D,YYYY, h:mm:ss a"
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="post-description p-3 border-bottom">
@@ -98,6 +103,7 @@ class Posts extends Component {
                 </div>
                 <div className="container border-top d-flex justify-content-between px-5 py-3">
                   <div
+                    id="like"
                     className="likeCommentBtn"
                     onClick={() => {
                       this.submitLike(post.id);

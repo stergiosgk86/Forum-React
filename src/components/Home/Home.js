@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import Spinner from "../Spinner/Spinner";
+import moment from 'moment';
 import "./Home.css";
 
 const Home = () => {
@@ -73,7 +74,7 @@ const Home = () => {
                     {category.lastComment ? (
                       <>
                         <div className="text-secondary">
-                          {category?.lastComment?.dateCreated}
+                          {moment(category?.lastComment?.dateCreated).fromNow()}
                         </div>
                         <div className="">
                           {category?.lastComment?.username}
