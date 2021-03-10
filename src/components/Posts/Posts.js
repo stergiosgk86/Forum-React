@@ -99,7 +99,7 @@ class Posts extends Component {
                   <div className="text-secondary animation">
                     {post.likes} <i className="fas fa-heart"></i>
                   </div>
-                  <div className="text-secondary">2 Comments</div>
+                  <div className="text-secondary">{post.numComments} Comments</div>
                 </div>
                 <div className="container border-top d-flex justify-content-between px-5 py-3">
                   <div
@@ -111,7 +111,11 @@ class Posts extends Component {
                   >
                     <i className="far fa-thumbs-up"></i> Like
                   </div>
-                  <Link to="/comments" className="likeCommentBtn">
+                  <Link
+                    to="/comments"
+                    onClick={() => forumSession.post.saveId(post.id), forumSession.post.savePost(JSON.stringify(post))}
+                    className="likeCommentBtn"
+                  >
                     <div className="">
                       <i className="far fa-comment"></i> Comment
                     </div>

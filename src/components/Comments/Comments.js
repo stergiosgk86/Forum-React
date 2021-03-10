@@ -1,11 +1,37 @@
 import React, { Component } from "react";
 import setInputHeight from "../SetInputHeight/SetInputHeight";
-
+import { api } from "../../utils/Api";
+import { forumSession } from "../../utils/SessionStorage";
+import moment from "moment";
 import "./Comments.css";
 
 class Comments extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      post: {
+        comments: [],
+      },
+      postId: forumSession.post.getId(),
+    };
+  }
+
   componentDidMount() {
     window.scrollTo(0, 0);
+    api
+      .getPostComments(this.state.postId)
+      .then((res) => {
+        console.log(res);
+        this.setState((state) => {
+          state.post.comments = res.data;
+          state.loading = true;
+          return { state };
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(this.state);
   }
 
   render() {
@@ -55,24 +81,28 @@ class Comments extends Component {
         </div>
 
         <div className="pt-5">
-          <div className="container">
-            <ul className="list-inline body p-3 d-flex align-items-center row">
-              <li className="list-inline-item col-lg-3 col-md-4 col-sm-5 seperate row">
-                <div className="text-center col-12 d-none d-md-block mb-3">
-                  April 7, 2020 at 3:29 pm
-                </div>
-                <div className="userphoto mb-3"></div>
-                <div className="text-center col-12 mb-3">George Giagkas</div>
-              </li>
-              <li className="list-inline-item col-lg col-md col-sm text-center row">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-                quo iste atque cumque molestias, nulla doloribus asperiores
-                necessitatibus delectus rerum, eum quae dolorem explicabo enim
-                inventore cupiditate officia itaque sed?
-              </li>
-            </ul>
-          </div>
-          <div className="container">
+          {this.state.post.comments.map((comment) => (
+            <div className="container" key={comment.id}>
+              <ul className="list-inline body p-3 d-flex align-items-center row">
+                <li className="list-inline-item col-lg-3 col-md-4 col-sm-5 seperate row">
+                  <div className="text-center col-12 d-none d-md-block mb-3">
+                    {moment(comment.dateCreated).format(
+                      "MMMM D,YYYY, h:mm:ss a"
+                    )}
+                  </div>
+                  <div className="userphoto mb-3"></div>
+                  <div className="text-center col-12 mb-3">
+                    {comment.username}
+                  </div>
+                </li>
+                <li className="list-inline-item col-lg col-md col-sm text-center row">
+                  {comment.text}
+                </li>
+              </ul>
+            </div>
+          ))}
+
+          {/* <div className="container">
             <ul className="list-inline body p-3 d-flex align-items-center row">
               <li className="list-inline-item col-lg-3 col-md-4 col-sm-5 seperate row">
                 <div className="text-center col-12 d-none d-md-block mb-3">
@@ -114,7 +144,7 @@ class Comments extends Component {
                 veritatis assumenda tempore necessitatibus, voluptatum atque?
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </>
     );
