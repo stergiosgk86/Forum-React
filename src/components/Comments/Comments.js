@@ -10,18 +10,18 @@ class Comments extends Component {
     super(props);
     this.state = {
       post: {
+        ...JSON.parse(forumSession.post.getPost()),
         comments: [],
       },
-      postId: forumSession.post.getId(),
+      userId: forumSession.user.getId(),
     };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
     api
-      .getPostComments(this.state.postId)
+      .getPostComments(this.state.post.id)
       .then((res) => {
-        console.log(res);
         this.setState((state) => {
           state.post.comments = res.data;
           state.loading = true;
@@ -31,37 +31,67 @@ class Comments extends Component {
       .catch((err) => {
         console.log(err);
       });
-    console.log(this.state);
   }
+
+  writeComment = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+    if (event.keyCode == 13) {
+      api
+        .saveComment(this.state.post.id, {
+          text: this.state.text,
+          userId: this.state.userId,
+        })
+        .then((res) => {
+          this.setState({
+            post: { comments: [...this.state.post.comments, res.data] },
+            [this.state.target.name]: "",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log(this.state);
+    }
+  };
 
   render() {
     return (
       <>
         <div className="post-box mb-5 rounded shadow-lg mt-5">
           <div className="post-title py-2 text-center font-weight-bold border-bottom">
-            Tittle
+            {this.state.post.title}
           </div>
           <div className="post-header p-3 row">
             <div className="user-photo mr-3 border rounded-circle"></div>
             <div className="">
               <div className="mb-2 text-capitalize font-weight-bold">
-                username
+                {this.state.post.username}
               </div>
-              <div className="postDateCreated">MMMM D,YYYY, h:mm:ss</div>
+              <div className="postDateCreated">
+                {moment(this.state.post.dateCreated).format(
+                  "MMMM D,YYYY, h:mm:ss a"
+                )}
+              </div>
             </div>
           </div>
-          <div className="post-description p-3 border-bottom">Description</div>
+          <div className="post-description p-3 border-bottom">
+            {this.state.post.description}
+          </div>
           <div className="post-photo container">
             <img
               alt=""
-              src="https://media.istockphoto.com/photos/confident-woman-picture-id1163683003?k=6&m=1163683003&s=612x612&w=0&h=KLL7nR1C5tozz6OpPG-sZrRLxO78UQ2elVJOD-4QTqw="
+              src={`data:image/jpeg;base64,${this.state.post.image}`}
             />
           </div>
           <div className="container post-footer d-flex justify-content-between px-4 py-2">
             <div className="text-secondary animation">
               2 <i className="fas fa-heart"></i>
             </div>
-            <div className="text-secondary">2 Comments</div>
+            <div className="text-secondary">
+              {this.state.post.numComments} Comments
+            </div>
           </div>
 
           <div className="input-group container border-top py-3">
@@ -74,6 +104,9 @@ class Comments extends Component {
                 className="form-control textArea"
                 aria-label="With textarea"
                 placeholder="Write a comment..."
+                name="text"
+                value={this.text}
+                onKeyUp={(event) => this.writeComment(event)}
                 onChange={(event) => setInputHeight(event, "40px")}
               ></textarea>
             </div>
@@ -90,7 +123,12 @@ class Comments extends Component {
                       "MMMM D,YYYY, h:mm:ss a"
                     )}
                   </div>
-                  <div className="userphoto mb-3"></div>
+                  <div className="mb-3">
+                    <img
+                      alt=""
+                      src={`data:image/jpeg;base64,${this.state.post.image}`}
+                    />
+                  </div>
                   <div className="text-center col-12 mb-3">
                     {comment.username}
                   </div>
