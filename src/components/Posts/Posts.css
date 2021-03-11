@@ -57,20 +57,3 @@ img {
 .fa-heart {
     color: red;
 }
-
-.animation:hover {
-    transform: scale(2);
-    transition: all .5s ease-in-out;
-}
-
-/* @keyframes cssAnimation {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(2);
-    }
-    to {
-        transform: scale(1);
-    }
-} */

@@ -96,10 +96,12 @@ class Posts extends Component {
                   )}
                 </div>
                 <div className="container post-footer d-flex justify-content-between px-4 py-2">
-                  <div className="text-secondary animation">
+                  <div className="text-secondary">
                     {post.likes} <i className="fas fa-heart"></i>
                   </div>
-                  <div className="text-secondary">{post.numComments} Comments</div>
+                  <div className="text-secondary">
+                    {post.numComments} Comments
+                  </div>
                 </div>
                 <div className="container border-top d-flex justify-content-between px-5 py-3">
                   <div
@@ -113,7 +115,9 @@ class Posts extends Component {
                   </div>
                   <Link
                     to="/comments"
-                    onClick={() => {forumSession.post.saveId(post.id)}}
+                    onClick={() => {
+                      forumSession.post.saveId(post.id);
+                    }}
                     className="likeCommentBtn"
                   >
                     <div className="">

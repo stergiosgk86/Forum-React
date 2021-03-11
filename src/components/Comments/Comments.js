@@ -14,7 +14,8 @@ class Comments extends Component {
       userId: forumSession.user.getId(),
       post: {},
     };
-    this.writeComment = this.writeComment.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.keypress = this.keypress.bind(this);
   }
 
   componentDidMount() {
@@ -36,11 +37,10 @@ class Comments extends Component {
       });
   }
 
-  writeComment = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-    if (event.keyCode === 13) {
+  keypress(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
       api
         .saveComment(this.state.postId, {
           text: this.state.text,
@@ -49,9 +49,8 @@ class Comments extends Component {
         .then((res) => {
           this.setState((state) => {
             state.comments = [...this.state.comments, res.data];
+            state.numComments++;
             state.text = "";
-            // comments [...this.state.comments, res.data],
-            // [this.state.text]: "",
             return state;
           });
         })
@@ -59,14 +58,17 @@ class Comments extends Component {
           console.log(err);
         });
     }
-    console.log("after writeComment");
-    console.log(this.state);
-  };
+  }
+
+  handleChange(event) {
+    setInputHeight(event, "40px");
+    this.setState({ text: event.target.value });
+  }
 
   render() {
     return (
       <>
-        <div className="post-box mb-5 rounded shadow-lg mt-5">
+        <div className="post-box mb-5 rounded shadow-lg mt-5 animated fadeInUp">
           <div className="post-title py-2 text-center font-weight-bold border-bottom">
             {this.state.post.title}
           </div>
@@ -116,9 +118,9 @@ class Comments extends Component {
                 aria-label="With textarea"
                 placeholder="Write a comment..."
                 name="text"
-                value={this.text}
-                onKeyUp={(event) => this.writeComment(event)}
-                onChange={(event) => setInputHeight(event, "40px")}
+                value={this.state.text}
+                onKeyPress={this.keypress}
+                onChange={this.handleChange}
               ></textarea>
             </div>
           </div>
@@ -141,7 +143,7 @@ class Comments extends Component {
                         src={`data:image/jpeg;base64,${this.state.user.image}`}
                       />
                     ) : (
-                      ""
+                      <img className="user-photo ml-5" alt="" src="" />
                     )}
                   </div>
                   <div className="text-center col-12 mb-3">
@@ -154,50 +156,6 @@ class Comments extends Component {
               </ul>
             </div>
           ))}
-
-          {/* <div className="container">
-            <ul className="list-inline body p-3 d-flex align-items-center row">
-              <li className="list-inline-item col-lg-3 col-md-4 col-sm-5 seperate row">
-                <div className="text-center col-12 d-none d-md-block mb-3">
-                  February 7, 2021 at 3:29 pm
-                </div>
-                <div className="userphoto mb-3"></div>
-                <div className="text-center col-12 mb-3">John Doe</div>
-              </li>
-              <li className="list-inline-item col-lg col-md col-sm text-center row">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum
-                minima quam nemo architecto nihil sunt dolor, quis voluptatum
-                veritatis atque modi. Maxime doloribus dolore impedit, ab fugit
-                soluta molestias architecto. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Officiis possimus, nihil
-                perferendis veritatis excepturi doloribus ratione voluptatem
-                quos eligendi omnis rerum libero facilis mollitia quae, dolores
-                blanditiis reiciendis! Voluptatum, atque. Lorem ipsum, dolor sit
-                amet consectetur adipisicing elit. Error facere maiores aliquam
-                veniam porro odio eum voluptatem doloribus ea voluptas
-                voluptatibus impedit, dicta autem perspiciatis voluptates, quae
-                voluptate incidunt. Praesentium? Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Recusandae ipsam, voluptates non
-                ipsa totam reprehenderit dolorum, quaerat deserunt pariatur
-                nostrum exercitationem doloremque magnam, ea aperiam iste odio
-                alias mollitia ullam! Fugiat dolor harum quod in, culpa nesciunt
-                omnis error maiores rerum amet iste doloribus esse velit vel
-                aliquid dolorem aperiam, pariatur qui ratione iure libero
-                dolorum quia sint! Quas, eos. Iure amet incidunt velit provident
-                eveniet doloribus placeat voluptatibus fugiat, facere ab eos
-                voluptatum vel sit soluta totam expedita. Suscipit cumque ullam
-                quia dicta, nemo aliquam libero alias maiores in? Nostrum,
-                incidunt. Eligendi veniam dolores dolor sit ducimus iure, vel
-                quam, ratione ex minus excepturi repudiandae ipsum id cupiditate
-                voluptatum nobis labore. Similique error aliquid harum
-                consequuntur blanditiis cupiditate omnis? Labore nostrum tenetur
-                voluptatibus rerum mollitia, temporibus laudantium ex possimus
-                deleniti quos. A in optio nesciunt explicabo officiis
-                dignissimos, maiores praesentium repellendus sint obcaecati
-                veritatis assumenda tempore necessitatibus, voluptatum atque?
-              </li>
-            </ul>
-          </div> */}
         </div>
       </>
     );
