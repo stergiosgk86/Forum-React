@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import Spinner from "../Spinner/Spinner";
-import moment from 'moment';
+import moment from "moment";
 import "./Home.css";
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    forumSession.user.saveId("190855");
+    forumSession.user.saveId("292");
     api
       .getCategories()
       .then((res) => {

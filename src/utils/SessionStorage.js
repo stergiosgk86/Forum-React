@@ -19,12 +19,12 @@ const forumSession = {
     getId() {
       return sessionStorage.getItem(POST_ID);
     },
-    savePost(post) {
-      sessionStorage.setItem(POST, post);
-    },
-    getPost() {
-      return sessionStorage.getItem(POST);
-    },
+    // savePost(post) {
+    //   sessionStorage.setItem(POST, post);
+    // },
+    // getPost() {
+    //   return sessionStorage.getItem(POST);
+    // },
   },
   user: {
     saveId(userId) {

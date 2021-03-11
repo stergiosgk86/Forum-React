@@ -113,7 +113,7 @@ class Posts extends Component {
                   </div>
                   <Link
                     to="/comments"
-                    onClick={() => {forumSession.post.savePost(JSON.stringify(post))}}
+                    onClick={() => {forumSession.post.saveId(post.id)}}
                     className="likeCommentBtn"
                   >
                     <div className="">

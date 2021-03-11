@@ -9,10 +9,8 @@ class Comments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      post: {
-        ...JSON.parse(forumSession.post.getPost()),
-        comments: [],
-      },
+      postId: forumSession.post.getId(),
+      comments: [],
       userId: forumSession.user.getId(),
     };
   }
@@ -20,10 +18,12 @@ class Comments extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     api
-      .getPostComments(this.state.post.id)
+      .getPostComments(this.state.postId)
       .then((res) => {
         this.setState((state) => {
-          state.post.comments = res.data;
+          state.comments = res.data.comments;
+          state.likes = res.data.likes;
+          state.numComments = res.data.numComments;
           state.loading = true;
           return { state };
         });
@@ -31,29 +31,32 @@ class Comments extends Component {
       .catch((err) => {
         console.log(err);
       });
+    console.log("after componentDidMount");
+    console.log(this.state);
   }
 
   writeComment = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-    if (event.keyCode == 13) {
+    if (event.keyCode === 13) {
       api
-        .saveComment(this.state.post.id, {
+        .saveComment(this.state.postId, {
           text: this.state.text,
           userId: this.state.userId,
         })
         .then((res) => {
           this.setState({
-            post: { comments: [...this.state.post.comments, res.data] },
-            [this.state.target.name]: "",
+            comments: [...this.state.comments, res.data],
+            [this.state.text]: "",
           });
         })
         .catch((err) => {
           console.log(err);
         });
-      console.log(this.state);
     }
+    console.log("after writeComment");
+    console.log(this.state);
   };
 
   render() {
@@ -61,28 +64,28 @@ class Comments extends Component {
       <>
         <div className="post-box mb-5 rounded shadow-lg mt-5">
           <div className="post-title py-2 text-center font-weight-bold border-bottom">
-            {this.state.post.title}
+            {/* {this.state.post.title} */}
           </div>
           <div className="post-header p-3 row">
             <div className="user-photo mr-3 border rounded-circle"></div>
             <div className="">
               <div className="mb-2 text-capitalize font-weight-bold">
-                {this.state.post.username}
+                {/* {this.state.post.username} */}
               </div>
               <div className="postDateCreated">
-                {moment(this.state.post.dateCreated).format(
+                {/* {moment(this.state.post.dateCreated).format(
                   "MMMM D,YYYY, h:mm:ss a"
-                )}
+                )} */}
               </div>
             </div>
           </div>
           <div className="post-description p-3 border-bottom">
-            {this.state.post.description}
+            {/* {this.state.post.description} */}
           </div>
           <div className="post-photo container">
             <img
               alt=""
-              src={`data:image/jpeg;base64,${this.state.post.image}`}
+              // src={`data:image/jpeg;base64,${this.state.post.image}`}
             />
           </div>
           <div className="container post-footer d-flex justify-content-between px-4 py-2">
@@ -90,7 +93,7 @@ class Comments extends Component {
               2 <i className="fas fa-heart"></i>
             </div>
             <div className="text-secondary">
-              {this.state.post.numComments} Comments
+              {/* {this.state.post.numComments} Comments */}
             </div>
           </div>
 
@@ -114,7 +117,7 @@ class Comments extends Component {
         </div>
 
         <div className="pt-5">
-          {this.state.post.comments.map((comment) => (
+          {this.state.comments.map((comment) => (
             <div className="container" key={comment.id}>
               <ul className="list-inline body p-3 d-flex align-items-center row">
                 <li className="list-inline-item col-lg-3 col-md-4 col-sm-5 seperate row">
@@ -126,7 +129,7 @@ class Comments extends Component {
                   <div className="mb-3">
                     <img
                       alt=""
-                      src={`data:image/jpeg;base64,${this.state.post.image}`}
+                      // src={`data:image/jpeg;base64,${this.state.post.image}`}
                     />
                   </div>
                   <div className="text-center col-12 mb-3">
