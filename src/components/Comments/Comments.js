@@ -12,7 +12,9 @@ class Comments extends Component {
       postId: forumSession.post.getId(),
       comments: [],
       userId: forumSession.user.getId(),
+      post: {},
     };
+    this.writeComment = this.writeComment.bind(this);
   }
 
   componentDidMount() {
@@ -21,6 +23,7 @@ class Comments extends Component {
       .getPostComments(this.state.postId)
       .then((res) => {
         this.setState((state) => {
+          state.post = res.data.post;
           state.comments = res.data.comments;
           state.likes = res.data.likes;
           state.numComments = res.data.numComments;
@@ -31,8 +34,6 @@ class Comments extends Component {
       .catch((err) => {
         console.log(err);
       });
-    console.log("after componentDidMount");
-    console.log(this.state);
   }
 
   writeComment = (event) => {
@@ -46,9 +47,12 @@ class Comments extends Component {
           userId: this.state.userId,
         })
         .then((res) => {
-          this.setState({
-            comments: [...this.state.comments, res.data],
-            [this.state.text]: "",
+          this.setState((state) => {
+            state.comments = [...this.state.comments, res.data];
+            state.text = "";
+            // comments [...this.state.comments, res.data],
+            // [this.state.text]: "",
+            return state;
           });
         })
         .catch((err) => {
@@ -64,36 +68,40 @@ class Comments extends Component {
       <>
         <div className="post-box mb-5 rounded shadow-lg mt-5">
           <div className="post-title py-2 text-center font-weight-bold border-bottom">
-            {/* {this.state.post.title} */}
+            {this.state.post.title}
           </div>
           <div className="post-header p-3 row">
             <div className="user-photo mr-3 border rounded-circle"></div>
             <div className="">
               <div className="mb-2 text-capitalize font-weight-bold">
-                {/* {this.state.post.username} */}
+                {this.state.post.username}
               </div>
               <div className="postDateCreated">
-                {/* {moment(this.state.post.dateCreated).format(
+                {moment(this.state.post.dateCreated).format(
                   "MMMM D,YYYY, h:mm:ss a"
-                )} */}
+                )}
               </div>
             </div>
           </div>
           <div className="post-description p-3 border-bottom">
-            {/* {this.state.post.description} */}
+            {this.state.post.description}
           </div>
           <div className="post-photo container">
-            <img
-              alt=""
-              // src={`data:image/jpeg;base64,${this.state.post.image}`}
-            />
+            {this.state.post?.image ? (
+              <img
+                alt=""
+                src={`data:image/jpeg;base64,${this.state.post.image}`}
+              />
+            ) : (
+              ""
+            )}
           </div>
           <div className="container post-footer d-flex justify-content-between px-4 py-2">
             <div className="text-secondary animation">
-              2 <i className="fas fa-heart"></i>
+              {this.state.likes} <i className="fas fa-heart"></i>
             </div>
             <div className="text-secondary">
-              {/* {this.state.post.numComments} Comments */}
+              {this.state.numComments} Comments
             </div>
           </div>
 
@@ -127,10 +135,14 @@ class Comments extends Component {
                     )}
                   </div>
                   <div className="mb-3">
-                    <img
-                      alt=""
-                      // src={`data:image/jpeg;base64,${this.state.post.image}`}
-                    />
+                    {this.state?.user?.image ? (
+                      <img
+                        alt=""
+                        src={`data:image/jpeg;base64,${this.state.user.image}`}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="text-center col-12 mb-3">
                     {comment.username}
