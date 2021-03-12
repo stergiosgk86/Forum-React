@@ -126,7 +126,7 @@ class Comments extends Component {
           </div>
         </div>
 
-        <div className="pt-5">
+        <div className="pt-5 animated fadeInUp">
           {this.state.comments.map((comment) => (
             <div className="container" key={comment.id}>
               <ul className="list-inline body p-3 d-flex align-items-center row">
@@ -136,21 +136,25 @@ class Comments extends Component {
                       "MMMM D,YYYY, h:mm:ss a"
                     )}
                   </div>
-                  <div className="mb-3">
+                  <div className="mb-3 col-12">
                     {this.state?.user?.image ? (
-                      <img
-                        alt=""
-                        src={`data:image/jpeg;base64,${this.state.user.image}`}
-                      />
+                      <div className="justify-content-center d-flex">
+                        <img
+                          alt=""
+                          src={`data:image/jpeg;base64,${this.state.user.image}`}
+                        />
+                      </div>
                     ) : (
-                      <img className="user-photo ml-5" alt="" src="" />
+                      <div className="justify-content-center d-flex">
+                        <img className="user-photo-comments" alt="" />
+                      </div>
                     )}
                   </div>
-                  <div className="text-center col-12 mb-3">
+                  <div className="text-center text-capitalize font-weight-bold col-12 mb-3">
                     {comment.username}
                   </div>
                 </li>
-                <li className="list-inline-item col-lg col-md col-sm text-center row">
+                <li className="list-inline-item col-lg col-md col-sm text-center justify-content-center row">
                   {comment.text}
                 </li>
               </ul>

@@ -1,9 +1,17 @@
 .textArea-photo {
-    background-image: url("https://media.istockphoto.com/photos/confident-woman-picture-id1163683003?k=6&m=1163683003&s=612x612&w=0&h=KLL7nR1C5tozz6OpPG-sZrRLxO78UQ2elVJOD-4QTqw=");
+    background-image: url(../../Img/userphoto3.png);
     background-size: cover;
     background-position: center;
     width: 60px;
     height: 60px;
+}
+
+.user-photo-comments {
+    background-image: url(../../Img/userphoto3.png);
+    background-size: cover;
+    background-position: center;
+    width: 80px;
+    height: 80px;
 }
 
 .textArea {
