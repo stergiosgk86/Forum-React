@@ -4,11 +4,14 @@ import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import Spinner from "../Spinner/Spinner";
 import moment from "moment";
+import Pagination from "../Pagination/Pagination";
 import "./Home.css";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [categoriesPerPage] = useState(5);
 
   useEffect(() => {
     setLoading(true);
@@ -23,6 +26,17 @@ const Home = () => {
         console.log(err);
       });
   }, []);
+
+  //Get current categories
+  const indexOfLastCategory = currentPage * categoriesPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const currentCategories = categories.slice(
+    indexOfFirstCategory,
+    indexOfLastCategory
+  );
+
+  //Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -42,6 +56,7 @@ const Home = () => {
             </li>
           </ul>
         </div>
+
         {loading && (
           <h1 className="container text-center loading">
             Loading... <Spinner />
@@ -49,7 +64,7 @@ const Home = () => {
         )}
         {!loading && (
           <>
-            {categories.map((category) => (
+            {currentCategories.map((category) => (
               <div className="container animated fadeInUp" key={category.id}>
                 <ul className="list-inline p-3 body d-flex align-items-center row">
                   <li className="list-inline-item col-md-6 seperate text-truncate">
@@ -89,6 +104,11 @@ const Home = () => {
             ))}
           </>
         )}
+        <Pagination
+          categoriesPerPage={categoriesPerPage}
+          totalCategories={categories.length}
+          paginate={paginate}
+        />
         <div className="container">
           <Link to="/createcategories" className="btn btn-success">
             Add Category

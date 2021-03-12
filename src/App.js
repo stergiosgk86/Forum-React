@@ -1,6 +1,4 @@
 import { Switch, Route } from "react-router-dom";
-
-import "./App.css";
 import Home from "./components/Home/Home";
 import CreateCategories from "./components/CreateCategories/CreateCategories";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
@@ -10,6 +8,7 @@ import Navigationbar from "./components/Navigationbar/Navigationbar";
 import NotFound from "./components/NotFound/NotFound";
 import Scrolltopbtn from "./components/Scrolltopbtn/Scrolltopbtn";
 import Footer from "./components/Footer/Footer";
+import "./App.css";
 
 function App() {
   return (
