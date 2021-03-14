@@ -78,7 +78,7 @@ class CreatePosts extends Component {
 
     return (
       <div className="container pt-5 animated fadeInUp">
-        <Card>
+        <Card className="cardBorder shadow-lg">
           <Card.Header>Add a Post</Card.Header>
           <Form onSubmit={this.submitPost} onReset={this.resetPost}>
             <Card.Body>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Card, Button } from "react-bootstrap";
 import { api } from "../../utils/Api";
+import './CreateCategories.css';
 
 class CreateCategories extends Component {
   constructor(props) {
@@ -56,7 +57,7 @@ class CreateCategories extends Component {
 
     return (
       <div className="container pt-5 animated fadeInUp">
-        <Card>
+        <Card className="cardBorder shadow-lg">
           <Card.Header>Add a Category</Card.Header>
           <Form onSubmit={this.submitCategory} onReset={this.resetCategory}>
             <Card.Body>
