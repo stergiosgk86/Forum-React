@@ -12,17 +12,8 @@
     border-radius: 11px;
 }
 
-.body {
-    background-color: #F3F3F3;
-    border-radius: 11px;
-}
-
 .seperate {
     border-right: 2px solid rgba(0, 0, 0, 0.05);
-}
-
-.description {
-    color: #606060;
 }
 
 .link {
@@ -39,7 +30,7 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 959px) {
     .seperate {
         border-right: 2px solid rgba(0, 0, 0, 0);
     }
