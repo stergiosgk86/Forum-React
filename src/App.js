@@ -17,6 +17,8 @@ import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 function App() {
+
+  console.log("hello from stergiosgk")
   return (
     <Paper className="page-container">
       <CssBaseline />
