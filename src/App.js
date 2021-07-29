@@ -33,7 +33,7 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
       <Paper className="page-container">
         <div className="content-wrap">
           <Scrolltopbtn />
@@ -53,7 +53,7 @@ function App() {
         </div>
         <Footer />
       </Paper>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 
