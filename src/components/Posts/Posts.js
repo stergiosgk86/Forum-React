@@ -57,7 +57,7 @@ class Posts extends Component {
     return (
       <>
         <div className="text-center position-sticky fixed-top sticky">
-          <Link to="/createposts" className="btn btn-success">
+          <Link to="/createposts" className="btn btn-grad">
             <i className="fas fa-plus-square pr-2"></i>
             Add Post
           </Link>
@@ -129,9 +129,12 @@ class Posts extends Component {
             ))}
           </>
         ) : (
-          <div className="pt-5 mt-5">
-            <h1 className="container text-center text-uppercase font-weight-bold">
-              No Posts
+          <div
+            className="container d-flex flex-column align-items-center justify-content-center"
+            style={{ minHeight: "800px" }}
+          >
+            <h1 className="d-flex align-items-center font-italic animated bounce">
+              No Posts!!!
             </h1>
           </div>
         )}

@@ -58,7 +58,7 @@ const Home = () => {
     },
     header: {
       padding: theme.spacing(3),
-      backgroundImage: `linear-gradient(270deg, #73398d, #594a95)`,
+      backgroundImage: `radial-gradient(circle, rgba(2,0,43,1) 0%, rgba(58,58,185,1) 50%, rgba(102,181,198,1) 100%)`,
       color: "#fff",
       borderRadius: 10,
       textTransform: "uppercase",
@@ -80,7 +80,6 @@ const Home = () => {
   return (
     <>
       <div className="forum-image"></div>
-
       <Container
         maxWidth="lg"
         fixed={true}
@@ -273,17 +272,18 @@ const Home = () => {
           ))}
         </>
       )}
-      <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
+      <Container className="animated fadeInUp" maxWidth="lg" fixed={true} component={Box} pb={2}>
         <Pagination
           categoriesPerPage={categoriesPerPage}
           totalCategories={categories.length}
           paginate={paginate}
         />
-
-        <Link to="/createcategories" className="text-decoration-none">
-          <Button variant="outlined" size="medium" color="primary">
+      </Container>
+      <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
+        <Link to="/createcategories" className="text-decoration-none btn btn-grad">
+          {/* <Button variant="outlined" size="medium" color="primary"> */}
             Add Category
-          </Button>
+          {/* </Button> */}
         </Link>
       </Container>
     </>

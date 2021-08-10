@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import "./Navigationbar.css";
 import { NavLink } from "react-router-dom";
-import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
 
 function Navigationbar() {
-  const ThemeSwitcher = DarkModeBtn();
 
   return (
     <>
@@ -102,7 +100,7 @@ function Navigationbar() {
                   Register
                 </NavLink>
               </li>
-              {ThemeSwitcher}
+              
             </ul>
             {/* )} */}
           </div>

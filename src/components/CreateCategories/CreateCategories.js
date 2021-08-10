@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   header: {
-    backgroundColor: "#594a95",
+    backgroundImage: `radial-gradient(circle, rgba(2,0,43,1) 0%, rgba(58,58,185,1) 50%, rgba(102,181,198,1) 100%)`,
     color: "#fff",
   },
 }));
@@ -85,7 +85,7 @@ function CreateCategories(validateOnChange = false) {
   };
 
   return (
-    <Box py={5}>
+    <Box py={5} className="animated fadeInUp">
       <Container maxWidth="sm">
         <Paper elevation={20}>
           <Box p={2} className={classes.header}>

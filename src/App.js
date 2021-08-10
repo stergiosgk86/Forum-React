@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import CreateCategories from "./components/CreateCategories/CreateCategories";
@@ -9,31 +9,12 @@ import Navigationbar from "./components/Navigationbar/Navigationbar";
 import NotFound from "./components/NotFound/NotFound";
 import Scrolltopbtn from "./components/Scrolltopbtn/Scrolltopbtn";
 import Footer from "./components/Footer/Footer";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import "./App.css";
-// import DarkModeBtn from "./components/DarkModeBtn/DarkModeBtn";
-
 
 function App() {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode"));
-
-  const theme = createMuiTheme({
-    palette: {
-      type: darkMode ,
-    },
-  });
-
-  useEffect(() => {
-    if (darkMode === "dark") {
-      setDarkMode("dark");
-    } else {
-      setDarkMode("light");
-    }
-  });
 
   return (
-    // <ThemeProvider theme={theme}>
       <Paper className="page-container">
         <div className="content-wrap">
           <Scrolltopbtn />
@@ -53,7 +34,6 @@ function App() {
         </div>
         <Footer />
       </Paper>
-    // </ThemeProvider>
   );
 }
 
