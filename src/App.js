@@ -11,6 +11,8 @@ import Scrolltopbtn from "./components/Scrolltopbtn/Scrolltopbtn";
 import Footer from "./components/Footer/Footer";
 import Paper from "@material-ui/core/Paper";
 import "./App.css";
+import Login from "./components/Login/Login";
+import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 
 function App() {
 
@@ -20,15 +22,16 @@ function App() {
           <Scrolltopbtn />
           <Navigationbar />
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route
+            <AuthenticatedRoute path="/" exact component={Home} />
+            <Route path="/login" exact component={Login} />
+            <AuthenticatedRoute
               path="/createcategories"
               exact
               component={CreateCategories}
             />
-            <Route path="/createposts" exact component={CreatePosts} />
-            <Route path="/posts" exact component={Posts} />
-            <Route path="/comments" exact component={Comments} />
+            <AuthenticatedRoute path="/createposts" exact component={CreatePosts} />
+            <AuthenticatedRoute path="/posts" exact component={Posts} />
+            <AuthenticatedRoute path="/comments" exact component={Comments} />
             <Route component={NotFound} />
           </Switch>
         </div>

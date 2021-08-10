@@ -25,4 +25,4 @@ const api = {
   },
 };
 
-export { api };
+export { api , BASE_URL };

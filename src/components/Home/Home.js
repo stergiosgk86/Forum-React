@@ -25,7 +25,7 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    forumSession.user.saveId("383220");
+    // forumSession.user.saveId("383220");
     api
       .getCategories()
       .then((res) => {
@@ -34,6 +34,7 @@ const Home = () => {
       })
       .catch((err) => {
         console.log(err);
+        console.log("test");
       });
   }, []);
 
