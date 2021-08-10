@@ -12,6 +12,7 @@ import Footer from "./components/Footer/Footer";
 import Paper from "@material-ui/core/Paper";
 import "./App.css";
 import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Switch>
             <AuthenticatedRoute path="/" exact component={Home} />
             <Route path="/login" exact component={Login} />
+            {/* <Route path="/register" exact component={Register} /> */}
             <AuthenticatedRoute
               path="/createcategories"
               exact

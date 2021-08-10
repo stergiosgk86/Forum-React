@@ -18,7 +18,6 @@ class AuthenticationService {
             (config)=>{
                 if(this.isUserLoggedIn()){
                     config.headers.authorization= token;
-                    console.log(config.headers);
                 }
                 return config;
             }

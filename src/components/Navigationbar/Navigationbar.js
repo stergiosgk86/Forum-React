@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./Navigationbar.css";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import AuthenticationService from "../security/AuthenticationService";
 
 function Navigationbar() {
+
+  const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
 
   return (
     <>
@@ -79,16 +82,16 @@ function Navigationbar() {
                 </NavLink>
               </li>
             </ul>
-            {/* {this.props.authenticated ? (
+            {isUserLoggedIn ? (
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
                                         <NavLink exact to="/profile" className="nav-link">Profile</NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <a onClick={this.props.onLogout} className="nav-link">Logout</a>
+                                        <NavLink to="/login" onClick={AuthenticationService.logout} className="nav-link">Logout</NavLink>
                                     </li>
                                 </ul>
-                            ) : ( */}
+                            ) : (
             <ul className="navbar-nav">
               <li className="nav-item">
                 <NavLink exact to="/login" className="nav-link">
@@ -100,9 +103,8 @@ function Navigationbar() {
                   Register
                 </NavLink>
               </li>
-              
             </ul>
-            {/* )} */}
+             )}
           </div>
         </div>
       </nav>
