@@ -1,12 +1,13 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils/Api";
+import { api } from "../../utils/Api";
+import TokenService from "../../utils/TokenService";
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = "authenticatedUser";
 
 class AuthenticationService {
 
     executeJwtAuthenticationService(username,password){
-        return axios.post(`${BASE_URL}/login`,{username:username,password:password})
+        return api.login(username,password);
     }
 
     createJwtToken(token){
@@ -25,11 +26,11 @@ class AuthenticationService {
     }
 
     logout(){
-        sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        TokenService.removeUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
     }
 
     isUserLoggedIn(){
-        let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        let user = TokenService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
         if(user===null){
             return false;
         }
@@ -39,7 +40,7 @@ class AuthenticationService {
     }
 
     getLoggedInUserName(){
-        let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        let user = TokenService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
         if(user===null){
             return "";
         }
@@ -49,16 +50,17 @@ class AuthenticationService {
     }
 
     registerSuccessfulLoginForJwt(username,token){
-        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME,username);
-        // this.updateLocalAccessToken(token);
+        TokenService.setUser(username, USER_NAME_SESSION_ATTRIBUTE_NAME);
+        TokenService.updateLocalAccessToken(token, USER_NAME_SESSION_ATTRIBUTE_NAME);
         this.setupAxiosInterceptors(this.createJwtToken(token));
+        console.log(username + "register");
+        console.log(token + "register");
     }
 
-    updateLocalAccessToken(token) {
-        let user = JSON.parse(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME));
-        user.accessToken = token;
-        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, JSON.stringify(user));
-      }
+    getToken() {
+        return TokenService.getLocalAccessToken( USER_NAME_SESSION_ATTRIBUTE_NAME);
+    }
+
 }
 
 export default new AuthenticationService();

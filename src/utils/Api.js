@@ -1,30 +1,53 @@
 import axios from "axios";
+import AuthenticationService from "../components/security/AuthenticationService";
+
 const BASE_URL = "http://kostasvidalis.eu:8082/api";
+
+const instance = axios.create({
+  baseURL: BASE_URL
+});
+
+instance.interceptors.request.use(
+  (config) => {
+    const token = AuthenticationService.getToken();
+    if (token) {
+      config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 
 const api = {
   getCategories: () => {
-    return axios.get(`${BASE_URL}/categories/`);
+    return instance.get(`/categories/`);
   },
   saveCategory: (category) => {
-    return axios.post(`${BASE_URL}/categories`, category);
+    return instance.post(`/categories`, category);
   },
   getCategoryPosts: (categoryId) => {
-    return axios.get(`${BASE_URL}/categories/${categoryId}/posts`);
+    return instance.get(`/categories/${categoryId}/posts`);
   },
   savePost: (categoryId, post) => {
-    return axios.post(`${BASE_URL}/categories/${categoryId}/posts`, post);
+    return instance.post(`/categories/${categoryId}/posts`, post);
   },
   getPostComments: (postId) => {
-    return axios.get(`${BASE_URL}/posts/${postId}/comments`);
+    return instance.get(`/posts/${postId}/comments`);
   },
   submitLike: (postId, userId) => {
-    return axios.post(`${BASE_URL}/posts/${postId}/${userId}/likes`);
+    return instance.post(`/posts/${postId}/${userId}/likes`);
   },
   saveComment: (postId, payload) => {
-    return axios.post(`${BASE_URL}/posts/${postId}/comments`, payload);
+    return instance.post(`/posts/${postId}/comments`, payload);
   },
   register: (payload) => {
-    return axios.post(`${BASE_URL}/register`, payload);
+    return instance.post(`/register`, payload);
+  },
+  login: (username, password) => {
+    return instance.post(`/login`,{username:username,password:password})
   }
 };
 
