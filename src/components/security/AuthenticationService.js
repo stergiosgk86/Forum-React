@@ -50,8 +50,15 @@ class AuthenticationService {
 
     registerSuccessfulLoginForJwt(username,token){
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME,username);
+        // this.updateLocalAccessToken(token);
         this.setupAxiosInterceptors(this.createJwtToken(token));
     }
+
+    updateLocalAccessToken(token) {
+        let user = JSON.parse(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME));
+        user.accessToken = token;
+        sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, JSON.stringify(user));
+      }
 }
 
 export default new AuthenticationService();

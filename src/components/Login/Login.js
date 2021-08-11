@@ -44,7 +44,7 @@ class Login extends Component {
             hasLoginFailed:false,
             showSuccessMessage:false
         }
-       
+      
         this.handleChange = this.handleChange.bind(this);
         this.loginClicked = this.loginClicked.bind(this);
     }
@@ -144,7 +144,7 @@ render(){
         </div>
       </div>
       <Box mt={8}>
-        {/* <Copyright /> */}
+        
       </Box>
     </Container>
   );

@@ -23,6 +23,9 @@ const api = {
   saveComment: (postId, payload) => {
     return axios.post(`${BASE_URL}/posts/${postId}/comments`, payload);
   },
+  register: (payload) => {
+    return axios.post(`${BASE_URL}/register`, payload);
+  }
 };
 
 export { api , BASE_URL };

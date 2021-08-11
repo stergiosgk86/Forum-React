@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Navigationbar.css";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthenticationService from "../security/AuthenticationService";
+import logo from "../../Img/devil.png";
 
 function Navigationbar() {
 
@@ -12,7 +13,7 @@ function Navigationbar() {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark color-nav">
         <div className="container">
           <NavLink exact to="/" className="navbar-brand">
-            Devills
+            <img src={logo} alt="logo" style={{width: "80px"}} />
           </NavLink>
           <button
             className="navbar-toggler"
