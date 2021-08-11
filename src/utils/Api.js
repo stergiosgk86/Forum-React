@@ -2,16 +2,16 @@ import axios from "axios";
 import AuthenticationService from "../components/security/AuthenticationService";
 
 const BASE_URL = "http://kostasvidalis.eu:8082/api";
+// const BASE_URL = "http://localhost:8082/api";
 
 const instance = axios.create({
   baseURL: BASE_URL
 });
 
 instance.interceptors.request.use(
-  (config) => {
-    const token = AuthenticationService.getToken();
-    if (token) {
-      config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
+  (config) => {  
+    if (AuthenticationService.isUserLoggedIn()) {
+      config.headers["Authorization"] = 'Bearer ' + AuthenticationService.getToken();  // for Spring Boot back-end
     }
     return config;
   },

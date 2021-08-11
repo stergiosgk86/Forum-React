@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { NavLink } from "react-router-dom";
 import AuthenticationService from '../security/AuthenticationService';
+import {api} from '../../utils/Api';
 
 
 const styles = (theme) => ({
@@ -58,9 +59,9 @@ class Login extends Component {
 
     loginClicked(){ 
 
-        AuthenticationService.executeJwtAuthenticationService(this.state.username, this.state.password)
+        api.login(this.state.username, this.state.password)
         .then(
-            (res)=>{
+            (res)=>{              
                 AuthenticationService.registerSuccessfulLoginForJwt(this.state.username,res.data.token );
                 this.props.history.push(`/`);
             }
