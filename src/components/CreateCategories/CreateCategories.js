@@ -107,7 +107,6 @@ function CreateCategories(validateOnChange = false) {
                   error={errors.title}
                 />
               </Box>
-
               <Box display="flex" justifyContent="start">
                 <Input
                   label="Description"
@@ -118,7 +117,6 @@ function CreateCategories(validateOnChange = false) {
                   error={errors.description}
                 />
               </Box>
-
               <Box display="flex" justifyContent="center" flexWrap="wrap">
                 <Box display="flex" justifyContent="start" mt={2} mr={1}>
                   <Button
