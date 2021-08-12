@@ -12,7 +12,6 @@ import {
   Typography,
   Grid,
   Paper,
-  Button,
   Hidden,
 } from "@material-ui/core";
 import "./Home.css";
@@ -25,7 +24,6 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    // forumSession.user.saveId("383220");
     api
       .getCategories()
       .then((res) => {
@@ -281,9 +279,7 @@ const Home = () => {
       </Container>
       <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
         <Link to="/createcategories" className="text-decoration-none btn btn-grad">
-          {/* <Button variant="outlined" size="medium" color="primary"> */}
             Add Category
-          {/* </Button> */}
         </Link>
       </Container>
     </>

@@ -1,96 +1,148 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import './Register.css';
+import React, { Component } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { NavLink } from "react-router-dom";
 import { api } from "../../utils/Api";
-import ActionAlerts from '../ActionAlerts/ActionAlerts';
+
+const styles = (theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+});
 
 class Register extends Component {
-    render() {
-        if (this.props.authenticated) {
-            return <Redirect
-                to={{
-                    pathname: "/",
-                    state: { from: this.props.location }
-                }} />;
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-        return (
-            <div className="signup-container p-5">
-                <div className="signup-content">
-                    <h1 className="signup-title">Register</h1>
-                    <div className="or-separator">
-                        <span className="or-text">OR</span>
-                    </div>
-                    <SignupForm {...this.props} />
-                    <span className="login-link">Already have an account? <Link to="/login">Login!</Link></span>
+  handleInputChange(event) {
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
+
+    this.setState({
+      [inputName]: inputValue,
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const signUpRequest = Object.assign({}, this.state);
+
+    api
+      .register(signUpRequest)
+      .then((response) => {
+        // Alert.success("You're successfully registered. Please login to continue!");
+        this.props.history.push("/login");
+      })
+      .catch((error) => {
+        // Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
+      });
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <Container component="main" maxWidth="xs">
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Register
+          </Typography>
+          <div className={classes.form}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              value={this.state.username}
+              onChange={this.handleInputChange}
+              type="text"
+              label="Username"
+              name="username"
+              autoComplete="off"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              value={this.state.email}
+              onChange={this.handleInputChange}
+              type="email"
+              label="Email"
+              name="email"
+              autoComplete="off"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              value={this.state.password}
+              onChange={this.handleInputChange}
+              type="password"
+              autoComplete="current-password"
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.handleSubmit}
+            >
+              Register
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <div className="login-link">
+                  Already have an account?
+                  <NavLink to="/login" variant="body2">
+                    Login!
+                  </NavLink>
                 </div>
-            </div>
-        );
-    }
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+        <Box mt={8}></Box>
+      </Container>
+    );
+  }
 }
 
-class SignupForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            email: '',
-            password: ''
-        }
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const inputName = target.name;
-        const inputValue = target.value;
-
-        this.setState({
-            [inputName]: inputValue
-        });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-
-        const signUpRequest = Object.assign({}, this.state);
-
-        api.register(signUpRequest)
-            .then(response => {
-                // <ActionAlerts/>
-                // Alert.success("You're successfully registered. Please login to continue!");
-                this.props.history.push("/login");
-            }).catch(error => {
-                // Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
-            });
-    }
-
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="form-item">
-                    <input type="text" name="username"
-                        className="form-control" placeholder="Username"
-                        value={this.state.name} onChange={this.handleInputChange} required />
-                </div>
-                <div className="form-item">
-                    <input type="email" name="email"
-                        className="form-control" placeholder="Email"
-                        value={this.state.email} onChange={this.handleInputChange} required />
-                </div>
-                <div className="form-item">
-                    <input type="password" name="password"
-                        className="form-control" placeholder="Password"
-                        value={this.state.password} onChange={this.handleInputChange} required />
-                </div>
-                <div className="form-item">
-                    <button type="submit" className="btn btn-block btn-primary" >Register</button>
-                </div>
-            </form>
-
-        );
-    }
-}
-
-export default Register;
+export default withStyles(styles)(Register);

@@ -14,31 +14,36 @@ import "./App.css";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 function App() {
-
   return (
-      <Paper className="page-container">
-        <div className="content-wrap">
-          <Scrolltopbtn />
-          <Navigationbar />
-          <Switch>
-            <AuthenticatedRoute path="/" exact component={Home} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
-            <AuthenticatedRoute
-              path="/createcategories"
-              exact
-              component={CreateCategories}
-            />
-            <AuthenticatedRoute path="/createposts" exact component={CreatePosts} />
-            <AuthenticatedRoute path="/posts" exact component={Posts} />
-            <AuthenticatedRoute path="/comments" exact component={Comments} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-        <Footer />
-      </Paper>
+    <Paper className="page-container">
+      <CssBaseline />
+      <div className="content-wrap">
+        <Scrolltopbtn />
+        <Navigationbar />
+        <Switch>
+          <AuthenticatedRoute path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
+          <AuthenticatedRoute
+            path="/createcategories"
+            exact
+            component={CreateCategories}
+          />
+          <AuthenticatedRoute
+            path="/createposts"
+            exact
+            component={CreatePosts}
+          />
+          <AuthenticatedRoute path="/posts" exact component={Posts} />
+          <AuthenticatedRoute path="/comments" exact component={Comments} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+      <Footer />
+    </Paper>
   );
 }
 
