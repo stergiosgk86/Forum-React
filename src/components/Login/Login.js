@@ -46,6 +46,7 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.loginClicked = this.loginClicked.bind(this);
+    this.keypress = this.keypress.bind(this);
   }
 
   //generic event to handle change
@@ -73,6 +74,14 @@ class Login extends Component {
       });
   }
 
+  keypress(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      this.loginClicked();
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -96,6 +105,7 @@ class Login extends Component {
               fullWidth
               value={this.state.username}
               onChange={this.handleChange}
+              onKeyPress={this.keypress}
               type="text"
               label="Username"
               name="username"
@@ -111,6 +121,7 @@ class Login extends Component {
               label="Password"
               value={this.state.password}
               onChange={this.handleChange}
+              onKeyPress={this.keypress}
               type="password"
               autoComplete="current-password"
             />

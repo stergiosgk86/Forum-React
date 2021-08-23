@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
-import Spinner from "../Spinner/Spinner";
 import moment from "moment";
 import Pagination from "../Pagination/Pagination";
 import {
@@ -13,6 +12,10 @@ import {
   Grid,
   Paper,
   Hidden,
+  Dialog,
+  CircularProgress,
+  DialogTitle,
+  DialogContent,
 } from "@material-ui/core";
 import "./Home.css";
 
@@ -140,9 +143,23 @@ const Home = () => {
       </Container>
 
       {loading && (
-        <h1 className="container text-center loading">
-          Loading... <Spinner />
-        </h1>
+        <Dialog
+          open
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <Grid
+            container
+            component={Box}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <DialogContent>
+              <CircularProgress color="inherit" />
+            </DialogContent>
+            <DialogTitle id="alert-dialog-title">Please wait...</DialogTitle>
+          </Grid>
+        </Dialog>
       )}
       {!loading && (
         <>
@@ -270,7 +287,13 @@ const Home = () => {
           ))}
         </>
       )}
-      <Container className="animated fadeInUp" maxWidth="lg" fixed={true} component={Box} pb={2}>
+      <Container
+        className="animated fadeInUp"
+        maxWidth="lg"
+        fixed={true}
+        component={Box}
+        pb={2}
+      >
         <Pagination
           categoriesPerPage={categoriesPerPage}
           totalCategories={categories.length}
@@ -278,8 +301,11 @@ const Home = () => {
         />
       </Container>
       <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
-        <Link to="/createcategories" className="text-decoration-none btn btn-grad">
-            Add Category
+        <Link
+          to="/createcategories"
+          className="text-decoration-none btn btn-grad"
+        >
+          Add Category
         </Link>
       </Container>
     </>

@@ -1,19 +1,8 @@
-.textArea-photo {
-    background-image: url(../../Img/userphoto3.png);
-    background-size: cover;
-    background-position: center;
-    width: 60px;
-    height: 60px;
-}
-
 .user-photo-comments {
     background-image: url(../../Img/userphoto3.png);
     background-size: cover;
     background-position: center;
     width: 80px;
     height: 80px;
-}
-
-.textArea {
-    overflow: hidden;
+    color: rgb(192, 190, 190);
 }

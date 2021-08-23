@@ -41,6 +41,7 @@ class Register extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.keypress = this.keypress.bind(this);
   }
 
   handleInputChange(event) {
@@ -53,8 +54,8 @@ class Register extends Component {
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleSubmit(e) {
+    e.preventDefault();
 
     const signUpRequest = Object.assign({}, this.state);
 
@@ -67,6 +68,14 @@ class Register extends Component {
       .catch((error) => {
         // Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
       });
+  }
+
+  keypress(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      this.handleSubmit(e);
+    }
   }
 
   render() {
@@ -88,6 +97,7 @@ class Register extends Component {
               fullWidth
               value={this.state.username}
               onChange={this.handleInputChange}
+              onKeyPress={this.keypress}
               type="text"
               label="Username"
               name="username"
@@ -101,6 +111,7 @@ class Register extends Component {
               fullWidth
               value={this.state.email}
               onChange={this.handleInputChange}
+              onKeyPress={this.keypress}
               type="email"
               label="Email"
               name="email"
@@ -115,6 +126,7 @@ class Register extends Component {
               label="Password"
               value={this.state.password}
               onChange={this.handleInputChange}
+              onKeyPress={this.keypress}
               type="password"
               autoComplete="current-password"
             />

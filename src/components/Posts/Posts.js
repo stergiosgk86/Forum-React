@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../../utils/Api";
+import { api, BASE_URL } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import moment from "moment";
 import {
@@ -10,6 +10,10 @@ import {
   Typography,
   Grid,
   Paper,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from "@material-ui/core";
 import "./Posts.css";
 
@@ -60,7 +64,6 @@ class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShow: true,
       loading: true,
       categoryId: forumSession.category.getId(),
       posts: [],
@@ -76,7 +79,7 @@ class Posts extends Component {
       .then((res) => {
         this.setState((state) => {
           state.posts = res.data;
-          state.loading = true;
+          state.loading = false;
           return { state };
         });
       })
@@ -106,6 +109,7 @@ class Posts extends Component {
 
   render() {
     const { classes } = this.props;
+
     return (
       <>
         <div className="text-center position-sticky fixed-top sticky">
@@ -115,150 +119,175 @@ class Posts extends Component {
           </Link>
         </div>
 
-        {this.state.posts.length ? (
+        {this.state.loading && (
+          <Dialog
+            open
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <Grid
+              container
+              component={Box}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <DialogContent>
+                <CircularProgress color="inherit" />
+              </DialogContent>
+              <DialogTitle id="alert-dialog-title">Please wait...</DialogTitle>
+            </Grid>
+          </Dialog>
+        )}
+
+        {!this.state.loading && (
           <>
-            {this.state.posts.map((post) => (
-              <Container
-                component={Box}
-                py={3}
-                key={post.id}
-                className="animated fadeInUp"
-                style={{ maxWidth: "750px" }}
-              >
-                <Paper className={classes.paper} elevation={10}>
-                  <Grid
-                    container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
+            {this.state.posts.length ? (
+              <>
+                {this.state.posts.map((post) => (
+                  <Container
                     component={Box}
+                    py={3}
+                    key={post.id}
+                    className="animated fadeInUp"
+                    style={{ maxWidth: "750px" }}
                   >
-                    <Grid
-                      container
-                      justifyContent="center"
-                      component={Box}
-                      className={classes.border}
-                    >
-                      <Typography
-                        variant="inherit"
-                        className={classes.postTitle}
-                      >
-                        {post.title}
-                      </Typography>
-                    </Grid>
-                    <Grid container py={2} component={Box}>
+                    <Paper className={classes.paper} elevation={10}>
                       <Grid
-                        item
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
                         component={Box}
-                        borderRadius="50%"
-                        className="user-photo"
-                      ></Grid>
-                      <Grid item component={Box}>
-                        <Grid container component={Box} px={2}>
-                          <Grid
-                            container
-                            component={Box}
-                            className={classes.name}
+                      >
+                        <Grid
+                          container
+                          justifyContent="center"
+                          component={Box}
+                          className={classes.border}
+                        >
+                          <Typography
+                            variant="inherit"
+                            className={classes.postTitle}
                           >
-                            {post.username}
-                          </Grid>
+                            {post.title}
+                          </Typography>
+                        </Grid>
+                        <Grid container py={2} component={Box}>
                           <Grid
-                            container
+                            item
                             component={Box}
-                            className={classes.date}
-                          >
-                            {moment(post.dateCreated).format(
-                              "MMMM D,YYYY, h:mm:ss a"
-                            )}
+                            borderRadius="50%"
+                            className="user-photo"
+                          ></Grid>
+                          <Grid item component={Box}>
+                            <Grid container component={Box} px={2}>
+                              <Grid
+                                container
+                                component={Box}
+                                className={classes.name}
+                              >
+                                {post.username}
+                              </Grid>
+                              <Grid
+                                container
+                                component={Box}
+                                className={classes.date}
+                              >
+                                {moment(post.dateCreated).format(
+                                  "MMMM D,YYYY, h:mm:ss a"
+                                )}
+                              </Grid>
+                            </Grid>
                           </Grid>
                         </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      component={Box}
-                      justifyContent="flex-start"
-                      className={classes.description}
-                    >
-                      <Typography variant="body2">
-                        {post.description}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      {post.image ? (
-                        <img
-                          alt=""
-                          src={`data:image/jpeg;base64,${post.image}`}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </Grid>
-                    <Grid
-                      container
-                      component={Box}
-                      justifyContent="space-between"
-                      className={classes.likesComments}
-                    >
-                      <Typography variant="body2">
-                        {post.likes} <i className="fas fa-heart"></i>
-                      </Typography>
-                      <Link
-                        to="/comments"
-                        onClick={() => {
-                          forumSession.post.saveId(post.id);
-                        }}
-                        className="likeCommentBtn"
-                      >
-                        <Typography variant="body2">
-                          {post.numComments} Comments
-                        </Typography>
-                      </Link>
-                    </Grid>
-                    <Grid
-                      container
-                      component={Box}
-                      justifyContent="space-between"
-                      className={classes.likeCommentBtn}
-                    >
-                      <Typography
-                        variant="inherit"
-                        className="likeCommentBtn"
-                        onClick={() => {
-                          this.submitLike(post.id);
-                        }}
-                      >
-                        <i className="far fa-thumbs-up"></i> Like
-                      </Typography>
-                      <Link
-                        to="/comments"
-                        onClick={() => {
-                          forumSession.post.saveId(post.id);
-                        }}
-                        className="likeCommentBtn"
-                      >
-                        <Typography
-                          variant="inherit"
-                          className="likeCommentBtn"
+                        <Grid
+                          container
+                          component={Box}
+                          justifyContent="flex-start"
+                          className={classes.description}
                         >
-                          <i className="far fa-comment"></i> Comment
-                        </Typography>
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Container>
-            ))}
+                          <Typography variant="body2">
+                            {post.description}
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          {post.imageUrl ? (
+                            <img
+                              alt=""
+                              async
+                              src={`${BASE_URL}/${post.imageUrl}`}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </Grid>
+                        <Grid
+                          container
+                          component={Box}
+                          justifyContent="space-between"
+                          className={classes.likesComments}
+                        >
+                          <Typography variant="body2">
+                            {post.likes} <i className="fas fa-heart"></i>
+                          </Typography>
+                          <Link
+                            to="/comments"
+                            onClick={() => {
+                              forumSession.post.saveId(post.id);
+                            }}
+                            className="likeCommentBtn"
+                          >
+                            <Typography variant="body2">
+                              {post.numComments} Comments
+                            </Typography>
+                          </Link>
+                        </Grid>
+                        <Grid
+                          container
+                          component={Box}
+                          justifyContent="space-between"
+                          className={classes.likeCommentBtn}
+                        >
+                          <Typography
+                            variant="inherit"
+                            className="likeCommentBtn"
+                            onClick={() => {
+                              this.submitLike(post.id);
+                            }}
+                          >
+                            <i className="far fa-thumbs-up"></i> Like
+                          </Typography>
+                          <Link
+                            to="/comments"
+                            onClick={() => {
+                              forumSession.post.saveId(post.id);
+                            }}
+                            className="likeCommentBtn"
+                          >
+                            <Typography
+                              variant="inherit"
+                              className="likeCommentBtn"
+                            >
+                              <i className="far fa-comment"></i> Comment
+                            </Typography>
+                          </Link>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Container>
+                ))}
+              </>
+            ) : (
+              <div
+                className="container d-flex flex-column align-items-center justify-content-center"
+                style={{ minHeight: "800px" }}
+              >
+                <h1 className="d-flex align-items-center font-italic animated bounce">
+                  No Posts!!!
+                </h1>
+              </div>
+            )}
           </>
-        ) : (
-          <div
-            className="container d-flex flex-column align-items-center justify-content-center"
-            style={{ minHeight: "800px" }}
-          >
-            <h1 className="d-flex align-items-center font-italic animated bounce">
-              No Posts!!!
-            </h1>
-          </div>
         )}
       </>
     );
