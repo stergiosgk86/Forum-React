@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Navigationbar.css";
 import { NavLink } from "react-router-dom";
 import AuthenticationService from "../security/AuthenticationService";
@@ -6,12 +6,7 @@ import logo from "../../Img/devil.png";
 
 function Navigationbar() {
 
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsUserLoggedIn(AuthenticationService.isUserLoggedIn());
-  }, [])
-  
+  const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
 
   return (
     <>
