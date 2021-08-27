@@ -71,7 +71,7 @@ const Login = () => {
 
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   // const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
   const classes = useStyles();
@@ -84,7 +84,7 @@ const Login = () => {
           values.username,
           res.data.token
         );
-        setShowSuccessMessage(true);
+        setHasLoginFailed(false);
         setShowSnackbar(true);
         // history.push("/");
         // history.push({
@@ -127,7 +127,7 @@ const Login = () => {
         </Typography>
         <div className={classes.form}>
           <form onSubmit={handleSubmit(loginClicked)}>
-            {hasLoginFailed && (
+            {hasLoginFailed ? (
               <Snackbar
                 open={showSnackbar}
                 autoHideDuration={6000}
@@ -144,8 +144,7 @@ const Login = () => {
                   is incorrect. Please try again
                 </Alert>
               </Snackbar>
-            )}
-            {showSuccessMessage && (
+            ) : (
               <Snackbar
                 open={showSnackbar}
                 autoHideDuration={6000}
