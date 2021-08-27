@@ -86,7 +86,7 @@ const Login = () => {
         );
         setHasLoginFailed(false);
         setShowSnackbar(true);
-        // history.push("/");
+        history.push("/");
         // history.push({
         //   pathname: "/",
         //   // state: { showSnackbar: true },
