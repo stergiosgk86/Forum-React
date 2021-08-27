@@ -30,7 +30,7 @@ const initialValues = {
   description: "",
 };
 
-function CreateCategories(validateOnChange = false) {
+const CreateCategories = (validateOnChange = false) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const history = useHistory();
@@ -40,7 +40,7 @@ function CreateCategories(validateOnChange = false) {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -75,7 +75,7 @@ function CreateCategories(validateOnChange = false) {
           console.log(err);
         });
     } else {
-      window.alert("Not Validated...");
+      // window.alert("Not Validated...");
     }
   };
 
@@ -99,21 +99,28 @@ function CreateCategories(validateOnChange = false) {
             >
               <Box mb={2} display="flex" justifyContent="start">
                 <Input
+                  autoFocus
+                  fullWidth
+                  size="small"
+                  variant="outlined"
                   label="Title"
                   placeholder="Enter Title"
                   name="title"
                   value={values.title}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                   error={errors.title}
                 />
               </Box>
               <Box display="flex" justifyContent="start">
                 <Input
+                  fullWidth
+                  size="small"
+                  variant="outlined"
                   label="Description"
                   placeholder="Enter Description"
                   name="description"
                   value={values.description}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                   error={errors.description}
                 />
               </Box>
@@ -147,6 +154,6 @@ function CreateCategories(validateOnChange = false) {
       </Container>
     </Box>
   );
-}
+};
 
 export default CreateCategories;

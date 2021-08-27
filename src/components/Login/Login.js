@@ -1,20 +1,32 @@
-import React, { Component } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import React, { useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import {
+  Avatar,
+  makeStyles,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Snackbar,
+  InputAdornment,
+  IconButton,
+  TextField,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import { NavLink } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert";
 import AuthenticationService from "../security/AuthenticationService";
 import { api } from "../../utils/Api";
+// import Input from "../controls/Input";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+// import Notification from "../Notification/Notification";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -32,109 +44,183 @@ const styles = (theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+}));
+
+const schema = yup.object().shape({
+  username: yup.string().trim().required("Username is required."),
+  password: yup
+    .string()
+    .required("Password is required.")
+    .min(4, "The password must be at least 4 characters long."),
 });
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: "",
-      hasLoginFailed: false,
-      showSuccessMessage: false,
-    };
+const Login = () => {
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+    // showPassword: false,
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
+    resolver: yupResolver(schema),
+  });
 
-    this.handleChange = this.handleChange.bind(this);
-    this.loginClicked = this.loginClicked.bind(this);
-    this.keypress = this.keypress.bind(this);
-  }
+  const [hasLoginFailed, setHasLoginFailed] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
+  const history = useHistory();
+  const classes = useStyles();
 
-  //generic event to handle change
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  }
-
-  loginClicked() {
+  const loginClicked = (values) => {
     api
-      .login(this.state.username, this.state.password)
+      .login(values.username, values.password)
       .then((res) => {
         AuthenticationService.registerSuccessfulLoginForJwt(
-          this.state.username,
+          values.username,
           res.data.token
         );
-        this.props.history.push(`/`);
+        setShowSuccessMessage(true);
+        setShowSnackbar(true);
+        // history.push("/");
+        // history.push({
+        //   pathname: "/",
+        //   // state: { showSnackbar: true },
+        // });
       })
       .catch(() => {
-        this.setState({
-          hasLoginFailed: true,
-          showSuccessMessage: false,
-        });
+        setHasLoginFailed(true);
+        setShowSnackbar(true);
       });
-  }
+  };
 
-  keypress(e) {
+  const keypress = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
-
-      this.loginClicked();
     }
-  }
+  };
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <div className={classes.form}>
-            {this.state.hasLoginFailed && (
-              <div className="alert alert-warning">Invalid credentials!</div>
+  const handleClose = () => {
+    setShowSnackbar(false);
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      {/* <Notification notify={notify} setNotify={setNotify} /> */}
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
+        <div className={classes.form}>
+          <form onSubmit={handleSubmit(loginClicked)}>
+            {hasLoginFailed && (
+              <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="error"
+                  elevation={10}
+                  variant="filled"
+                >
+                  Wrong credentials! The Username or Password you have entered
+                  is incorrect. Please try again
+                </Alert>
+              </Snackbar>
             )}
-            {this.state.showSuccessMessage && <div>Login Succeed!</div>}
+            {showSuccessMessage && (
+              <Snackbar
+                open={showSnackbar}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  elevation={10}
+                  variant="filled"
+                >
+                  You have successfully logged in!
+                </Alert>
+              </Snackbar>
+            )}
+
             <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              value={this.state.username}
-              onChange={this.handleChange}
-              onKeyPress={this.keypress}
-              type="text"
-              label="Username"
-              name="username"
-              autoComplete="off"
               autoFocus
-            />
-            <TextField
+              fullWidth
+              autoComplete="off"
+              label="Username"
+              placeholder="Enter Username"
+              name="username"
+              type="text"
               variant="outlined"
               margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-              onKeyPress={this.keypress}
-              type="password"
-              autoComplete="current-password"
+              {...register("username")}
+              onKeyPress={keypress}
+              error={Boolean(errors.username)}
+              helperText={errors?.username?.message}
             />
+
+            <TextField
+              fullWidth
+              autoComplete="off"
+              label="Password"
+              placeholder="Enter Password"
+              name="password"
+              type={values.showPassword ? "text" : "password"}
+              variant="outlined"
+              margin="normal"
+              {...register("password")}
+              onKeyPress={keypress}
+              error={Boolean(errors.password)}
+              helperText={errors?.password?.message}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {values.showPassword ? (
+                        <Visibility color="primary" />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
             <Button
               fullWidth
+              type="submit"
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.loginClicked}
             >
               Login
             </Button>
@@ -150,11 +236,11 @@ class Login extends Component {
                 </NavLink>
               </Grid>
             </Grid>
-          </div>
+          </form>
         </div>
-        <Box mt={8}></Box>
-      </Container>
-    );
-  }
-}
-export default withStyles(styles)(Login);
+      </div>
+      <Box mt={8}></Box>
+    </Container>
+  );
+};
+export default Login;

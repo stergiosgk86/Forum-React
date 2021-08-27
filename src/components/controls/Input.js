@@ -1,17 +1,40 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-const Input = ({ name, label, value, placeholder, onChange, error = null }) => {
+const Input = ({
+  required,
+  name,
+  size,
+  margin,
+  label,
+  variant,
+  value,
+  fullWidth,
+  type,
+  placeholder,
+  autoFocus,
+  onKeyPress,
+  onChange,
+  InputProps,
+  error = null,
+}) => {
   return (
     <TextField
-      fullWidth={true}
-      size="small"
+      required={required}
+      fullWidth={fullWidth}
+      size={size}
       label={label}
       placeholder={placeholder}
-      variant="outlined"
+      variant={variant}
+      autoComplete="off"
+      margin={margin}
       name={name}
+      type={type}
       value={value}
       onChange={onChange}
+      onKeyPress={onKeyPress}
+      autoFocus={autoFocus}
+      InputProps={InputProps}
       {...(error && { error: true, helperText: error })}
     />
   );

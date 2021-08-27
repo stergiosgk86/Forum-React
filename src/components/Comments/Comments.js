@@ -111,7 +111,6 @@ class Comments extends Component {
   }
 
   handleChange(event) {
-    // setInputHeight(event, "40px");
     this.setState({ text: event.target.value });
   }
 
@@ -256,7 +255,7 @@ class Comments extends Component {
                   variant="standard"
                   fullWidth
                   size="small"
-                  InputProps={{  
+                  InputProps={{
                     endAdornment: (
                     <InputAdornment position='end'>
                       <IconButton onClick={this.submitComment} className={classes.sendBtn}>
