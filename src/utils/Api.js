@@ -3,6 +3,7 @@ import AuthenticationService from "../components/security/AuthenticationService"
 
 const BASE_URL = "http://kostasvidalis.eu:8082/api";
 // const BASE_URL = "http://localhost:8082/api";
+// addassad
 
 const instance = axios.create({
   baseURL: BASE_URL
