@@ -281,21 +281,22 @@ class Comments extends Component {
 
                   <Grid
                     item
+                    xs={1}
                     component={Box}
                     borderRadius="50%"
                     className="user-photo"
                     >
                   </Grid>
 
-                  <Grid item className={classes.commentBubble}>
+                  <Grid item xs={11} className={classes.commentBubble}>
                     <Grid item>
                       <Typography className={classes.nameBubble}>
                         {comment.username}
                       </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{wordWrap: "break-word"}}>
                       {comment.text}
-                    </Grid>
+                      </Grid>
                   </Grid>
 
                   </Grid>
@@ -309,42 +310,26 @@ class Comments extends Component {
 
 
         
-
-        {/* <div className="pt-5 animated fadeInUp">
-          {this.state.comments.map((comment) => (
-            <div className="container" key={comment.id}>
-              <ul className="list-inline body p-3 d-flex align-items-center row">
-                <li className="list-inline-item col-lg-3 col-md-4 col-sm-5 seperate row">
-                  <div className="text-center col-12 d-none d-md-block mb-3">
-                    {moment(comment.dateCreated).format(
-                      "MMMM D,YYYY, h:mm:ss a"
-                    )}
-                  </div>
-                  <div className="mb-3 col-12">
-                    {this.state?.user?.image ? (
-                      <div className="justify-content-center d-flex">
-                        <img
-                          alt=""
-                          src={`data:image/jpeg;base64,${this.state.user.image}`}
-                        />
-                      </div>
-                    ) : (
-                      <div className="justify-content-center d-flex">
-                        <img className="user-photo-comments" alt="" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-center text-capitalize font-weight-bold col-12 mb-3">
-                    {comment.username}
-                  </div>
-                </li>
-                <li className="list-inline-item col-lg col-md col-sm text-center justify-content-center row">
-                  {comment.text}
-                </li>
-              </ul>
-            </div>
-          ))}
-        </div> */}
+                {/* <Grid container>
+                  <Grid item sm={1}>
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  </Grid>
+                  <Grid item sm={11}>
+                    <Card>
+                      <CardActionArea>
+                        <CardContent>
+                          <Typography variant="body2" color="textSecondary" component="p">
+                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                            across all continents except Antarctica Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Cum ut voluptate maiores, dolores voluptates nostrum eos ullam, neque, tempore minus sed! Voluptas sit 
+                            facilis nobis numquam sed debitis doloribus cum!
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                </Grid> */}
+        
       </>
     );
   }
