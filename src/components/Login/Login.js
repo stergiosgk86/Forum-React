@@ -77,13 +77,16 @@ const Login = () => {
   const classes = useStyles();
 
   const loginClicked = (values) => {
+
     api
       .login(values.username, values.password)
       .then((res) => {
-        AuthenticationService.registerSuccessfulLoginForJwt(
-          values.username,
-          res.data.token
+
+        AuthenticationService.successfulLogin(
+          res.data.username,
+          res.data.roles
         );
+
         setHasLoginFailed(false);
         setShowSnackbar(true);
         history.push("/");

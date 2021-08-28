@@ -1,31 +1,28 @@
-import TokenService from "../../utils/TokenService";
+import { api } from "../../utils/Api";
+import UserService from "../../utils/UserService";
 
-export const USER_NAME_SESSION_ATTRIBUTE_NAME = "authenticatedUser";
+
+export const USER_NAME_SESSION_ATTRIBUTE_NAME = "user";
 
 class AuthenticationService {
 
     logout(){
-        TokenService.removeUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        api.logout()
+        .then(()=>UserService.removeUser(USER_NAME_SESSION_ATTRIBUTE_NAME));
     }
 
     isUserLoggedIn(){        
-        let user = TokenService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
-        return !!user;
+        return !!UserService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
     }
 
     getLoggedInUserName(){
-        let user = TokenService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
-        return user===null ? user : "";
+        let user = UserService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        return user?.username;
     }
 
-    registerSuccessfulLoginForJwt(username,token){   
-        let user = {username:username,accessToken:""};     
-        TokenService.setUser(user, USER_NAME_SESSION_ATTRIBUTE_NAME);        
-        TokenService.updateLocalAccessToken(token, USER_NAME_SESSION_ATTRIBUTE_NAME);        
-    }
-
-    getToken() {
-        return TokenService.getLocalAccessToken( USER_NAME_SESSION_ATTRIBUTE_NAME);
+    successfulLogin(username,roles){   
+        let user = {username:username,roles:roles};     
+        UserService.setUser(user, USER_NAME_SESSION_ATTRIBUTE_NAME);        
     }
 
 }
