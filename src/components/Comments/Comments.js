@@ -18,7 +18,38 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Badge,
 } from "@material-ui/core";
+import AuthenticationService from "../security/AuthenticationService";
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "$ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}))(Badge);
 
 const styles = (theme) => ({
   root: {
@@ -86,6 +117,7 @@ class Comments extends Component {
       comments: [],
       userId: forumSession.user.getId(),
       post: {},
+      username: AuthenticationService.getLoggedInUserName(),
     };
     this.handleChange = this.handleChange.bind(this);
     this.keypress = this.keypress.bind(this);
@@ -171,7 +203,10 @@ class Comments extends Component {
                 </Typography>
               </Grid>
               <Grid container py={2} component={Box}>
-                <Avatar alt="" src="" />
+                <Avatar
+                  alt={this.state.post.username}
+                  src="/static/images/avatar/1.jpg"
+                />
                 <Grid item component={Box}>
                   <Grid container component={Box} px={2}>
                     <Grid container component={Box} className={classes.name}>
@@ -225,7 +260,19 @@ class Comments extends Component {
                 pt={1}
               >
                 <Grid item xs={2} sm={1}>
-                  <Avatar alt="" src="" />
+                  <StyledBadge
+                    overlap="circle"
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    variant="dot"
+                  >
+                    <Avatar
+                      alt={this.state.username}
+                      src="/static/images/avatar/1.jpg"
+                    />
+                  </StyledBadge>
                 </Grid>
 
                 <Grid item xs={10} sm={11}>
@@ -259,7 +306,10 @@ class Comments extends Component {
               {this.state.comments.map((comment) => (
                 <Grid container key={comment.id} className={classes.chat}>
                   <Grid item xs={2} sm={1} className={classes.avatar}>
-                    <Avatar alt="" src="" />
+                    <Avatar
+                      alt={comment.username}
+                      src="/static/images/avatar/1.jpg"
+                    />
                   </Grid>
                   <Grid item xs={10} sm={11} className={classes.commentBubble}>
                     <Card elevation={2}>
