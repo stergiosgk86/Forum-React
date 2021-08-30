@@ -68,7 +68,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode: "all",
+    // mode: "all",
     resolver: yupResolver(schema),
   });
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -84,11 +84,9 @@ const Register = () => {
     api
       .register(signUpRequest)
       .then((response) => {
-        // Alert.success("You're successfully registered. Please login to continue!");
         history.push("/login");
       })
       .catch((error) => {
-        // Alert.error((error && error.message) || 'Oops! Something went wrong. Please try again!');
       });
   };
 

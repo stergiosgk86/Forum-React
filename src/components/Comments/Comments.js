@@ -69,7 +69,9 @@ const styles = (theme) => ({
     textTransform: "capitalize",
     marginBottom: 10,
   },
-  commentBubble: {},
+  commentBubble: {
+    borderRadius: 15,
+  },
   commentCreated: {
     display: "flex",
     justifyContent: "flex-end",
@@ -257,7 +259,7 @@ class Comments extends Component {
                 justifyContent="flex-start"
                 alignItems="center"
                 component={Box}
-                pt={1}
+                py={2}
               >
                 <Grid item xs={2} sm={1}>
                   <StyledBadge
@@ -311,8 +313,8 @@ class Comments extends Component {
                       src="/static/images/avatar/1.jpg"
                     />
                   </Grid>
-                  <Grid item xs={10} sm={11} className={classes.commentBubble}>
-                    <Card elevation={2}>
+                  <Grid item xs={10} sm={11}>
+                    <Card elevation={2} className={classes.commentBubble}>
                       <CardActionArea>
                         <CardContent>
                           <Typography className={classes.nameBubble}>

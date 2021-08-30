@@ -1,7 +1,6 @@
 import axios from "axios";
-import AuthenticationService from "../components/security/AuthenticationService";
 
-// const BASE_URL = "http://kostasvidalis.eu:8082/api";
+// const BASE_URL = "http://stergiosgk.xyz:8082/api";
 const BASE_URL = "http://localhost:8082/api";
 
 const instance = axios.create({
@@ -9,10 +8,9 @@ const instance = axios.create({
   baseURL: BASE_URL,
 });
 
-
 const api = {
   getCategories: () => {
-    return instance.get(`/categories/`);
+    return instance.get(`/categories`);
   },
   saveCategory: (category) => {
     return instance.post(`/categories`, category);
@@ -36,11 +34,11 @@ const api = {
     return instance.post(`/register`, payload);
   },
   login: (username, password) => {
-    return instance.post(`/login`,{username:username,password:password})
+    return instance.post(`/login`, { username: username, password: password });
   },
   logout: () => {
-    return instance.get(`/logout`)
-  }
+    return instance.get(`/logout`);
+  },
 };
 
-export { api , BASE_URL };
+export { api, BASE_URL };

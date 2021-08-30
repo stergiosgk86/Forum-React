@@ -14,8 +14,10 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Avatar,
 } from "@material-ui/core";
 import "./Posts.css";
+import AuthenticationService from "../security/AuthenticationService";
 
 const styles = (theme) => ({
   root: {
@@ -68,6 +70,7 @@ class Posts extends Component {
       categoryId: forumSession.category.getId(),
       posts: [],
       userId: forumSession.user.getId(),
+      username: AuthenticationService.getLoggedInUserName(),
     };
     this.submitLike = this.submitLike.bind(this);
   }
@@ -173,12 +176,10 @@ class Posts extends Component {
                           </Typography>
                         </Grid>
                         <Grid container py={2} component={Box}>
-                          <Grid
-                            item
-                            component={Box}
-                            borderRadius="50%"
-                            className="user-photo"
-                          ></Grid>
+                        <Avatar
+                          alt={post.username}
+                          src="/static/images/avatar/1.jpg"
+                        />
                           <Grid item component={Box}>
                             <Grid container component={Box} px={2}>
                               <Grid

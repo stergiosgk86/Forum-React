@@ -19,11 +19,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Alert from "@material-ui/lab/Alert";
 import AuthenticationService from "../security/AuthenticationService";
 import { api } from "../../utils/Api";
-// import Input from "../controls/Input";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+// import Input from "../controls/Input";
 // import Notification from "../Notification/Notification";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,28 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const schema = yup.object().shape({
-  username: yup.string().trim().required("Username is required."),
-  password: yup
-    .string()
-    .required("Password is required.")
-    .min(4, "The password must be at least 4 characters long."),
-});
-
 const Login = () => {
   const [values, setValues] = useState({
     username: "",
     password: "",
     // showPassword: false,
   });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: "all",
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit } = useForm({});
 
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -77,11 +60,9 @@ const Login = () => {
   const classes = useStyles();
 
   const loginClicked = (values) => {
-
     api
       .login(values.username, values.password)
       .then((res) => {
-
         AuthenticationService.successfulLogin(
           res.data.username,
           res.data.roles
@@ -177,8 +158,6 @@ const Login = () => {
               margin="normal"
               {...register("username")}
               onKeyPress={keypress}
-              error={Boolean(errors.username)}
-              helperText={errors?.username?.message}
             />
 
             <TextField
@@ -192,8 +171,6 @@ const Login = () => {
               margin="normal"
               {...register("password")}
               onKeyPress={keypress}
-              error={Boolean(errors.password)}
-              helperText={errors?.password?.message}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

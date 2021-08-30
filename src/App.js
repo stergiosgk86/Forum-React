@@ -24,7 +24,7 @@ function App() {
         <Scrolltopbtn />
         <Navigationbar />
         <Switch>
-          <AuthenticatedRoute path="/" exact component={Home} />
+          <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Login} />
           <Route path="/register" exact component={Register} />
           <AuthenticatedRoute
