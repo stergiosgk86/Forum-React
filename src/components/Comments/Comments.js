@@ -21,6 +21,7 @@ import {
   Badge,
 } from "@material-ui/core";
 import AuthenticationService from "../security/AuthenticationService";
+import { Favorite } from "@material-ui/icons";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -62,7 +63,10 @@ const styles = (theme) => ({
   chat: {
     paddingTop: theme.spacing(2),
   },
-  avatar: {},
+  avatar: {
+    display: "flex",
+    alignItems: "center",
+  },
   nameBubble: {
     fontSize: "0.9rem",
     fontWeight: 700,
@@ -205,10 +209,12 @@ class Comments extends Component {
                 </Typography>
               </Grid>
               <Grid container py={2} component={Box}>
-                <Avatar
-                  alt={this.state.post.username}
-                  src="/static/images/avatar/1.jpg"
-                />
+                <Grid className={classes.avatar}>
+                  <Avatar
+                    alt={this.state.post.username}
+                    src="/static/images/avatar/1.jpg"
+                  />
+                </Grid>
                 <Grid item component={Box}>
                   <Grid container component={Box} px={2}>
                     <Grid container component={Box} className={classes.name}>
@@ -246,7 +252,7 @@ class Comments extends Component {
                 className={classes.likesComments}
               >
                 <Typography variant="body2">
-                  {this.state.likes} <i className="fas fa-heart"></i>
+                  {this.state.likes} <Favorite color="error" />
                 </Typography>
 
                 <Typography variant="body2">

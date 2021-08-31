@@ -12,12 +12,9 @@ import {
   Grid,
   Paper,
   Hidden,
-  Dialog,
-  CircularProgress,
-  DialogTitle,
-  DialogContent,
 } from "@material-ui/core";
 import "./Home.css";
+import SkeletonCategories from "../../skeletons/SkeletonCategories";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -74,6 +71,10 @@ const Home = () => {
       fontSize: "1rem",
       fontWeight: 700,
     },
+    media: {
+      height: 90,
+      borderRadius: 10,
+    },
   }));
 
   const classes = useStyles();
@@ -81,13 +82,7 @@ const Home = () => {
   return (
     <>
       <div className="forum-image"></div>
-      <Container
-        maxWidth="lg"
-        fixed={true}
-        component={Box}
-        p={2}
-        className="animated fadeInUp"
-      >
+      <Container maxWidth="lg" fixed={true} component={Box} p={2}>
         <Paper className={classes.header}>
           <Grid container>
             <Grid item xs={12} sm={6}>
@@ -142,151 +137,137 @@ const Home = () => {
         </Paper>
       </Container>
 
-      {loading && (
-        <Dialog
-          open
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <Grid
-            container
-            component={Box}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <DialogContent>
-              <CircularProgress color="inherit" />
-            </DialogContent>
-            <DialogTitle id="alert-dialog-title">Please wait...</DialogTitle>
-          </Grid>
-        </Dialog>
-      )}
-      {!loading && (
-        <>
-          {currentCategories.map((category) => (
-            <Container
-              maxWidth="lg"
-              fixed={true}
-              component={Box}
-              pb={2}
-              key={category.id}
-              className="animated fadeInUp"
-            >
-              <Paper className={classes.paper} elevation={10}>
-                <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    component={Box}
-                    className={classes.border}
-                    className="seperate"
-                  >
-                    <Typography variant="h5" noWrap={true}>
-                      <Link
-                        to="/posts"
-                        onClick={() =>
-                          forumSession.category.saveId(category.id)
-                        }
-                        className="link text-decoration-none"
-                      >
-                        {category.title}
-                      </Link>
-                    </Typography>
-                    <Typography
-                      className={classes.description}
-                      variant="subtitle1"
-                      noWrap={true}
+      <>
+        {loading ? (
+          <SkeletonCategories />
+        ) : (
+          <>
+            {currentCategories.map((category) => (
+              <Container
+                maxWidth="lg"
+                fixed={true}
+                component={Box}
+                pb={2}
+                key={category.id}
+                className="animated fadeInUp"
+              >
+                <Paper className={classes.paper} elevation={10}>
+                  <Grid container>
+                    <Grid
+                      item
+                      xs={12}
+                      md={6}
+                      component={Box}
+                      className={classes.border}
+                      className="seperate"
                     >
-                      {category.description}
-                    </Typography>
-                  </Grid>
-                  <Hidden smDown>
-                    <Grid container item xs={6}>
-                      <Grid
-                        container
-                        item
-                        xs={3}
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        component={Box}
-                        className={classes.border}
+                      <Typography variant="h5" noWrap={true}>
+                        <Link
+                          to="/posts"
+                          onClick={() =>
+                            forumSession.category.saveId(category.id)
+                          }
+                          className="link text-decoration-none"
+                        >
+                          {category.title}
+                        </Link>
+                      </Typography>
+                      <Typography
+                        className={classes.description}
+                        variant="subtitle1"
+                        noWrap={true}
                       >
-                        <Typography variant="h6">
-                          {category.numPosts}
-                        </Typography>
-                      </Grid>
-                      <Grid
-                        container
-                        item
-                        xs={3}
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        component={Box}
-                        className={classes.border}
-                      >
-                        <Typography variant="h6">
-                          {category.numComments}
-                        </Typography>
-                      </Grid>
-                      <Grid
-                        container
-                        item
-                        xs={6}
-                        display="flex"
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        component={Box}
-                      >
-                        {category.lastComment ? (
-                          <>
-                            <Grid item>
-                              <Typography
-                                className={classes.description}
-                                variant="subtitle1"
-                              >
-                                {moment(
-                                  category?.lastComment?.dateCreated
-                                ).fromNow()}
-                              </Typography>
-                            </Grid>
-                            <Grid item>
-                              <Typography
-                                className="text-capitalize"
-                                variant="h6"
-                              >
-                                {category?.lastComment?.username}
-                              </Typography>
-                            </Grid>
-                          </>
-                        ) : (
-                          <Grid
-                            container
-                            item
-                            xs={8}
-                            display="flex"
-                            direction="column"
-                            justifyContent="center"
-                            alignItems="center"
-                            component={Box}
-                          >
-                            <Typography variant="h6" align="center">
-                              No Comments
-                            </Typography>
-                          </Grid>
-                        )}
-                      </Grid>
+                        {category.description}
+                      </Typography>
                     </Grid>
-                  </Hidden>
-                </Grid>
-              </Paper>
-            </Container>
-          ))}
-        </>
-      )}
+                    <Hidden smDown>
+                      <Grid container item xs={6}>
+                        <Grid
+                          container
+                          item
+                          xs={3}
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          component={Box}
+                          className={classes.border}
+                        >
+                          <Typography variant="h6">
+                            {category.numPosts}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          item
+                          xs={3}
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          component={Box}
+                          className={classes.border}
+                        >
+                          <Typography variant="h6">
+                            {category.numComments}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          item
+                          xs={6}
+                          display="flex"
+                          direction="column"
+                          justifyContent="center"
+                          alignItems="center"
+                          component={Box}
+                        >
+                          {category.lastComment ? (
+                            <>
+                              <Grid item>
+                                <Typography
+                                  className={classes.description}
+                                  variant="subtitle1"
+                                >
+                                  {moment(
+                                    category?.lastComment?.dateCreated
+                                  ).fromNow()}
+                                </Typography>
+                              </Grid>
+                              <Grid item>
+                                <Typography
+                                  className="text-capitalize"
+                                  variant="h6"
+                                >
+                                  {category?.lastComment?.username}
+                                </Typography>
+                              </Grid>
+                            </>
+                          ) : (
+                            <Grid
+                              container
+                              item
+                              xs={8}
+                              display="flex"
+                              direction="column"
+                              justifyContent="center"
+                              alignItems="center"
+                              component={Box}
+                            >
+                              <Typography variant="h6" align="center">
+                                No Comments
+                              </Typography>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </Hidden>
+                  </Grid>
+                </Paper>
+              </Container>
+            ))}
+          </>
+        )}
+      </>
+
       <Container
         className="animated fadeInUp"
         maxWidth="lg"

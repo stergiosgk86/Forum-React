@@ -10,14 +10,12 @@ import {
   Typography,
   Grid,
   Paper,
-  CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Avatar,
 } from "@material-ui/core";
 import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
+import { CameraAlt, Favorite } from "@material-ui/icons";
+import SkeletonPosts from "../../skeletons/SkeletonPosts";
 
 const styles = (theme) => ({
   root: {
@@ -26,6 +24,10 @@ const styles = (theme) => ({
   paper: {
     padding: theme.spacing(2),
     borderRadius: 10,
+  },
+  avatar: {
+    display: "flex",
+    alignItems: "center",
   },
   postTitle: {
     fontSize: "1rem",
@@ -122,27 +124,9 @@ class Posts extends Component {
           </Link>
         </div>
 
-        {this.state.loading && (
-          <Dialog
-            open
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <Grid
-              container
-              component={Box}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <DialogContent>
-                <CircularProgress color="inherit" />
-              </DialogContent>
-              <DialogTitle id="alert-dialog-title">Please wait...</DialogTitle>
-            </Grid>
-          </Dialog>
-        )}
-
-        {!this.state.loading && (
+        {this.state.loading ? (
+          <SkeletonPosts />
+        ) : (
           <>
             {this.state.posts.length ? (
               <>
@@ -151,7 +135,6 @@ class Posts extends Component {
                     component={Box}
                     py={3}
                     key={post.id}
-                    className="animated fadeInUp"
                     style={{ maxWidth: "750px" }}
                   >
                     <Paper className={classes.paper} elevation={10}>
@@ -176,10 +159,12 @@ class Posts extends Component {
                           </Typography>
                         </Grid>
                         <Grid container py={2} component={Box}>
-                        <Avatar
-                          alt={post.username}
-                          src="/static/images/avatar/1.jpg"
-                        />
+                          <Grid className={classes.avatar}>
+                            <Avatar
+                              alt={post.username}
+                              src="/static/images/avatar/1.jpg"
+                            />
+                          </Grid>
                           <Grid item component={Box}>
                             <Grid container component={Box} px={2}>
                               <Grid
@@ -229,7 +214,7 @@ class Posts extends Component {
                           className={classes.likesComments}
                         >
                           <Typography variant="body2">
-                            {post.likes} <i className="fas fa-heart"></i>
+                            {post.likes} <Favorite color="error" />
                           </Typography>
                           <Link
                             to="/comments"
@@ -279,14 +264,21 @@ class Posts extends Component {
                 ))}
               </>
             ) : (
-              <div
-                className="container d-flex flex-column align-items-center justify-content-center"
-                style={{ minHeight: "800px" }}
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                component={Box}
+                style={{ minHeight: "700px" }}
               >
-                <h1 className="d-flex align-items-center font-italic animated bounce">
-                  No Posts!!!
-                </h1>
-              </div>
+                <Grid item>
+                  <CameraAlt style={{ fontSize: 200 }} />
+                </Grid>
+                <Grid item>
+                  <Typography variant="h3">No Posts Yet</Typography>
+                </Grid>
+              </Grid>
             )}
           </>
         )}
