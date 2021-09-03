@@ -53,6 +53,7 @@ const Login = () => {
   const { register, handleSubmit } = useForm({});
 
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
+  const [error, setError] = useState({});
   const [showSnackbar, setShowSnackbar] = useState(false);
   // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   // const [showPassword, setShowPassword] = useState(false);
@@ -68,16 +69,18 @@ const Login = () => {
           res.data.roles
         );
 
-        setHasLoginFailed(false);
-        setShowSnackbar(true);
+        // setHasLoginFailed(false);
+        // setShowSnackbar(true);
         history.push("/");
         // history.push({
         //   pathname: "/",
         //   // state: { showSnackbar: true },
         // });
       })
-      .catch(() => {
-        setHasLoginFailed(true);
+      .catch((error) => {
+        // setHasLoginFailed(true);
+        // setShowSnackbar(true);
+        setError(error);
         setShowSnackbar(true);
       });
   };
@@ -111,7 +114,7 @@ const Login = () => {
         </Typography>
         <div className={classes.form}>
           <form onSubmit={handleSubmit(loginClicked)}>
-            {hasLoginFailed ? (
+            {/* {hasLoginFailed ? ( */}
               <Snackbar
                 open={showSnackbar}
                 autoHideDuration={6000}
@@ -124,11 +127,10 @@ const Login = () => {
                   elevation={10}
                   variant="filled"
                 >
-                  Wrong credentials! The Username or Password you have entered
-                  is incorrect. Please try again
+                  {error}
                 </Alert>
               </Snackbar>
-            ) : (
+            {/* ) : (
               <Snackbar
                 open={showSnackbar}
                 autoHideDuration={6000}
@@ -144,7 +146,7 @@ const Login = () => {
                   You have successfully logged in!
                 </Alert>
               </Snackbar>
-            )}
+            )} */}
 
             <TextField
               autoFocus
@@ -206,12 +208,19 @@ const Login = () => {
             <Grid container>
               <Grid item xs>
                 <NavLink to="#" variant="body2">
-                  Forgot password?
+                  <Typography variant="button">
+                    Forgot password?
+                  </Typography>
                 </NavLink>
               </Grid>
               <Grid item>
-                <NavLink to="/register" variant="body2">
-                  Don't have an account? Sign Up
+                <Typography variant="caption">
+                  Don't have an account? 
+                </Typography>
+                <NavLink to="/register">
+                  <Typography variant="button">
+                   Sign Up
+                  </Typography>
                 </NavLink>
               </Grid>
             </Grid>

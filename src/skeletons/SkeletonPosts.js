@@ -30,14 +30,14 @@ const SkeletonPosts = () => {
       <Container component={Box} py={3} style={{ maxWidth: "750px" }}>
         <Card>
           <Grid
-            item
+            container
             className={classes.header}
             component={Box}
             display="flex"
             justifyContent="center"
             alignItems="center"
           >
-            <Skeleton animation="wave" height={10} width="40%" />
+            <Skeleton animation="wave" height={15} width="40%" />
           </Grid>
           <CardHeader
             title={

@@ -10,6 +10,7 @@ import {
   IconButton,
   InputAdornment,
   makeStyles,
+  Snackbar,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -18,6 +19,7 @@ import { api } from "../../utils/Api";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -72,7 +74,8 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
   const [showSnackbar, setShowSnackbar] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [error, setError] = useState({});
   const history = useHistory();
   const classes = useStyles();
 
@@ -84,9 +87,15 @@ const Register = () => {
     api
       .register(signUpRequest)
       .then((response) => {
-        history.push("/login");
+        // history.push("/login");
+        // history.push({
+        //   pathname: "/login",
+        //   state: { showSnackbar: true },
+        // });
       })
       .catch((error) => {
+        setError(error);
+        setShowSnackbar(true);
       });
   };
 
@@ -109,6 +118,23 @@ const Register = () => {
 
   return (
     <Container component="main" maxWidth="xs">
+      
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          elevation={10}
+          variant="filled"
+        >
+          {error}
+        </Alert>
+      </Snackbar>
+
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -225,9 +251,13 @@ const Register = () => {
             <Grid container>
               <Grid item xs>
                 <div className="login-link">
-                  Already have an account?
+                <Typography variant="caption">
+                  Already have an account? 
+                </Typography>
                   <NavLink to="/login" variant="body2">
+                  <Typography variant="button">
                     Login!
+                  </Typography>
                   </NavLink>
                 </div>
               </Grid>
