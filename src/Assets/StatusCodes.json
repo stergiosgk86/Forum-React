@@ -1,0 +1,18 @@
+[
+  { "USERNAME_ALREADY_EXISTS": "Username already exists. Please try with another one." },
+  { "EMAIL_ALREADY_EXISTS": "Email already exists. Please try with another one." },
+  { "CATEGORY_CREATION_ERROR": "3" },
+  { "USER_NOT_FOUND": "das" },
+  { "REGISTRATION_ERROR": "das" },
+  { "USER_DISABLED": "das" },
+  { "INVALID_CREDENTIALS": "das" },
+  { "SAVE_IMAGE_ERROR": "das" },
+  { "SAVE_POST_ERROR": "das" },
+  { "SUBMIT_LIKE_ERROR": "das" },
+  { "GENERIC_ERROR": "das" },
+  { "SAVE_COMMENT_ERROR": "das" },
+  { "INVALID_POST_ERROR": "das" },
+  { "INVALID_USER_ERROR": "das" },
+  { "VALIDATION_ERROR": "das" },
+  { "UNAUTHORIZED_": "" }
+]

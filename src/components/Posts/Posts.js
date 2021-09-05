@@ -1,19 +1,80 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { api } from "../../utils/Api";
+import { api, BASE_URL } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import moment from "moment";
+import {
+  withStyles,
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  Avatar,
+} from "@material-ui/core";
 import "./Posts.css";
+import AuthenticationService from "../security/AuthenticationService";
+import { CameraAlt, Favorite } from "@material-ui/icons";
+import SkeletonPosts from "../../skeletons/SkeletonPosts";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    borderRadius: 10,
+  },
+  avatar: {
+    display: "flex",
+    alignItems: "center",
+  },
+  postTitle: {
+    fontSize: "1rem",
+    fontWeight: 700,
+    padding: theme.spacing(1),
+  },
+  name: {
+    fontSize: "0.9rem",
+    fontWeight: 700,
+    textTransform: "capitalize",
+    paddingBottom: "10px",
+  },
+  date: {
+    fontSize: "0.8rem",
+    fontWeight: 500,
+    opacity: 0.6,
+  },
+  likesComments: {
+    padding: theme.spacing(1),
+    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
+  },
+  likeCommentBtn: {
+    padding: theme.spacing(1),
+    paddingTop: "20px",
+    paddingLeft: "30px",
+    paddingRight: "30px",
+  },
+  description: {
+    padding: theme.spacing(2),
+    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
+  },
+  border: {
+    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
+  },
+});
 
 class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShow: true,
       loading: true,
       categoryId: forumSession.category.getId(),
       posts: [],
       userId: forumSession.user.getId(),
+      username: AuthenticationService.getLoggedInUserName(),
     };
     this.submitLike = this.submitLike.bind(this);
   }
@@ -25,12 +86,12 @@ class Posts extends Component {
       .then((res) => {
         this.setState((state) => {
           state.posts = res.data;
-          state.loading = true;
+          state.loading = false;
           return { state };
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
 
@@ -54,90 +115,178 @@ class Posts extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <>
         <div className="text-center position-sticky fixed-top sticky">
-          <Link to="/createposts" className="btn btn-success">
+          <Link to="/createposts" className="btn btn-grad">
             <i className="fas fa-plus-square pr-2"></i>
             Add Post
           </Link>
         </div>
-        {this.state.posts.length ? (
-          <>
-            {this.state.posts.map((post) => (
-              <div
-                className="post-box mb-5 rounded shadow-lg mt-5 animated fadeInUp"
-                key={post.id}
-              >
-                <div className="post-title py-2 text-center font-weight-bold border-bottom">
-                  {post.title}
-                </div>
-                <div className="post-header p-3 row">
-                  <div className="user-photo mr-3 border rounded-circle"></div>
-                  <div className="">
-                    <div className="mb-2 text-capitalize font-weight-bold">
-                      {post.username}
-                    </div>
-                    <div className="postDateCreated">
-                      {moment(post.dateCreated).format(
-                        "MMMM D,YYYY, h:mm:ss a"
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="post-description p-3 border-bottom">
-                  {post.description}
-                </div>
-                <div className="post-photo container">
-                  {post.image ? (
-                    <img alt="" src={`data:image/jpeg;base64,${post.image}`} />
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="container post-footer d-flex justify-content-between px-4 py-2">
-                  <div className="text-secondary">
-                    {post.likes} <i className="fas fa-heart"></i>
-                  </div>
-                  <div className="text-secondary">
-                    {post.numComments} Comments
-                  </div>
-                </div>
-                <div className="container border-top d-flex justify-content-between px-5 py-3">
-                  <div
-                    id="like"
-                    className="likeCommentBtn"
-                    onClick={() => {
-                      this.submitLike(post.id);
-                    }}
-                  >
-                    <i className="far fa-thumbs-up"></i> Like
-                  </div>
-                  <Link
-                    to="/comments"
-                    onClick={() => {
-                      forumSession.post.saveId(post.id);
-                    }}
-                    className="likeCommentBtn"
-                  >
-                    <div className="">
-                      <i className="far fa-comment"></i> Comment
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </>
+
+        {this.state.loading ? (
+          <SkeletonPosts />
         ) : (
-          <div className="pt-5 mt-5">
-            <h1 className="container text-center text-uppercase font-weight-bold">
-              No Posts
-            </h1>
-          </div>
+          <>
+            {this.state.posts.length ? (
+              <>
+                {this.state.posts.map((post) => (
+                  <Container
+                    component={Box}
+                    py={3}
+                    key={post.id}
+                    style={{ maxWidth: "750px" }}
+                  >
+                    <Paper className={classes.paper} elevation={10}>
+                      <Grid
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        component={Box}
+                      >
+                        <Grid
+                          container
+                          justifyContent="center"
+                          component={Box}
+                          className={classes.border}
+                        >
+                          <Typography
+                            variant="inherit"
+                            className={classes.postTitle}
+                          >
+                            {post.title}
+                          </Typography>
+                        </Grid>
+                        <Grid container py={2} component={Box}>
+                          <Grid className={classes.avatar}>
+                            <Avatar
+                              alt=""
+                              src=""
+                            >{post.username.charAt(0)}</Avatar>
+                          </Grid>
+                          <Grid item component={Box}>
+                            <Grid container component={Box} px={2}>
+                              <Grid
+                                container
+                                component={Box}
+                                className={classes.name}
+                              >
+                                {post.username}
+                              </Grid>
+                              <Grid
+                                container
+                                component={Box}
+                                className={classes.date}
+                              >
+                                {moment(post.dateCreated).format(
+                                  "MMMM D,YYYY, h:mm:ss a"
+                                )}
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid
+                          container
+                          component={Box}
+                          justifyContent="flex-start"
+                          className={classes.description}
+                        >
+                          <Typography variant="body2">
+                            {post.description}
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          {post.imageUrl ? (
+                            <LazyLoadImage
+                              alt=""
+                              effect="blur"
+                              src={`${BASE_URL}/${post.imageUrl}`}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </Grid>
+                        <Grid
+                          container
+                          component={Box}
+                          justifyContent="space-between"
+                          className={classes.likesComments}
+                        >
+                          <Typography variant="body2">
+                            {post.likes} <Favorite color="error" />
+                          </Typography>
+                          <Link
+                            to="/comments"
+                            onClick={() => {
+                              forumSession.post.saveId(post.id);
+                            }}
+                            className="likeCommentBtn"
+                          >
+                            <Typography variant="body2">
+                              {post.numComments} Comments
+                            </Typography>
+                          </Link>
+                        </Grid>
+                        <Grid
+                          container
+                          component={Box}
+                          justifyContent="space-between"
+                          className={classes.likeCommentBtn}
+                        >
+                          <Typography
+                            variant="inherit"
+                            className="likeCommentBtn"
+                            onClick={() => {
+                              this.submitLike(post.id);
+                            }}
+                          >
+                            <i className="far fa-thumbs-up"></i> Like
+                          </Typography>
+                          <Link
+                            to="/comments"
+                            onClick={() => {
+                              forumSession.post.saveId(post.id);
+                            }}
+                            className="likeCommentBtn"
+                          >
+                            <Typography
+                              variant="inherit"
+                              className="likeCommentBtn"
+                            >
+                              <i className="far fa-comment"></i> Comment
+                            </Typography>
+                          </Link>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Container>
+                ))}
+              </>
+            ) : (
+              <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                component={Box}
+                style={{ minHeight: "700px" }}
+              >
+                <Grid item>
+                  <CameraAlt style={{ fontSize: 200 }} />
+                </Grid>
+                <Grid item>
+                  <Typography variant="h3">No Posts Yet</Typography>
+                </Grid>
+              </Grid>
+            )}
+          </>
         )}
       </>
     );
   }
 }
 
-export default Posts;
+export default withStyles(styles)(Posts);

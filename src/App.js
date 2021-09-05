@@ -1,3 +1,4 @@
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import CreateCategories from "./components/CreateCategories/CreateCategories";
@@ -8,27 +9,41 @@ import Navigationbar from "./components/Navigationbar/Navigationbar";
 import NotFound from "./components/NotFound/NotFound";
 import Scrolltopbtn from "./components/Scrolltopbtn/Scrolltopbtn";
 import Footer from "./components/Footer/Footer";
+import Paper from "@material-ui/core/Paper";
 import "./App.css";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 function App() {
   return (
-    <>
-      <div className="page-container">
-        <div className="content-wrap">
-          <Scrolltopbtn />
-          <Navigationbar />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/createcategories" exact component={CreateCategories}/>
-            <Route path="/createposts" exact component={CreatePosts} />
-            <Route path="/posts" exact component={Posts} />
-            <Route path="/comments" exact component={Comments} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-        <Footer />
+    <Paper className="page-container">
+      <CssBaseline />
+      <div className="content-wrap">
+        <Scrolltopbtn />
+        <Navigationbar />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
+          <AuthenticatedRoute
+            path="/createcategories"
+            exact
+            component={CreateCategories}
+          />
+          <AuthenticatedRoute
+            path="/createposts"
+            exact
+            component={CreatePosts}
+          />
+          <AuthenticatedRoute path="/posts" exact component={Posts} />
+          <AuthenticatedRoute path="/comments" exact component={Comments} />
+          <Route component={NotFound} />
+        </Switch>
       </div>
-    </>
+      <Footer />
+    </Paper>
   );
 }
 

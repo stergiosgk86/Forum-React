@@ -1,28 +1,44 @@
 import axios from "axios";
+
+// const BASE_URL = "http://stergiosgk.xyz:8082/api";
 const BASE_URL = "http://localhost:8082/api";
+
+const instance = axios.create({
+  withCredentials: true,
+  baseURL: BASE_URL,
+});
 
 const api = {
   getCategories: () => {
-    return axios.get(`${BASE_URL}/categories/`);
+    return instance.get(`/categories`);
   },
   saveCategory: (category) => {
-    return axios.post(`${BASE_URL}/categories`, category);
+    return instance.post(`/categories`, category);
   },
   getCategoryPosts: (categoryId) => {
-    return axios.get(`${BASE_URL}/categories/${categoryId}/posts`);
+    return instance.get(`/categories/${categoryId}/posts`);
   },
   savePost: (categoryId, post) => {
-    return axios.post(`${BASE_URL}/categories/${categoryId}/posts`, post);
+    return instance.post(`/categories/${categoryId}/posts`, post);
   },
   getPostComments: (postId) => {
-    return axios.get(`${BASE_URL}/posts/${postId}/comments`);
+    return instance.get(`/posts/${postId}/comments`);
   },
   submitLike: (postId, userId) => {
-    return axios.post(`${BASE_URL}/posts/${postId}/${userId}/likes`);
+    return instance.post(`/posts/${postId}/${userId}/likes`);
   },
   saveComment: (postId, payload) => {
-    return axios.post(`${BASE_URL}/posts/${postId}/comments`, payload);
+    return instance.post(`/posts/${postId}/comments`, payload);
+  },
+  register: (payload) => {
+    return instance.post(`/register`, payload);
+  },
+  login: (username, password) => {
+    return instance.post(`/login`, { username: username, password: password });
+  },
+  logout: () => {
+    return instance.get(`/logout`);
   },
 };
 
-export { api };
+export { api, BASE_URL, instance };
