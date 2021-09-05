@@ -18,6 +18,7 @@ const ErrorHandler = () => {
       return response;
     },
     (error) => {
+
       if (error.response.status === 403) {
         history.push("/login");
       } else if (error.response.status === 401) {
