@@ -10,19 +10,16 @@ import {
   Box,
   Typography,
   Container,
-  Snackbar,
   InputAdornment,
   IconButton,
   TextField,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Alert from "@material-ui/lab/Alert";
 import AuthenticationService from "../security/AuthenticationService";
 import { api } from "../../utils/Api";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
-// import Input from "../controls/Input";
-// import Notification from "../Notification/Notification";
+import { successToast } from "../../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,15 +45,9 @@ const Login = () => {
   const [values, setValues] = useState({
     username: "",
     password: "",
-    // showPassword: false,
   });
   const { register, handleSubmit } = useForm({});
 
-  const [hasLoginFailed, setHasLoginFailed] = useState(false);
-  const [error, setError] = useState({});
-  const [showSnackbar, setShowSnackbar] = useState(false);
-  // const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  // const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
   const classes = useStyles();
 
@@ -68,30 +59,15 @@ const Login = () => {
           res.data.username,
           res.data.roles
         );
-
-        // setHasLoginFailed(false);
-        // setShowSnackbar(true);
+        successToast("Congratulations! You have been successfully logged in");
         history.push("/");
-        // history.push({
-        //   pathname: "/",
-        //   // state: { showSnackbar: true },
-        // });
       })
-      .catch((error) => {
-        // setHasLoginFailed(true);
-        // setShowSnackbar(true);
-        setError(error);
-        setShowSnackbar(true);
-      });
+      .catch((error) => {});
   };
 
   const keypress = (e) => {
     if (e.key === "Enter") {
     }
-  };
-
-  const handleClose = () => {
-    setShowSnackbar(false);
   };
 
   const handleClickShowPassword = () => {
@@ -104,7 +80,6 @@ const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      {/* <Notification notify={notify} setNotify={setNotify} /> */}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -114,40 +89,6 @@ const Login = () => {
         </Typography>
         <div className={classes.form}>
           <form onSubmit={handleSubmit(loginClicked)}>
-            {/* {hasLoginFailed ? ( */}
-              <Snackbar
-                open={showSnackbar}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              >
-                <Alert
-                  onClose={handleClose}
-                  severity="error"
-                  elevation={10}
-                  variant="filled"
-                >
-                  {error}
-                </Alert>
-              </Snackbar>
-            {/* ) : (
-              <Snackbar
-                open={showSnackbar}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              >
-                <Alert
-                  onClose={handleClose}
-                  severity="success"
-                  elevation={10}
-                  variant="filled"
-                >
-                  You have successfully logged in!
-                </Alert>
-              </Snackbar>
-            )} */}
-
             <TextField
               autoFocus
               fullWidth
@@ -208,19 +149,15 @@ const Login = () => {
             <Grid container>
               <Grid item xs>
                 <NavLink to="#" variant="body2">
-                  <Typography variant="button">
-                    Forgot password?
-                  </Typography>
+                  <Typography variant="button">Forgot password?</Typography>
                 </NavLink>
               </Grid>
               <Grid item>
                 <Typography variant="caption">
-                  Don't have an account? 
+                  Don't have an account?
                 </Typography>
                 <NavLink to="/register">
-                  <Typography variant="button">
-                   Sign Up
-                  </Typography>
+                  <Typography variant="button">Sign Up</Typography>
                 </NavLink>
               </Grid>
             </Grid>
