@@ -16,6 +16,8 @@ import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
 import { CameraAlt, Favorite } from "@material-ui/icons";
 import SkeletonPosts from "../../skeletons/SkeletonPosts";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const styles = (theme) => ({
   root: {
@@ -161,9 +163,9 @@ class Posts extends Component {
                         <Grid container py={2} component={Box}>
                           <Grid className={classes.avatar}>
                             <Avatar
-                              alt={post.username}
-                              src="/static/images/avatar/1.jpg"
-                            />
+                              alt=""
+                              src=""
+                            >{post.username.charAt(0)}</Avatar>
                           </Grid>
                           <Grid item component={Box}>
                             <Grid container component={Box} px={2}>
@@ -198,9 +200,9 @@ class Posts extends Component {
                         </Grid>
                         <Grid item>
                           {post.imageUrl ? (
-                            <img
+                            <LazyLoadImage
                               alt=""
-                              async
+                              effect="blur"
                               src={`${BASE_URL}/${post.imageUrl}`}
                             />
                           ) : (

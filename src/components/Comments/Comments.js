@@ -22,6 +22,8 @@ import {
 } from "@material-ui/core";
 import AuthenticationService from "../security/AuthenticationService";
 import { Favorite } from "@material-ui/icons";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -211,9 +213,9 @@ class Comments extends Component {
               <Grid container py={2} component={Box}>
                 <Grid className={classes.avatar}>
                   <Avatar
-                    alt={this.state.post.username}
-                    src="/static/images/avatar/1.jpg"
-                  />
+                    alt=""
+                    src=""
+                  >{this.state.post.username?.charAt(0)}</Avatar>
                 </Grid>
                 <Grid item component={Box}>
                   <Grid container component={Box} px={2}>
@@ -240,7 +242,7 @@ class Comments extends Component {
               </Grid>
               <Grid item>
                 {this.state.post.imageUrl ? (
-                  <img alt="" src={`${BASE_URL}/${this.state.post.imageUrl}`} />
+                  <LazyLoadImage alt="" effect="blur" src={`${BASE_URL}/${this.state.post.imageUrl}`} />
                 ) : (
                   ""
                 )}
@@ -277,9 +279,9 @@ class Comments extends Component {
                     variant="dot"
                   >
                     <Avatar
-                      alt={this.state.username}
-                      src="/static/images/avatar/1.jpg"
-                    />
+                      alt=""
+                      src=""
+                    >{this.state.username.charAt(0)}</Avatar>
                   </StyledBadge>
                 </Grid>
 
@@ -315,9 +317,9 @@ class Comments extends Component {
                 <Grid container key={comment.id} className={classes.chat}>
                   <Grid item xs={2} sm={1} className={classes.avatar}>
                     <Avatar
-                      alt={comment.username}
-                      src="/static/images/avatar/1.jpg"
-                    />
+                      alt=""
+                      src=""
+                    >{comment.username.charAt(0)}</Avatar>
                   </Grid>
                   <Grid item xs={10} sm={11}>
                     <Card elevation={2} className={classes.commentBubble}>
