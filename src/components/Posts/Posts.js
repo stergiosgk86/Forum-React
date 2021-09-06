@@ -15,7 +15,7 @@ import {
 import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
 import { CameraAlt, Favorite } from "@material-ui/icons";
-import SkeletonPosts from "../../skeletons/SkeletonPosts";
+import SkeletonPosts from "../Skeletons/SkeletonPosts";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
