@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import CreateCategories from "./components/CreateCategories/CreateCategories";
@@ -17,17 +17,21 @@ import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 function App() {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  function updateIsUserLoggedIn(isLoggedIn) {
+    setIsUserLoggedIn(isLoggedIn);
+  }
 
-  console.log("hello from stergiosgk")
+  console.log(isUserLoggedIn);
   return (
-    <Paper className="page-container">
+    <Paper className="page-container" >
       <CssBaseline />
       <div className="content-wrap">
         <Scrolltopbtn />
-        <Navigationbar />
+        <Navigationbar isUserLoggedIn={isUserLoggedIn} />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={Login} />
+          <Route path="/login" exact component={() => <Login updateIsUserLoggedIn={updateIsUserLoggedIn} />}/>
           <Route path="/register" exact component={Register} />
           <AuthenticatedRoute
             path="/createcategories"

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const BASE_URL = "http://stergiosgk.xyz:8082/api";c
+// const BASE_URL = "http://stergiosgk.xyz:8082/api";
 const BASE_URL = "http://localhost:8082/api";
 
 

@@ -1,10 +1,10 @@
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 .content-wrap {
   background-color: #ecedfc;
   flex: 1;
+  min-height: 100vh;
 }

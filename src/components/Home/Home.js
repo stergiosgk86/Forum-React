@@ -14,7 +14,7 @@ import {
   Hidden,
 } from "@material-ui/core";
 import "./Home.css";
-import SkeletonCategories from "../../skeletons/SkeletonCategories";
+import SkeletonCategories from "../Skeletons/SkeletonCategories";
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -80,7 +80,7 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <>
+    <div className="test">
       <div className="forum-image"></div>
       <Container maxWidth="lg" fixed={true} component={Box} p={2}>
         <Paper className={classes.header}>
@@ -289,7 +289,7 @@ const Home = () => {
           Add Category
         </Link>
       </Container>
-    </>
+    </div>
   );
 };
 

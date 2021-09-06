@@ -1,6 +1,6 @@
 import { errorToast } from "../Toastify/Toastify";
-import { instance } from "../utils/Api";
-import json from "../Assets/StatusCodes.json";
+import { instance } from "../../utils/Api";
+import json from "../../Assets/StatusCodes.json";
 import { useHistory } from "react-router-dom";
 
 const ErrorHandler = () => {
@@ -18,10 +18,9 @@ const ErrorHandler = () => {
       return response;
     },
     (error) => {
-
       if (error.response.status === 403) {
         history.push("/login");
-      } else if (error.response.status === 401) {
+      } else if (error.response?.status === 401) {
         errorToast(
           "Wrong credentials! The Username or Password you have entered is incorrect. Please try again"
         );

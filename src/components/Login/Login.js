@@ -19,7 +19,7 @@ import AuthenticationService from "../security/AuthenticationService";
 import { api } from "../../utils/Api";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
-import { successToast } from "../../Toastify/Toastify";
+import { successToast } from "../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,13 +41,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = ({ updateIsUserLoggedIn}) => {
   const [values, setValues] = useState({
     username: "",
     password: "",
   });
   const { register, handleSubmit } = useForm({});
-
+  
   const history = useHistory();
   const classes = useStyles();
 
@@ -59,6 +59,9 @@ const Login = () => {
           res.data.username,
           res.data.roles
         );
+      
+        updateIsUserLoggedIn(true);
+        
         successToast("Congratulations! You have been successfully logged in");
         history.push("/");
       })

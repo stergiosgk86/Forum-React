@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 import AuthenticationService from "../security/AuthenticationService";
 import logo from "../../Img/devil.png";
 
-const Navigationbar = () => {
+const Navigationbar = ({isUserLoggedIn}) => {
 
-  const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
+  
 
   return (
     <>

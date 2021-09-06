@@ -18,7 +18,7 @@ import { api } from "../../utils/Api";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { successToast } from "../../Toastify/Toastify";
+import { successToast } from "../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

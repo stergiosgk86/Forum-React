@@ -14,5 +14,5 @@
   { "INVALID_POST_ERROR": "das" },
   { "INVALID_USER_ERROR": "das" },
   { "VALIDATION_ERROR": "das" },
-  { "UNAUTHORIZED_": "" }
+  { "UNAUTHORIZED": "Wrong credentials! The Username or Password you have entered is incorrect. Please try again" }
 ]
