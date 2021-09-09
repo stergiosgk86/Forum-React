@@ -4,16 +4,18 @@ import { NavLink } from "react-router-dom";
 import AuthenticationService from "../security/AuthenticationService";
 import logo from "../../Img/devil.png";
 
-const Navigationbar = ({isUserLoggedIn}) => {
-
-  
+const Navigationbar = ({ isUserLoggedIn, updateIsUserLoggedIn }) => {
+  const logoutHandler = () => {
+    updateIsUserLoggedIn(false);
+    AuthenticationService.logout();
+  };
 
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark color-nav">
         <div className="container">
           <NavLink exact to="/" className="navbar-brand">
-            <img src={logo} alt="logo" style={{width: "80px"}} />
+            <img src={logo} alt="logo" style={{ width: "80px" }} />
           </NavLink>
           <button
             className="navbar-toggler"
@@ -84,33 +86,41 @@ const Navigationbar = ({isUserLoggedIn}) => {
               </li>
             </ul>
             {isUserLoggedIn ? (
-                                <ul className="navbar-nav">
-                                    <li className="nav-item">
-                                        <NavLink exact to="/profile" className="nav-link">Profile</NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/login" onClick={AuthenticationService.logout} className="nav-link">Logout</NavLink>
-                                    </li>
-                                </ul>
-                            ) : (
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <NavLink exact to="/login" className="nav-link">
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink exact to="/register" className="nav-link">
-                  Register
-                </NavLink>
-              </li>
-            </ul>
-             )}
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <NavLink exact to="/profile" className="nav-link">
+                    Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    to="/login"
+                    onClick={logoutHandler}
+                    className="nav-link"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
+            ) : (
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <NavLink exact to="/login" className="nav-link">
+                    Login
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink exact to="/register" className="nav-link">
+                    Register
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </nav>
     </>
   );
-}
+};
 
 export default Navigationbar;

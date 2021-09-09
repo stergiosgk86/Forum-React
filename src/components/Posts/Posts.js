@@ -11,13 +11,16 @@ import {
   Grid,
   Paper,
   Avatar,
+  Button,
 } from "@material-ui/core";
 import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
 import { CameraAlt, Favorite } from "@material-ui/icons";
+import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
+import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import SkeletonPosts from "../Skeletons/SkeletonPosts";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const styles = (theme) => ({
   root: {
@@ -53,9 +56,13 @@ const styles = (theme) => ({
   },
   likeCommentBtn: {
     padding: theme.spacing(1),
-    paddingTop: "20px",
-    paddingLeft: "30px",
-    paddingRight: "30px",
+    // paddingTop: "20px",
+    // paddingLeft: "30px",
+    // paddingRight: "30px",
+  },
+  typography: {
+    paddingLeft: theme.spacing(1),
+    fontWeight: 600,
   },
   description: {
     padding: theme.spacing(2),
@@ -162,10 +169,9 @@ class Posts extends Component {
                         </Grid>
                         <Grid container py={2} component={Box}>
                           <Grid className={classes.avatar}>
-                            <Avatar
-                              alt=""
-                              src=""
-                            >{post.username.charAt(0)}</Avatar>
+                            <Avatar alt="" src="">
+                              {post.username.charAt(0)}
+                            </Avatar>
                           </Grid>
                           <Grid item component={Box}>
                             <Grid container component={Box} px={2}>
@@ -230,21 +236,24 @@ class Posts extends Component {
                             </Typography>
                           </Link>
                         </Grid>
+
                         <Grid
                           container
                           component={Box}
                           justifyContent="space-between"
                           className={classes.likeCommentBtn}
                         >
-                          <Typography
-                            variant="inherit"
+                          <Button
                             className="likeCommentBtn"
                             onClick={() => {
                               this.submitLike(post.id);
                             }}
                           >
-                            <i className="far fa-thumbs-up"></i> Like
-                          </Typography>
+                            <Typography className={classes.typography}>
+                              <ThumbUpOutlinedIcon /> Like
+                            </Typography>
+                          </Button>
+
                           <Link
                             to="/comments"
                             onClick={() => {
@@ -252,12 +261,11 @@ class Posts extends Component {
                             }}
                             className="likeCommentBtn"
                           >
-                            <Typography
-                              variant="inherit"
-                              className="likeCommentBtn"
-                            >
-                              <i className="far fa-comment"></i> Comment
-                            </Typography>
+                            <Button className="likeCommentBtn">
+                              <Typography className={classes.typography}>
+                                <ChatBubbleOutlineOutlinedIcon /> Comment
+                              </Typography>
+                            </Button>
                           </Link>
                         </Grid>
                       </Grid>

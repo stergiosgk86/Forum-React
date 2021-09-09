@@ -15,23 +15,34 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import AuthenticationService from "./components/security/AuthenticationService";
 
-function App() {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  function updateIsUserLoggedIn(isLoggedIn) {
+const App = () => {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+    AuthenticationService.isUserLoggedIn()
+  );
+  const updateIsUserLoggedIn = (isLoggedIn) => {
     setIsUserLoggedIn(isLoggedIn);
-  }
+  };
 
-  console.log(isUserLoggedIn);
   return (
-    <Paper className="page-container" >
+    <Paper className="page-container">
       <CssBaseline />
       <div className="content-wrap">
         <Scrolltopbtn />
-        <Navigationbar isUserLoggedIn={isUserLoggedIn} />
+        <Navigationbar
+          isUserLoggedIn={isUserLoggedIn}
+          updateIsUserLoggedIn={updateIsUserLoggedIn}
+        />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={() => <Login updateIsUserLoggedIn={updateIsUserLoggedIn} />}/>
+          <Route
+            path="/login"
+            exact
+            component={() => (
+              <Login updateIsUserLoggedIn={updateIsUserLoggedIn} />
+            )}
+          />
           <Route path="/register" exact component={Register} />
           <AuthenticatedRoute
             path="/createcategories"
@@ -51,6 +62,6 @@ function App() {
       <Footer />
     </Paper>
   );
-}
+};
 
 export default App;

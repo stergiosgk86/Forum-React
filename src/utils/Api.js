@@ -3,7 +3,6 @@ import axios from "axios";
 // const BASE_URL = "http://stergiosgk.xyz:8082/api";
 const BASE_URL = "http://localhost:8082/api";
 
-
 const instance = axios.create({
   withCredentials: true,
   baseURL: BASE_URL,
@@ -19,8 +18,8 @@ const api = {
   getCategoryPosts: (categoryId) => {
     return instance.get(`/categories/${categoryId}/posts`);
   },
-  savePost: (categoryId, post) => {
-    return instance.post(`/categories/${categoryId}/posts`, post);
+  savePost: (categoryId, post, options) => {
+    return instance.post(`/categories/${categoryId}/posts`, post, options);
   },
   getPostComments: (postId) => {
     return instance.get(`/posts/${postId}/comments`);

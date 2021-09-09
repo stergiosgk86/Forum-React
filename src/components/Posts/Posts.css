@@ -8,6 +8,8 @@ img {
     color: black;
     font-weight: bold;
     font-size: 17px;
+    outline: none!important;
+    text-transform: none!important;
 }
 
 .likeCommentBtn:hover {

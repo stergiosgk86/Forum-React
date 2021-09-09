@@ -2,6 +2,8 @@ import { errorToast } from "../Toastify/Toastify";
 import { instance } from "../../utils/Api";
 import json from "../../Assets/StatusCodes.json";
 import { useHistory } from "react-router-dom";
+import UserService from "../../utils/UserService";
+import { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../security/AuthenticationService";
 
 const ErrorHandler = () => {
   const history = useHistory();
@@ -19,7 +21,11 @@ const ErrorHandler = () => {
     },
     (error) => {
       if (error.response.status === 403) {
-        history.push("/login");
+        UserService.removeUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        history.push({
+          pathname: "/login",
+          logout: true,
+        });
       } else if (error.response?.status === 401) {
         errorToast(
           "Wrong credentials! The Username or Password you have entered is incorrect. Please try again"

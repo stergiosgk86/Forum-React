@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Card, Button } from "react-bootstrap";
+import { Form, Card, Button, ProgressBar } from "react-bootstrap";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 
@@ -10,6 +10,7 @@ class CreatePosts extends Component {
   }
 
   initialState = {
+    uploadPercentage: 0,
     title: "",
     description: "",
     image: {
@@ -51,17 +52,36 @@ class CreatePosts extends Component {
       userId: this.state.userId,
     };
 
-    api
-      .savePost(categoryId, post)
-      .then((response) => {
-        if (response.data) {
-          this.props.history.push("/posts");
+    const options = {
+      onUploadProgress: (progressEvent) => {
+        const { loaded, total } = progressEvent;
+        let percent = Math.floor((loaded * 100) / total);
+
+        if (percent < 100) {
+          this.setState({ uploadPercentage: percent });
         }
+      },
+    };
+
+    api
+      .savePost(categoryId, post, options)
+      .then((res) => {
+        this.setState({ uploadPercentage: 100 }, async () => {
+          await this.delay(1000);
+          this.setState({ uploadPercentage: 0 });
+          if (res.data) {
+            this.props.history.push("/posts");
+          }
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   resetPost = () => {
     this.setState(() => this.initialState);
@@ -75,6 +95,7 @@ class CreatePosts extends Component {
 
   render() {
     const { title, description } = this.state;
+    const { uploadPercentage } = this.state;
 
     return (
       <div className="container pt-5 animated fadeInUp">
@@ -122,6 +143,12 @@ class CreatePosts extends Component {
                     <label className="custom-file-label">Choose an Image</label>
                   </div>
                 </div>
+                {uploadPercentage > 0 && (
+                  <ProgressBar
+                    now={uploadPercentage}
+                    label={`${uploadPercentage}%`}
+                  />
+                )}
               </Form.Group>
             </Card.Body>
             <Card.Footer>

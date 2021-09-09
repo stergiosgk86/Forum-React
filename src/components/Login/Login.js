@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import {
   Avatar,
   makeStyles,
@@ -41,15 +41,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ updateIsUserLoggedIn}) => {
+const Login = ({ updateIsUserLoggedIn }) => {
   const [values, setValues] = useState({
     username: "",
     password: "",
   });
+
   const { register, handleSubmit } = useForm({});
-  
+
   const history = useHistory();
   const classes = useStyles();
+  const { logout } = useLocation();
+  if (logout) {
+    updateIsUserLoggedIn(false);
+  }
 
   const loginClicked = (values) => {
     api
@@ -59,9 +64,9 @@ const Login = ({ updateIsUserLoggedIn}) => {
           res.data.username,
           res.data.roles
         );
-      
+
         updateIsUserLoggedIn(true);
-        
+
         successToast("Congratulations! You have been successfully logged in");
         history.push("/");
       })
