@@ -5,7 +5,32 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 15px; /* Total width including `border-width` of scrollbar thumb */
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(61, 61, 61);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 0.25em solid rgba(0, 0, 0, 0); /* Transparent border together with `background-clip: padding-box` does the trick */
+  background-clip: padding-box;
+  border-radius: 25px;
+  background-color: lightgrey;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: 0.25em solid rgba(0, 0, 0, 0); /* Transparent border together with `background-clip: padding-box` does the trick */
+  background-clip: padding-box;
+  border-radius: 25px;
+  background-color: rgb(158, 158, 158);
 }
