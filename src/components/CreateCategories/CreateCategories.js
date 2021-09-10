@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import { successToast } from "../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,10 +36,6 @@ const CreateCategories = (validateOnChange = false) => {
   const [errors, setErrors] = useState({});
   const history = useHistory();
   const classes = useStyles();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,7 +67,12 @@ const CreateCategories = (validateOnChange = false) => {
     if (validate()) {
       api
         .saveCategory(values)
-        .then(history.push("/"))
+        .then(() => {
+          successToast(
+            "Congratulations! Your Category has been successfully created."
+          );
+          history.push("/");
+        })
         .catch((err) => {
           console.log(err);
         });

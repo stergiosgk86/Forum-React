@@ -19,11 +19,15 @@ import {
   CardActionArea,
   CardContent,
   Badge,
+  Collapse,
 } from "@material-ui/core";
+import clsx from "clsx";
 import AuthenticationService from "../security/AuthenticationService";
 import { Favorite } from "@material-ui/icons";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ScrollIntoView from "react-scroll-into-view";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -115,6 +119,19 @@ const styles = (theme) => ({
   textarea: {
     resize: "both",
   },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  collapse: {
+    width: "100%",
+  },
 });
 
 class Comments extends Component {
@@ -126,6 +143,7 @@ class Comments extends Component {
       userId: forumSession.user.getId(),
       post: {},
       username: AuthenticationService.getLoggedInUserName(),
+      expanded: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.keypress = this.keypress.bind(this);
@@ -133,7 +151,6 @@ class Comments extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0);
     api
       .getPostComments(this.state.postId)
       .then((res) => {
@@ -173,13 +190,22 @@ class Comments extends Component {
           state.comments = [...this.state.comments, res.data];
           state.numComments++;
           state.text = "";
+          state.expanded = true;
+          let element = document.getElementById("input");
+          element.scrollIntoView({ behavior: "smooth" });
           return state;
         });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }
+
+  handleExpandClick = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    });
+  };
 
   render() {
     const { classes } = this.props;
@@ -212,10 +238,9 @@ class Comments extends Component {
               </Grid>
               <Grid container py={2} component={Box}>
                 <Grid className={classes.avatar}>
-                  <Avatar
-                    alt=""
-                    src=""
-                  >{this.state.post.username?.charAt(0)}</Avatar>
+                  <Avatar alt="" src="">
+                    {this.state.post.username?.charAt(0)}
+                  </Avatar>
                 </Grid>
                 <Grid item component={Box}>
                   <Grid container component={Box} px={2}>
@@ -242,7 +267,11 @@ class Comments extends Component {
               </Grid>
               <Grid item>
                 {this.state.post.imageUrl ? (
-                  <LazyLoadImage alt="" effect="blur" src={`${BASE_URL}/${this.state.post.imageUrl}`} />
+                  <LazyLoadImage
+                    alt=""
+                    effect="blur"
+                    src={`${BASE_URL}/${this.state.post.imageUrl}`}
+                  />
                 ) : (
                   ""
                 )}
@@ -251,6 +280,7 @@ class Comments extends Component {
                 container
                 component={Box}
                 justifyContent="space-between"
+                alignItems="center"
                 className={classes.likesComments}
               >
                 <Typography variant="body2">
@@ -259,8 +289,69 @@ class Comments extends Component {
 
                 <Typography variant="body2">
                   {this.state.numComments} Comments
+                  {this.state.comments.length ? (
+                    <IconButton
+                      style={{ outline: "none" }}
+                      className={clsx(classes.expand, {
+                        [classes.expandOpen]: this.state.expanded,
+                      })}
+                      onClick={this.handleExpandClick}
+                      aria-expanded={this.state.expanded}
+                      aria-label="show more"
+                    >
+                      <ExpandMoreIcon fontSize="small" />
+                    </IconButton>
+                  ) : (
+                    ""
+                  )}
                 </Typography>
               </Grid>
+
+              <Collapse
+                className={classes.collapse}
+                in={this.state.expanded}
+                timeout="auto"
+                unmountOnExit
+              >
+                {this.state.comments.map((comment) => (
+                  <Grid container key={comment.id} className={classes.chat}>
+                    <Grid item xs={2} sm={1} className={classes.avatar}>
+                      <Avatar alt="" src="">
+                        {comment.username.charAt(0)}
+                      </Avatar>
+                    </Grid>
+                    <Grid item xs={10} sm={11}>
+                      <Card elevation={2} className={classes.commentBubble}>
+                        <CardActionArea>
+                          <CardContent>
+                            <Typography className={classes.nameBubble}>
+                              {comment.username}
+                            </Typography>
+
+                            <Typography
+                              gutterBottom
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                            >
+                              {comment.text}
+                            </Typography>
+
+                            <Typography
+                              variant="caption"
+                              className={classes.commentCreated}
+                            >
+                              {moment(comment.dateCreated).format(
+                                "MMMM D,YYYY, h:mm:ss a"
+                              )}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Collapse>
 
               <Grid
                 container
@@ -278,80 +369,42 @@ class Comments extends Component {
                     }}
                     variant="dot"
                   >
-                    <Avatar
-                      alt=""
-                      src=""
-                    >{this.state.username.charAt(0)}</Avatar>
+                    <Avatar alt="" src="">
+                      {this.state.username.charAt(0)}
+                    </Avatar>
                   </StyledBadge>
                 </Grid>
 
                 <Grid item xs={10} sm={11}>
-                  <TextField
-                    multiline
-                    variant="standard"
-                    fullWidth
-                    size="small"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={this.submitComment}
-                            className={classes.sendBtn}
-                          >
-                            <SendIcon color="primary" />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                    aria-label="empty textarea"
-                    placeholder="Write a comment..."
-                    value={this.state.text}
-                    onKeyPress={this.keypress}
-                    onChange={this.handleChange}
-                    name="text"
-                  />
+                  <ScrollIntoView selector="#input">
+                    <TextField
+                      id="input"
+                      multiline
+                      variant="standard"
+                      fullWidth
+                      size="small"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={this.submitComment}
+                              className={classes.sendBtn}
+                            >
+                              <SendIcon color="primary" />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      aria-label="empty textarea"
+                      placeholder="Write a comment..."
+                      value={this.state.text}
+                      onKeyPress={this.keypress}
+                      onChange={this.handleChange}
+                      name="text"
+                    />
+                  </ScrollIntoView>
                 </Grid>
               </Grid>
-
-              {this.state.comments.map((comment) => (
-                <Grid container key={comment.id} className={classes.chat}>
-                  <Grid item xs={2} sm={1} className={classes.avatar}>
-                    <Avatar
-                      alt=""
-                      src=""
-                    >{comment.username.charAt(0)}</Avatar>
-                  </Grid>
-                  <Grid item xs={10} sm={11}>
-                    <Card elevation={2} className={classes.commentBubble}>
-                      <CardActionArea>
-                        <CardContent>
-                          <Typography className={classes.nameBubble}>
-                            {comment.username}
-                          </Typography>
-
-                          <Typography
-                            gutterBottom
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
-                          >
-                            {comment.text}
-                          </Typography>
-
-                          <Typography
-                            variant="caption"
-                            className={classes.commentCreated}
-                          >
-                            {moment(comment.dateCreated).format(
-                              "MMMM D,YYYY, h:mm:ss a"
-                            )}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                </Grid>
-              ))}
             </Grid>
           </Paper>
         </Container>

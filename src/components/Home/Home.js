@@ -31,7 +31,7 @@ const Home = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
 
@@ -80,7 +80,7 @@ const Home = () => {
   const classes = useStyles();
 
   return (
-    <div className="test">
+    <div>
       <div className="forum-image"></div>
       <Container maxWidth="lg" fixed={true} component={Box} p={2}>
         <Paper className={classes.header}>

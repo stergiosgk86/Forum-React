@@ -56,9 +56,6 @@ const styles = (theme) => ({
   },
   likeCommentBtn: {
     padding: theme.spacing(1),
-    // paddingTop: "20px",
-    // paddingLeft: "30px",
-    // paddingRight: "30px",
   },
   typography: {
     paddingLeft: theme.spacing(1),
@@ -87,7 +84,6 @@ class Posts extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0);
     api
       .getCategoryPosts(this.state.categoryId)
       .then((res) => {

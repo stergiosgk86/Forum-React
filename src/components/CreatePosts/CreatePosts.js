@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Card, Button, ProgressBar } from "react-bootstrap";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
+import { successToast } from "../Toastify/Toastify";
 
 class CreatePosts extends Component {
   constructor(props) {
@@ -19,10 +20,6 @@ class CreatePosts extends Component {
     },
     userId: forumSession.user.getId(),
   };
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
 
   encodeImage = (e) => {
     const file = e.target.files[0];
@@ -70,6 +67,9 @@ class CreatePosts extends Component {
           await this.delay(1000);
           this.setState({ uploadPercentage: 0 });
           if (res.data) {
+            successToast(
+              "Congratulations! Your Post has been successfully created."
+            );
             this.props.history.push("/posts");
           }
         });
@@ -145,6 +145,7 @@ class CreatePosts extends Component {
                 </div>
                 {uploadPercentage > 0 && (
                   <ProgressBar
+                    animated
                     now={uploadPercentage}
                     label={`${uploadPercentage}%`}
                   />

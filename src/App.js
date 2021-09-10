@@ -16,6 +16,7 @@ import Register from "./components/Register/Register";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthenticationService from "./components/security/AuthenticationService";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
@@ -27,6 +28,7 @@ const App = () => {
 
   return (
     <Paper className="page-container">
+      <ScrollToTop />
       <CssBaseline />
       <div className="content-wrap">
         <Scrolltopbtn />
