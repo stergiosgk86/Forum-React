@@ -12,6 +12,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.navlink {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 15px; /* Total width including `border-width` of scrollbar thumb */
