@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
@@ -153,10 +153,7 @@ const Dashboard = () => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        {/* <Switch>
-          <Route path="/dashboard/users" exact component={UserList} />
-          <Route path="/dashboard/user/:id" exact component={User} />
-        </Switch> */}
+        {props.children}
       </main>
     </div>
   );
