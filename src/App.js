@@ -1,26 +1,21 @@
 import React, { useState } from "react";
-import { Switch, Route } from "react-router-dom";
-import Home from "./components/Home/Home";
+import { Route, Switch } from "react-router-dom";
+import "./App.css";
+import AdminLayout from "./components/AdminLayout/AdminLayout";
+import User from "./components/AdminLayout/User/User";
+import UserList from "./components/AdminLayout/UserList/UserList";
+import Comments from "./components/Comments/Comments";
 import CreateCategories from "./components/CreateCategories/CreateCategories";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
-import Posts from "./components/Posts/Posts";
-import Comments from "./components/Comments/Comments";
+import ForumLayout from "./components/ForumLayout/ForumLayout";
+import Home from "./components/Home/Home";
+import Login from "./components/Login/Login";
 import Navigationbar from "./components/Navigationbar/Navigationbar";
 import NotFound from "./components/NotFound/NotFound";
-import Scrolltopbtn from "./components/Scrolltopbtn/Scrolltopbtn";
-import Footer from "./components/Footer/Footer";
-import Paper from "@material-ui/core/Paper";
-import "./App.css";
-import Login from "./components/Login/Login";
+import Posts from "./components/Posts/Posts";
 import Register from "./components/Register/Register";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthenticationService from "./components/security/AuthenticationService";
-import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import Dashboard from "./components/Dashboard/Dashboard";
-import UserList from "./components/Dashboard/UserList/UserList";
-import User from "./components/Dashboard/User/User";
-import ForumLayout from "./components/ForumLayout/ForumLayout";
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
@@ -45,6 +40,10 @@ const App = () => {
         ]}
       >
         <ForumLayout>
+          <Navigationbar
+            isUserLoggedIn={isUserLoggedIn}
+            updateIsUserLoggedIn={updateIsUserLoggedIn}
+          />
           <Switch>
             <Route path="/" exact component={Home} />
             <Route
@@ -75,12 +74,15 @@ const App = () => {
         exact
         path={["/dashboard", "/dashboard/users", "/dashboard/user/:id"]}
       >
-        <Dashboard>
+        <AdminLayout
+          isUserLoggedIn={isUserLoggedIn}
+          updateIsUserLoggedIn={updateIsUserLoggedIn}
+        >
           <Switch>
             <Route path="/dashboard/users" exact component={UserList} />
             <Route path="/dashboard/user/:id" exact component={User} />
           </Switch>
-        </Dashboard>
+        </AdminLayout>
       </Route>
       <Route component={NotFound} />
     </Switch>

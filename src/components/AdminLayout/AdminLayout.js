@@ -1,24 +1,22 @@
 import React, { useState } from "react";
-import clsx from "clsx";
 import {
-  makeStyles,
-  CssBaseline,
-  Drawer,
   AppBar,
-  Toolbar,
-  List,
-  Typography,
-  Divider,
-  IconButton,
   Badge,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  makeStyles,
+  Toolbar,
+  Typography,
 } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import { mainListItems, secondaryListItems } from "./ListItems";
-import UserList from "./UserList/UserList";
-import { Route, Switch } from "react-router";
-import User from "./User/User";
+import clsx from "clsx";
+import MainListItems from "./ListItems/MainListItems";
+import SecondaryListItems from "./ListItems/SecondaryListItems";
 
 const drawerWidth = 240;
 
@@ -88,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = (props) => {
+const AdminLayout = ({ isUserLoggedIn, updateIsUserLoggedIn, ...props }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
@@ -147,9 +145,16 @@ const Dashboard = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <MainListItems />
+        </List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <SecondaryListItems
+            isUserLoggedIn={isUserLoggedIn}
+            updateIsUserLoggedIn={updateIsUserLoggedIn}
+          />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -159,4 +164,4 @@ const Dashboard = (props) => {
   );
 };
 
-export default Dashboard;
+export default AdminLayout;
