@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import AdminLayout from "./components/AdminLayout/AdminLayout";
+import NewUser from "./components/AdminLayout/NewUser/NewUser";
 import User from "./components/AdminLayout/User/User";
 import UserList from "./components/AdminLayout/UserList/UserList";
 import Comments from "./components/Comments/Comments";
@@ -72,7 +73,12 @@ const App = () => {
 
       <Route
         exact
-        path={["/dashboard", "/dashboard/users", "/dashboard/user/:id"]}
+        path={[
+          "/dashboard",
+          "/dashboard/users",
+          "/dashboard/user/:id",
+          "/dashboard/newUser",
+        ]}
       >
         <AdminLayout
           isUserLoggedIn={isUserLoggedIn}
@@ -81,6 +87,7 @@ const App = () => {
           <Switch>
             <Route path="/dashboard/users" exact component={UserList} />
             <Route path="/dashboard/user/:id" exact component={User} />
+            <Route path="/dashboard/newUser" exact component={NewUser} />
           </Switch>
         </AdminLayout>
       </Route>

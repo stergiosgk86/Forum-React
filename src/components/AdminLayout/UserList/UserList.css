@@ -14,3 +14,8 @@
 .userListEdit {
   margin-right: 20px !important;
 }
+
+.userListDelete {
+  border-radius: 16px !important;
+  margin-left: 20px !important;
+}
