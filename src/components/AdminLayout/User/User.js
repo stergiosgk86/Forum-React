@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     margin: 20,
-    borderRadius: 16,
+    borderRadius: theme.spacing(2),
   },
   avatar: {
     height: 100,

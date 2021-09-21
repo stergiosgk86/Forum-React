@@ -46,7 +46,7 @@ const styles = (theme) => ({
     paddingBottom: "10px",
   },
   date: {
-    fontSize: "0.8rem",
+    fontSize: "0.7rem",
     fontWeight: 500,
     opacity: 0.6,
   },
@@ -184,7 +184,7 @@ class Posts extends Component {
                                 className={classes.date}
                               >
                                 {moment(post.dateCreated).format(
-                                  "MMMM D,YYYY, h:mm:ss a"
+                                  "MMMM D, YYYY [at] h:mm:ss A"
                                 )}
                               </Grid>
                             </Grid>

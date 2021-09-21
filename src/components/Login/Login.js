@@ -14,7 +14,7 @@ import {
   IconButton,
   TextField,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LoginIcon from "@mui/icons-material/Login";
 import AuthenticationService from "../security/AuthenticationService";
 import { api } from "../../utils/Api";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
@@ -22,6 +22,11 @@ import { useForm } from "react-hook-form";
 import { successToast } from "../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
+  textfield: {
+    ["& fieldset"]: {
+      borderRadius: `16px`,
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -90,7 +95,7 @@ const Login = ({ updateIsUserLoggedIn }) => {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LoginIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Login
@@ -107,6 +112,7 @@ const Login = ({ updateIsUserLoggedIn }) => {
               type="text"
               variant="outlined"
               margin="normal"
+              className={classes.textfield}
               {...register("username")}
               onKeyPress={keypress}
             />
@@ -120,6 +126,7 @@ const Login = ({ updateIsUserLoggedIn }) => {
               type={values.showPassword ? "text" : "password"}
               variant="outlined"
               margin="normal"
+              className={classes.textfield}
               {...register("password")}
               onKeyPress={keypress}
               InputProps={{

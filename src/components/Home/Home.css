@@ -1,32 +1,32 @@
 .forum-image {
-    background-image: url(../../Img/18998.jpg);
-    background-size: cover;
-    background-position: center;
-    width: 100%;
-    padding: 100px 20px;
-    box-sizing: border-box;
+  background-image: url(../../Img/18998.jpg);
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  padding: 100px 20px;
+  box-sizing: border-box;
 }
 
 .seperate {
-    border-right: 2px solid rgba(0, 0, 0, 0.05);
+  border-right: 2px solid rgba(0, 0, 0, 0.05);
 }
 
 .link {
-    color: black;
-    font-weight: bold;
-    font-size: 20px;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .link:hover {
-    color: rgba(102,181,198,1);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
+  color: rgba(102, 181, 198, 1);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 959px) {
-    .seperate {
-        border-right: 2px solid rgba(0, 0, 0, 0);
-    }
+  .seperate {
+    border-right: 2px solid rgba(0, 0, 0, 0);
+  }
 }

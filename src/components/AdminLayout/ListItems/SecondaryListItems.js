@@ -18,22 +18,26 @@ const SecondaryListItems = ({ updateIsUserLoggedIn }) => {
   return (
     <div>
       <ListSubheader inset>Forum</ListSubheader>
-      <NavLink to="/" className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItem>
-      </NavLink>
-      <NavLink to="/login" onClick={logoutHandler} className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <ListItemText primary="Logout" />
-        </ListItem>
-      </NavLink>
+
+      <ListItem button className="navlink" component={NavLink} to="/">
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Home" />
+      </ListItem>
+
+      <ListItem
+        button
+        className="navlink"
+        component={NavLink}
+        to="/login"
+        onClick={logoutHandler}
+      >
+        <ListItemIcon>
+          <ExitToAppIcon />
+        </ListItemIcon>
+        <ListItemText primary="Logout" />
+      </ListItem>
     </div>
   );
 };

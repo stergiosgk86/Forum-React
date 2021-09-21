@@ -16,8 +16,12 @@ import { userRows } from "../DummyData";
 
 const useStyles = makeStyles((theme) => ({
   datagrid: {
-    height: 630,
+    borderRadius: theme.spacing(2),
+    // height: 630,
     // width: "100%",
+  },
+  paper: {
+    borderRadius: theme.spacing(2),
   },
   header: {
     padding: theme.spacing(3),
@@ -132,9 +136,10 @@ const UserList = () => {
       </Grid>
       <Grid container className={classes.containergrid}>
         <Grid item xs={12}>
-          <Paper elevation={3}>
+          <Paper elevation={3} className={classes.paper}>
             <DataGrid
               className={classes.datagrid}
+              autoHeight={true}
               rows={data}
               columns={columns}
               pageSize={10}

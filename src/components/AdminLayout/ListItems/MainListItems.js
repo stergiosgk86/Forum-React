@@ -10,46 +10,60 @@ import PhotoIcon from "@material-ui/icons/Photo";
 const MainListItems = () => {
   return (
     <div>
-      <NavLink to="/dashboard" className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-      </NavLink>
-      <NavLink to="/dashboard/users" className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
-        </ListItem>
-      </NavLink>
-      <NavLink to="/dashboard/posts" className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <PhotoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Posts" />
-        </ListItem>
-      </NavLink>
-      <NavLink to="/dashboard/comments" className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <CommentIcon />
-          </ListItemIcon>
-          <ListItemText primary="Comments" />
-        </ListItem>
-      </NavLink>
-      <NavLink to="/dashboard/categories" className="navlink">
-        <ListItem button>
-          <ListItemIcon>
-            <CategoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="Categories" />
-        </ListItem>
-      </NavLink>
+      <ListItem button className="navlink" component={NavLink} to="/dashboard">
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" />
+      </ListItem>
+
+      <ListItem
+        button
+        className="navlink"
+        component={NavLink}
+        to="/dashboard/users"
+      >
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Users" />
+      </ListItem>
+
+      <ListItem
+        button
+        className="navlink"
+        component={NavLink}
+        to="/dashboard/posts"
+      >
+        <ListItemIcon>
+          <PhotoIcon />
+        </ListItemIcon>
+        <ListItemText primary="Posts" />
+      </ListItem>
+
+      <ListItem
+        button
+        className="navlink"
+        component={NavLink}
+        to="/dashboard/comments"
+      >
+        <ListItemIcon>
+          <CommentIcon />
+        </ListItemIcon>
+        <ListItemText primary="Comments" />
+      </ListItem>
+
+      <ListItem
+        button
+        className="navlink"
+        component={NavLink}
+        to="/dashboard/categories"
+      >
+        <ListItemIcon>
+          <CategoryIcon />
+        </ListItemIcon>
+        <ListItemText primary="Categories" />
+      </ListItem>
     </div>
   );
 };

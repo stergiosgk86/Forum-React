@@ -11,7 +11,7 @@ import {
   InputAdornment,
   makeStyles,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { NavLink, useHistory } from "react-router-dom";
 import { api } from "../../utils/Api";
@@ -21,6 +21,11 @@ import * as yup from "yup";
 import { successToast } from "../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
+  textfield: {
+    ["& fieldset"]: {
+      borderRadius: `16px`,
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -105,7 +110,7 @@ const Register = () => {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <VpnKeyIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Register
@@ -122,6 +127,7 @@ const Register = () => {
               type="text"
               variant="outlined"
               margin="normal"
+              className={classes.textfield}
               {...register("username")}
               onKeyPress={keypress}
               error={Boolean(errors.username)}
@@ -137,6 +143,7 @@ const Register = () => {
               type="text"
               variant="outlined"
               margin="normal"
+              className={classes.textfield}
               {...register("email")}
               onKeyPress={keypress}
               error={Boolean(errors.email)}
@@ -152,6 +159,7 @@ const Register = () => {
               type={values.showPassword ? "text" : "password"}
               variant="outlined"
               margin="normal"
+              className={classes.textfield}
               {...register("password")}
               onKeyPress={keypress}
               error={Boolean(errors.password)}
@@ -184,6 +192,7 @@ const Register = () => {
               type={values.showPassword ? "text" : "password"}
               variant="outlined"
               margin="normal"
+              className={classes.textfield}
               {...register("confirmPassword")}
               onKeyPress={keypress}
               error={Boolean(errors.confirmPassword)}

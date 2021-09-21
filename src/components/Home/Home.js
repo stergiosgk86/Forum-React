@@ -161,24 +161,26 @@ const Home = () => {
                       className={classes.border}
                       className="seperate"
                     >
-                      <Typography variant="h5" noWrap={true}>
-                        <Link
-                          to="/posts"
-                          onClick={() =>
-                            forumSession.category.saveId(category.id)
-                          }
-                          className="link text-decoration-none"
-                        >
-                          {category.title}
-                        </Link>
-                      </Typography>
-                      <Typography
-                        className={classes.description}
-                        variant="subtitle1"
-                        noWrap={true}
+                      <Link
+                        to="/posts"
+                        onClick={() =>
+                          forumSession.category.saveId(category.id)
+                        }
+                        className="link text-decoration-none"
                       >
-                        {category.description}
-                      </Typography>
+                        <Box>
+                          <Typography variant="inherit" noWrap={true}>
+                            {category.title}
+                          </Typography>
+                          <Typography
+                            className={classes.description}
+                            variant="subtitle1"
+                            noWrap={true}
+                          >
+                            {category.description}
+                          </Typography>
+                        </Box>
+                      </Link>
                     </Grid>
                     <Hidden smDown>
                       <Grid container item xs={6}>

@@ -77,12 +77,12 @@ const styles = (theme) => ({
     fontSize: "0.9rem",
     fontWeight: 700,
     textTransform: "capitalize",
-    marginBottom: 10,
   },
   commentBubble: {
     borderRadius: 15,
   },
   commentCreated: {
+    fontSize: "0.7rem",
     display: "flex",
     justifyContent: "flex-end",
   },
@@ -101,7 +101,7 @@ const styles = (theme) => ({
     outline: "none!important",
   },
   date: {
-    fontSize: "0.8rem",
+    fontSize: "0.7rem",
     fontWeight: 500,
     opacity: 0.6,
   },
@@ -249,7 +249,7 @@ class Comments extends Component {
                     </Grid>
                     <Grid container component={Box} className={classes.date}>
                       {moment(this.state.post.dateCreated).format(
-                        "MMMM D,YYYY, h:mm:ss a"
+                        "MMMM D, YYYY [at] h:mm:ss A"
                       )}
                     </Grid>
                   </Grid>
@@ -342,7 +342,7 @@ class Comments extends Component {
                               className={classes.commentCreated}
                             >
                               {moment(comment.dateCreated).format(
-                                "MMMM D,YYYY, h:mm:ss a"
+                                "dddd, MMMM D, YYYY [at] h:mm:ss A"
                               )}
                             </Typography>
                           </CardContent>
