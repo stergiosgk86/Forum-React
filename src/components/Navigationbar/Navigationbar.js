@@ -18,6 +18,7 @@ import {
   List,
   Divider,
   ListItemIcon,
+  Grid,
 } from "@material-ui/core";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
@@ -39,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
     [theme.breakpoints.down("sm")]: {
       display: "flex",
-      outline: "none!important",
+      width: "100%",
+      justifyContent: "end",
     },
   },
   appbar: {
@@ -52,6 +54,16 @@ const useStyles = makeStyles((theme) => ({
     color: "inherit !important",
     textTransform: "inherit !important",
   },
+  menuIcon: {
+    outline: "none!important",
+  },
+  logo: {
+    width: "80px",
+  },
+  appbarRight: {
+    display: "flex",
+    justifyContent: "end",
+  },
   list: {
     width: 250,
   },
@@ -59,9 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HideOnScroll(props) {
   const { children, window } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
+
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
   });
@@ -199,86 +209,92 @@ const Navigationbar = ({ isUserLoggedIn, updateIsUserLoggedIn, props }) => {
       <HideOnScroll {...props}>
         <AppBar color="default" className={classes.appbar}>
           <Toolbar>
-            <Box component={NavLink} to="/" style={{ flexGrow: 1 }}>
-              <img src={logo} alt="logo" style={{ width: "80px" }} />
+            <Box component={NavLink} to="/">
+              <img src={logo} alt="logo" className={classes.logo} />
             </Box>
-            <div className={classes.sectionDesktop}>
-              <Button
+            <Grid container className={classes.sectionDesktop}>
+              <Grid item md={6}>
+                <Button
+                  color="inherit"
+                  className={classes.navButton}
+                  component={NavLink}
+                  to="/"
+                >
+                  Home
+                </Button>
+                <Button
+                  color="inherit"
+                  className={classes.navButton}
+                  component={NavLink}
+                  to="/aboutUs"
+                >
+                  About us
+                </Button>
+              </Grid>
+              <Grid item md={6} className={classes.appbarRight}>
+                {isUserLoggedIn ? (
+                  <>
+                    <Button
+                      color="inherit"
+                      className={classes.navButton}
+                      component={NavLink}
+                      to="/dashboard"
+                    >
+                      Dashboard
+                    </Button>
+                    <Button
+                      color="inherit"
+                      className={classes.navButton}
+                      component={NavLink}
+                      to="/profile"
+                    >
+                      Profile
+                    </Button>
+                    <Button
+                      color="inherit"
+                      className={classes.navButton}
+                      component={NavLink}
+                      to="/login"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      color="inherit"
+                      className={classes.navButton}
+                      component={NavLink}
+                      to="/login"
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      color="inherit"
+                      className={classes.navButton}
+                      component={NavLink}
+                      to="/register"
+                    >
+                      Register
+                    </Button>
+                  </>
+                )}
+              </Grid>
+            </Grid>
+            <Grid item className={classes.sectionMobile}>
+              <IconButton
+                size="medium"
+                edge="start"
                 color="inherit"
-                className={classes.navButton}
-                component={NavLink}
-                to="/"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                className={classes.menuIcon}
+                onClick={openMobileMenu}
               >
-                Home
-              </Button>
-              <Button
-                color="inherit"
-                className={classes.navButton}
-                component={NavLink}
-                to="/aboutUs"
-              >
-                About us
-              </Button>
-              {isUserLoggedIn ? (
-                <>
-                  <Button
-                    color="inherit"
-                    className={classes.navButton}
-                    component={NavLink}
-                    to="/dashboard"
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    color="inherit"
-                    className={classes.navButton}
-                    component={NavLink}
-                    to="/profile"
-                  >
-                    Profile
-                  </Button>
-                  <Button
-                    color="inherit"
-                    className={classes.navButton}
-                    component={NavLink}
-                    to="/login"
-                    onClick={logoutHandler}
-                  >
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    color="inherit"
-                    className={classes.navButton}
-                    component={NavLink}
-                    to="/login"
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    color="inherit"
-                    className={classes.navButton}
-                    component={NavLink}
-                    to="/register"
-                  >
-                    Register
-                  </Button>
-                </>
-              )}
-            </div>
-            <IconButton
-              className={classes.sectionMobile}
-              size="medium"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={openMobileMenu}
-            >
-              <MenuIcon />
-            </IconButton>
+                <MenuIcon />
+              </IconButton>
+            </Grid>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
