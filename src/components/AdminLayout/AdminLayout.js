@@ -87,7 +87,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminLayout = ({ isUserLoggedIn, updateIsUserLoggedIn, ...props }) => {
+const AdminLayout = ({
+  isUserLoggedIn,
+  updateIsUserLoggedIn,
+  isAdminLoggedIn,
+  updateIsAdminLoggedIn,
+  ...props
+}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
@@ -154,6 +160,8 @@ const AdminLayout = ({ isUserLoggedIn, updateIsUserLoggedIn, ...props }) => {
           <SecondaryListItems
             isUserLoggedIn={isUserLoggedIn}
             updateIsUserLoggedIn={updateIsUserLoggedIn}
+            isAdminLoggedIn={isAdminLoggedIn}
+            updateIsAdminLoggedIn={updateIsAdminLoggedIn}
           />
         </List>
       </Drawer>

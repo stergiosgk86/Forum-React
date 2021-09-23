@@ -10,9 +10,13 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import AuthenticationService from "../../security/AuthenticationService";
 
-const SecondaryListItems = ({ updateIsUserLoggedIn }) => {
+const SecondaryListItems = ({
+  updateIsUserLoggedIn,
+  updateIsAdminLoggedIn,
+}) => {
   const logoutHandler = () => {
     updateIsUserLoggedIn(false);
+    updateIsAdminLoggedIn(false);
     AuthenticationService.logout();
   };
   return (

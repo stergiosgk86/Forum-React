@@ -39,6 +39,18 @@ const api = {
   logout: () => {
     return instance.get(`/logout`);
   },
+  getAllUsers: () => {
+    return instance.get(`/users`);
+  },
+  getUserById: (userId) => {
+    return instance.get(`users/${userId}`);
+  },
+  updateUser: (payload, userId) => {
+    return instance.put(`users/${userId}`, payload);
+  },
+  deleteUser: (userId) => {
+    return instance.delete(`users/${userId}`);
+  },
 };
 
 export { api, BASE_URL, instance };

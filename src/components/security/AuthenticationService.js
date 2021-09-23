@@ -6,16 +6,16 @@ export const USER_NAME_SESSION_ATTRIBUTE_NAME = "user";
 class AuthenticationService {
   logout() {
     api.logout().then(() => {
-      UserService.removeUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+      UserService.removeUser();
     });
   }
 
   isUserLoggedIn() {
-    return !!UserService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    return !!UserService.getUser();
   }
 
   getLoggedInUserName() {
-    let user = UserService.getUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    let user = UserService.getUser();
     return user?.username;
   }
 

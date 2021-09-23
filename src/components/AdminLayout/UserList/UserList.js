@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserList.css";
 import { NavLink } from "react-router-dom";
+import { api } from "../../../utils/Api";
 import { DataGrid } from "@material-ui/data-grid";
+import { successToast } from "../../Toastify/Toastify";
 import {
   makeStyles,
   Button,
@@ -10,15 +12,13 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { userRows } from "../DummyData";
 
 const useStyles = makeStyles((theme) => ({
   datagrid: {
     borderRadius: theme.spacing(2),
-    // height: 630,
-    // width: "100%",
   },
   paper: {
     borderRadius: theme.spacing(2),
@@ -47,14 +47,35 @@ const useStyles = makeStyles((theme) => ({
 
 const UserList = () => {
   const classes = useStyles();
-  const [data, setData] = useState(userRows);
+  const [users, setUsers] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  useEffect(() => {
+    api
+      .getAllUsers()
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
+  }, []);
+
+  const handleDelete = async (id) => {
+    await api.deleteUser(id);
+    const newUserList = users.filter((user) => {
+      return user.id !== id;
+    });
+
+    successToast("User has been successfully deleted");
+    setUsers(newUserList);
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 90,
+    },
     {
       field: "user",
       headerName: "User",
@@ -70,16 +91,39 @@ const UserList = () => {
       },
     },
     {
+      field: "roles",
+      headerName: "Roles",
+      width: 220,
+      editable: true,
+    },
+    {
       field: "email",
       headerName: "Email",
       width: 220,
       editable: true,
     },
     {
-      field: "status",
+      field: "active",
       headerName: "Status",
-      width: 120,
+      width: 118,
       editable: true,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params.row.active === true ? (
+              <FiberManualRecordIcon
+                fontSize="small"
+                style={{ color: "#4caf50" }}
+              />
+            ) : (
+              <FiberManualRecordIcon
+                fontSize="small"
+                style={{ color: "#d9182e" }}
+              />
+            )}
+          </div>
+        );
+      },
     },
     {
       field: "action",
@@ -140,7 +184,7 @@ const UserList = () => {
             <DataGrid
               className={classes.datagrid}
               autoHeight={true}
-              rows={data}
+              rows={users}
               columns={columns}
               pageSize={10}
               checkboxSelection

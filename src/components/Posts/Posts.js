@@ -184,7 +184,7 @@ class Posts extends Component {
                                 className={classes.date}
                               >
                                 {moment(post.dateCreated).format(
-                                  "MMMM D, YYYY [at] h:mm:ss A"
+                                  "MMMM D, YYYY [at] h:mm A"
                                 )}
                               </Grid>
                             </Grid>

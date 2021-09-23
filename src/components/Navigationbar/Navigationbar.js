@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import AuthenticationService from "../security/AuthenticationService";
-import logo from "../../Img/devil.png";
 import {
   AppBar,
-  Toolbar,
-  CssBaseline,
-  useScrollTrigger,
-  Slide,
-  IconButton,
-  Button,
-  makeStyles,
   Box,
-  Drawer,
-  ListItem,
-  ListItemText,
-  List,
+  Button,
+  CssBaseline,
   Divider,
-  ListItemIcon,
+  Drawer,
   Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+  Slide,
+  Toolbar,
+  useScrollTrigger,
 } from "@material-ui/core";
-import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
 import LoginIcon from "@mui/icons-material/Login";
+import MenuIcon from "@mui/icons-material/Menu";
+import PersonIcon from "@mui/icons-material/Person";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import logo from "../../Img/devil.png";
+import AuthenticationService from "../security/AuthenticationService";
 
 const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
@@ -83,9 +83,16 @@ function HideOnScroll(props) {
   );
 }
 
-const Navigationbar = ({ isUserLoggedIn, updateIsUserLoggedIn, props }) => {
+const Navigationbar = ({
+  isUserLoggedIn,
+  updateIsUserLoggedIn,
+  isAdminLoggedIn,
+  updateIsAdminLoggedIn,
+  props,
+}) => {
   const logoutHandler = () => {
     updateIsUserLoggedIn(false);
+    updateIsAdminLoggedIn(false);
     AuthenticationService.logout();
     setMobileMenuAnchorEl(null);
   };
@@ -131,20 +138,24 @@ const Navigationbar = ({ isUserLoggedIn, updateIsUserLoggedIn, props }) => {
         </List>
         <Divider />
         <List>
+          {isAdminLoggedIn ? (
+            <ListItem
+              button
+              className={classes.navButton}
+              component={NavLink}
+              to="/dashboard"
+              onClick={closeMobileMenu}
+            >
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          ) : (
+            ""
+          )}
           {isUserLoggedIn ? (
             <>
-              <ListItem
-                button
-                className={classes.navButton}
-                component={NavLink}
-                to="/dashboard"
-                onClick={closeMobileMenu}
-              >
-                <ListItemIcon>
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-              </ListItem>
               <ListItem
                 button
                 className={classes.navButton}
@@ -232,16 +243,20 @@ const Navigationbar = ({ isUserLoggedIn, updateIsUserLoggedIn, props }) => {
                 </Button>
               </Grid>
               <Grid item md={6} className={classes.appbarRight}>
+                {isAdminLoggedIn ? (
+                  <Button
+                    color="inherit"
+                    className={classes.navButton}
+                    component={NavLink}
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </Button>
+                ) : (
+                  ""
+                )}
                 {isUserLoggedIn ? (
                   <>
-                    <Button
-                      color="inherit"
-                      className={classes.navButton}
-                      component={NavLink}
-                      to="/dashboard"
-                    >
-                      Dashboard
-                    </Button>
                     <Button
                       color="inherit"
                       className={classes.navButton}

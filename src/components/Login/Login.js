@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import {
   Avatar,
   makeStyles,
@@ -20,6 +20,7 @@ import { api } from "../../utils/Api";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import { successToast } from "../Toastify/Toastify";
+import UserService from "../../utils/UserService";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ updateIsUserLoggedIn }) => {
+const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn }) => {
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -56,10 +57,6 @@ const Login = ({ updateIsUserLoggedIn }) => {
 
   const history = useHistory();
   const classes = useStyles();
-  const { logout } = useLocation();
-  if (logout) {
-    updateIsUserLoggedIn(false);
-  }
 
   const loginClicked = (values) => {
     api
@@ -71,6 +68,7 @@ const Login = ({ updateIsUserLoggedIn }) => {
         );
 
         updateIsUserLoggedIn(true);
+        updateIsAdminLoggedIn(UserService.isAdmin());
 
         successToast("Congratulations! You have been successfully logged in");
         history.push("/");

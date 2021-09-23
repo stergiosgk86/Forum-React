@@ -249,7 +249,7 @@ class Comments extends Component {
                     </Grid>
                     <Grid container component={Box} className={classes.date}>
                       {moment(this.state.post.dateCreated).format(
-                        "MMMM D, YYYY [at] h:mm:ss A"
+                        "MMMM D, YYYY [at] h:mm A"
                       )}
                     </Grid>
                   </Grid>
@@ -342,7 +342,7 @@ class Comments extends Component {
                               className={classes.commentCreated}
                             >
                               {moment(comment.dateCreated).format(
-                                "dddd, MMMM D, YYYY [at] h:mm:ss A"
+                                "dddd, MMMM D, YYYY [at] h:mm A"
                               )}
                             </Typography>
                           </CardContent>
