@@ -1,12 +1,13 @@
-import { errorToast } from "../Toastify/Toastify";
-import { instance } from "../../utils/Api";
-import json from "../../Assets/StatusCodes.json";
+import React from "react";
 import { useHistory } from "react-router-dom";
+import json from "../../Assets/StatusCodes.json";
+import { instance } from "../../utils/Api";
 import UserService from "../../utils/UserService";
-import { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../security/AuthenticationService";
+import { errorToast } from "../Toastify/Toastify";
 
 const ErrorHandler = () => {
   const history = useHistory();
+
   function readJson() {
     return json.reduce((map, data) => {
       let key = Object.keys(data)[0];
@@ -21,15 +22,12 @@ const ErrorHandler = () => {
     },
     (error) => {
       if (error.response.status === 403) {
-        UserService.removeUser(USER_NAME_SESSION_ATTRIBUTE_NAME);
+      } else if (error.response?.status === 401) {
+        UserService.removeUser();
+
         history.push({
           pathname: "/login",
-          logout: true,
         });
-      } else if (error.response?.status === 401) {
-        errorToast(
-          "Wrong credentials! The Username or Password you have entered is incorrect. Please try again"
-        );
       } else if (error.response?.data?.statusCode) {
         errorToast(readJson().get(error.response.data.statusCode));
       }
