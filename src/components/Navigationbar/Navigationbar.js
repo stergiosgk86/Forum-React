@@ -16,6 +16,7 @@ import {
   makeStyles,
   Slide,
   Toolbar,
+  Typography,
   useScrollTrigger,
 } from "@material-ui/core";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -64,6 +65,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "end",
   },
+  appbarUsernameGrid: {
+    marginRight: "20px",
+    display: "flex",
+    alignItems: "center",
+  },
+  appbarUsername: {
+    marginLeft: "10px",
+    textTransform: "capitalize",
+    fontWeight: "bold",
+  },
+  drawerListItemUsername: {
+    justifyContent: "center",
+  },
   list: {
     width: 250,
   },
@@ -106,6 +120,7 @@ const Navigationbar = ({
   const closeMobileMenu = () => {
     setMobileMenuAnchorEl(null);
   };
+  const getUsername = AuthenticationService.getLoggedInUserName();
 
   const mobileMenu = (
     <Drawer anchor="left" open={isMobileMenuOpen} onClose={closeMobileMenu}>
@@ -138,24 +153,31 @@ const Navigationbar = ({
         </List>
         <Divider />
         <List>
-          {isAdminLoggedIn ? (
-            <ListItem
-              button
-              className={classes.navButton}
-              component={NavLink}
-              to="/dashboard"
-              onClick={closeMobileMenu}
-            >
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-          ) : (
-            ""
-          )}
           {isUserLoggedIn ? (
             <>
+              <ListItem className={classes.drawerListItemUsername}>
+                <Typography>Welcome,</Typography>
+                <Typography className={classes.appbarUsername}>
+                  {getUsername}
+                </Typography>
+              </ListItem>
+
+              {isAdminLoggedIn ? (
+                <ListItem
+                  button
+                  className={classes.navButton}
+                  component={NavLink}
+                  to="/dashboard"
+                  onClick={closeMobileMenu}
+                >
+                  <ListItemIcon>
+                    <DashboardIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Dashboard" />
+                </ListItem>
+              ) : (
+                ""
+              )}
               <ListItem
                 button
                 className={classes.navButton}
@@ -243,20 +265,26 @@ const Navigationbar = ({
                 </Button>
               </Grid>
               <Grid item md={6} className={classes.appbarRight}>
-                {isAdminLoggedIn ? (
-                  <Button
-                    color="inherit"
-                    className={classes.navButton}
-                    component={NavLink}
-                    to="/dashboard"
-                  >
-                    Dashboard
-                  </Button>
-                ) : (
-                  ""
-                )}
                 {isUserLoggedIn ? (
                   <>
+                    <Grid item className={classes.appbarUsernameGrid}>
+                      <Typography>Welcome,</Typography>
+                      <Typography className={classes.appbarUsername}>
+                        {getUsername}
+                      </Typography>
+                    </Grid>
+                    {isAdminLoggedIn ? (
+                      <Button
+                        color="inherit"
+                        className={classes.navButton}
+                        component={NavLink}
+                        to="/dashboard"
+                      >
+                        Dashboard
+                      </Button>
+                    ) : (
+                      ""
+                    )}
                     <Button
                       color="inherit"
                       className={classes.navButton}

@@ -5,6 +5,7 @@ import {
   CssBaseline,
   Divider,
   Drawer,
+  Grid,
   IconButton,
   List,
   makeStyles,
@@ -17,6 +18,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import clsx from "clsx";
 import MainListItems from "./ListItems/MainListItems";
 import SecondaryListItems from "./ListItems/SecondaryListItems";
+import AuthenticationService from "../security/AuthenticationService";
 
 const drawerWidth = 240;
 
@@ -85,6 +87,16 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
     overflow: "auto",
   },
+  appbarUsernameGrid: {
+    marginRight: "20px",
+    display: "flex",
+    alignItems: "center",
+  },
+  appbarUsername: {
+    marginLeft: "10px",
+    textTransform: "capitalize",
+    fontWeight: "bold",
+  },
 }));
 
 const AdminLayout = ({
@@ -102,6 +114,7 @@ const AdminLayout = ({
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const getUsername = AuthenticationService.getLoggedInUserName();
 
   return (
     <div className={classes.root}>
@@ -132,11 +145,12 @@ const AdminLayout = ({
           >
             Dashboard
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Grid item className={classes.appbarUsernameGrid}>
+            <Typography>Welcome,</Typography>
+            <Typography className={classes.appbarUsername}>
+              {getUsername}
+            </Typography>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer

@@ -71,7 +71,11 @@ const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn }) => {
         updateIsAdminLoggedIn(UserService.isAdmin());
 
         successToast("Congratulations! You have been successfully logged in");
-        history.push("/");
+        if (UserService.isAdmin()) {
+          history.push("/dashboard");
+        } else {
+          history.push("/");
+        }
       })
       .catch((error) => {});
   };
