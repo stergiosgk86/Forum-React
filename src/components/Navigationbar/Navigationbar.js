@@ -74,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "10px",
     textTransform: "capitalize",
     fontWeight: "bold",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
   drawerListItemUsername: {
     justifyContent: "center",
