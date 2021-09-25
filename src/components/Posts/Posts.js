@@ -87,6 +87,7 @@ class Posts extends Component {
     api
       .getCategoryPosts(this.state.categoryId)
       .then((res) => {
+        console.log(res.data);
         this.setState((state) => {
           state.posts = res.data;
           state.loading = false;

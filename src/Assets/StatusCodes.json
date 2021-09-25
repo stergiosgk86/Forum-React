@@ -1,6 +1,8 @@
 [
   { "USERNAME_ALREADY_EXISTS": "Username already exists. Please try with another one." },
   { "EMAIL_ALREADY_EXISTS": "Email already exists. Please try with another one." },
+  { "USERNAME_NOT_FOUND": "Username doesn't exist. Please try again"},
+  { "INVALID_PASSWORD": "Wrong Password. Please try again"},
   { "CATEGORY_CREATION_ERROR": "3" },
   { "USER_NOT_FOUND": "4" },
   { "REGISTRATION_ERROR": "5" },

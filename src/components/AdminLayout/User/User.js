@@ -1,5 +1,4 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Avatar,
   Box,
@@ -11,14 +10,26 @@ import {
   CardMedia,
   Divider,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
   makeStyles,
+  MenuItem,
   Paper,
+  Select,
   TextField,
   Typography,
 } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import PublishIcon from "@material-ui/icons/Publish";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { NavLink, useHistory, useParams } from "react-router-dom";
+import * as yup from "yup";
+import { api } from "../../../utils/Api";
+import { successToast } from "../../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -95,8 +106,108 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const schema = yup.object().shape({
+  username: yup.string().trim().required("Username is required."),
+  email: yup
+    .string()
+    .email("Email address is invalid")
+    .required("Email is required."),
+  password: yup
+    .string()
+    .trim()
+    .required("Password is required.")
+    .min(4, "The password must be at least 4 characters long."),
+});
+
+const rolesz = ["test1", "test2", "test3"];
+
 const User = () => {
+  const [values, setValues] = useState({
+    username: "",
+    roles: ["dsa"],
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    // setCurrency(event.target.value);
+  };
+  const [roles, setRoles] = useState([]);
+
+  // async function getRoles() {
+  //   api
+  //     .getRoles()
+  //     .then(({ data }) => {
+  //       setValue("roles", data.roles);
+  //       console.log(roles);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    defaultValues: values,
+    resolver: yupResolver(schema),
+  });
+  const history = useHistory();
   const classes = useStyles();
+
+  const { id } = useParams();
+
+  // const { username, roles, email, password, confirmPassword } = values;
+
+  useEffect(() => {
+    api
+      .getRoles()
+      .then(({ data }) => {
+        setRoles(data);
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+
+    api
+      .getUserById(id)
+      .then(({ data }) => {
+        setValue("username", data.username);
+        setValue("email", data.email);
+        setValue("roles", data.roles);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const onSubmit = (values, e) => {
+    e.preventDefault();
+
+    const signUpRequest = Object.assign({}, values);
+
+    api
+      .register(signUpRequest)
+      .then((response) => {
+        successToast("Congratulations! You have been successfully updated");
+        history.push("/dashboard/users");
+      })
+      .catch((error) => {});
+  };
+
+  const keypress = (e) => {
+    if (e.key === "Enter") {
+    }
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <>
@@ -172,7 +283,7 @@ const User = () => {
           </Grid>
           <Grid item xs={12} md={6} lg={8} xl={9}>
             <div>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Paper component={Card} elevation={3} className={classes.paper}>
                   <CardHeader title="Edit" />
                   <Divider />
@@ -190,8 +301,57 @@ const User = () => {
                             variant="outlined"
                             margin="normal"
                             className={classes.textfield}
+                            {...register("username")}
+                            onKeyPress={keypress}
+                            error={Boolean(errors.username)}
+                            helperText={errors?.username?.message}
                           />
                         </Grid>
+
+                        {/* <select
+                          class="form-select"
+                          aria-label="Default select example"
+                        >
+                          <option selected>Open this select menu</option>
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                        </select> */}
+
+                        <Select
+                          fullWidth
+                          variant="outlined"
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={values.roles}
+                          label="Select"
+                          onChange={handleChange}
+                        >
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+
+                        {/* <TextField
+                          fullWidth
+                          select
+                          id="outlined-select-role"
+                          variant="outlined"
+                          margin="normal"
+                          label="Select"
+                          value={values.role}
+                          {...register("roles")}
+                          onChange={handleChange}
+                          helperText="Please select a User Role"
+                          className={classes.textfield}
+                        >
+                          {roles.map((role) => (
+                            <MenuItem key={role} value={role}>
+                              {role}
+                            </MenuItem>
+                          ))}
+                        </TextField> */}
+
                         <Grid item xs={12}>
                           <TextField
                             fullWidth
@@ -203,6 +363,10 @@ const User = () => {
                             variant="outlined"
                             margin="normal"
                             className={classes.textfield}
+                            {...register("email")}
+                            onKeyPress={keypress}
+                            error={Boolean(errors.email)}
+                            helperText={errors?.email?.message}
                           />
                         </Grid>
                         <Grid item xs={12}>
@@ -212,10 +376,31 @@ const User = () => {
                             label="Password"
                             placeholder="Enter Password"
                             name="password"
-                            type="password"
+                            type={values.showPassword ? "text" : "password"}
                             variant="outlined"
                             margin="normal"
                             className={classes.textfield}
+                            {...register("password")}
+                            onKeyPress={keypress}
+                            error={Boolean(errors.password)}
+                            helperText={errors?.password?.message}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {values.showPassword ? (
+                                      <Visibility color="primary" />
+                                    ) : (
+                                      <VisibilityOff />
+                                    )}
+                                  </IconButton>
+                                </InputAdornment>
+                              ),
+                            }}
                           />
                         </Grid>
                       </Grid>
@@ -254,6 +439,7 @@ const User = () => {
                   <Box className={classes.userUpdateBottom}>
                     <Button
                       className={classes.userUpdateButton}
+                      type="submit"
                       variant="contained"
                       size="medium"
                       color="primary"

@@ -93,7 +93,7 @@ const UserList = () => {
     {
       field: "roles",
       headerName: "Roles",
-      width: 220,
+      width: 120,
       editable: true,
     },
     {
@@ -132,7 +132,7 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <>
-            <NavLink exact to={"/dashboard/user/" + params.row.id}>
+            <NavLink exact to={`/dashboard/user/${params.row.id}`}>
               <Button
                 variant="contained"
                 color="primary"

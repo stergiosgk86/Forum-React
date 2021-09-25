@@ -51,6 +51,9 @@ const api = {
   deleteUser: (userId) => {
     return instance.delete(`users/${userId}`);
   },
+  getRoles: () => {
+    return instance.get("users/roles");
+  },
 };
 
 export { api, BASE_URL, instance };
