@@ -69,6 +69,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
   const {
     register,
     handleSubmit,
@@ -76,6 +77,7 @@ const Register = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
   const history = useHistory();
   const classes = useStyles();
 

@@ -8,13 +8,16 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Chip,
   Divider,
+  FormControl,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   makeStyles,
   MenuItem,
+  OutlinedInput,
   Paper,
   TextField,
   Typography,
@@ -30,6 +33,7 @@ import * as yup from "yup";
 import { api } from "../../../utils/Api";
 import { successToast } from "../../Toastify/Toastify";
 import Select from "@mui/material/Select";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -112,12 +116,30 @@ const schema = yup.object().shape({
     .string()
     .email("Email address is invalid")
     .required("Email is required."),
-  password: yup
-    .string()
-    .trim()
-    .required("Password is required.")
-    .min(4, "The password must be at least 4 characters long."),
+  password: yup.string().trim(),
+  // .required("Password is required.")
+  // .min(4, "The password must be at least 4 characters long."),
 });
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, roleName, theme) {
+  return {
+    fontWeight:
+      roleName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 const User = () => {
   const [values, setValues] = useState({
@@ -128,10 +150,18 @@ const User = () => {
   });
 
   const handleChange = (event) => {
-    // setCurrency(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setRoleName(
+      // On autofill we get a the stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
   };
 
+  const theme = useTheme();
   const [roles, setRoles] = useState([]);
+  const [roleName, setRoleName] = useState([]);
   const [role, setRole] = useState("USER");
 
   const {
@@ -175,9 +205,9 @@ const User = () => {
     const signUpRequest = Object.assign({}, values);
 
     api
-      .register(signUpRequest)
+      .updateUser(id, signUpRequest)
       .then((response) => {
-        successToast("Congratulations! You have been successfully updated");
+        successToast("Congratulations! User has been successfully updated");
         history.push("/dashboard/users");
       })
       .catch((error) => {});
@@ -289,29 +319,21 @@ const User = () => {
                             margin="normal"
                             className={classes.textfield}
                             {...register("username")}
+                            InputLabelProps={{ shrink: true }}
                             onKeyPress={keypress}
                             error={Boolean(errors.username)}
                             helperText={errors?.username?.message}
                           />
                         </Grid>
 
-                        {/* <select
-                          class="form-select"
-                          aria-label="Default select example"
-                        >
-                          <option selected>Open this select menu</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select> */}
-
-                        <Select
+                        {/* <Select
                           fullWidth
                           variant="outlined"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          defaultValue={"role"}
-                          value={role}
+                          defaultValue="role"
+                          value={roles}
+                          {...register("roles")}
                           label="Select"
                           onChange={handleChange}
                         >
@@ -319,32 +341,66 @@ const User = () => {
                             <MenuItem
                               key={role}
                               value={role}
-                              // style={getStyles(name, personName, theme)}
                             >
                               {role}
                             </MenuItem>
                           ))}
-                        </Select>
+                        </Select> */}
 
-                        {/* <TextField
-                          fullWidth
-                          select
-                          id="outlined-select-role"
-                          variant="outlined"
-                          margin="normal"
-                          label="Select"
-                          value={values.role}
-                          {...register("roles")}
-                          onChange={handleChange}
-                          helperText="Please select a User Role"
-                          className={classes.textfield}
+                        <Grid
+                          item
+                          xs={12}
+                          style={{ paddingTop: "15px", paddingBottom: "5px" }}
                         >
-                          {roles.map((role) => (
-                            <MenuItem key={role} value={role}>
-                              {role}
-                            </MenuItem>
-                          ))}
-                        </TextField> */}
+                          <FormControl style={{ width: "100%" }}>
+                            <InputLabel
+                              id="multiple-chip-label"
+                              style={{
+                                marginLeft: "15px",
+                              }}
+                            >
+                              Chip
+                            </InputLabel>
+                            <Select
+                              labelId="multiple-chip-label"
+                              id="multiple-chip"
+                              multiple
+                              className={classes.textfield}
+                              value={roleName}
+                              onChange={handleChange}
+                              input={
+                                <OutlinedInput
+                                  id="select-multiple-chip"
+                                  label="Chip"
+                                />
+                              }
+                              renderValue={(selected) => (
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    gap: 0.5,
+                                  }}
+                                >
+                                  {selected.map((value) => (
+                                    <Chip key={value} label={value} />
+                                  ))}
+                                </Box>
+                              )}
+                              MenuProps={MenuProps}
+                            >
+                              {roles.map((role) => (
+                                <MenuItem
+                                  key={role}
+                                  value={role}
+                                  style={getStyles(role, roleName, theme)}
+                                >
+                                  {role}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
 
                         <Grid item xs={12}>
                           <TextField
@@ -358,6 +414,7 @@ const User = () => {
                             margin="normal"
                             className={classes.textfield}
                             {...register("email")}
+                            InputLabelProps={{ shrink: true }}
                             onKeyPress={keypress}
                             error={Boolean(errors.email)}
                             helperText={errors?.email?.message}

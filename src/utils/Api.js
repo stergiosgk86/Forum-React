@@ -45,7 +45,7 @@ const api = {
   getUserById: (userId) => {
     return instance.get(`users/${userId}`);
   },
-  updateUser: (payload, userId) => {
+  updateUser: (userId, payload) => {
     return instance.put(`users/${userId}`, payload);
   },
   deleteUser: (userId) => {
