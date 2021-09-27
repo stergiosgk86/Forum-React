@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { api } from "../../utils/Api";
-import Input from "../controls/Input";
+import { api } from "../../../../utils/Api";
+import Input from "../../../controls/Input";
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
-import { successToast } from "../Toastify/Toastify";
+import { successToast } from "../../../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,7 +87,7 @@ const CreateCategories = (validateOnChange = false) => {
   };
 
   return (
-    <Box py={5} className="animated fadeInUp">
+    <Box py={5}>
       <Container maxWidth="sm">
         <Paper elevation={20}>
           <Box p={2} className={classes.header}>

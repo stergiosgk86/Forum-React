@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { api, BASE_URL } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import moment from "moment";
@@ -15,12 +15,14 @@ import {
 } from "@material-ui/core";
 import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
-import { CameraAlt, Favorite } from "@material-ui/icons";
+import { CameraAlt } from "@material-ui/icons";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import SkeletonPosts from "../Skeletons/SkeletonPosts";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const styles = (theme) => ({
   root: {
@@ -57,9 +59,10 @@ const styles = (theme) => ({
   likeCommentBtn: {
     padding: theme.spacing(1),
   },
-  typography: {
-    paddingLeft: theme.spacing(1),
-    fontWeight: 600,
+  boxbtn: {
+    alignItems: "center",
+    display: "flex",
+    fontWeight: 700,
   },
   description: {
     padding: theme.spacing(2),
@@ -87,7 +90,6 @@ class Posts extends Component {
     api
       .getCategoryPosts(this.state.categoryId)
       .then((res) => {
-        console.log(res.data);
         this.setState((state) => {
           state.posts = res.data;
           state.loading = false;
@@ -219,7 +221,12 @@ class Posts extends Component {
                           className={classes.likesComments}
                         >
                           <Typography variant="body2">
-                            {post.likes} <Favorite color="error" />
+                            {post.likes}
+                            {post.hasLikeByLoggedInUser ? (
+                              <FavoriteIcon color="error" />
+                            ) : (
+                              <FavoriteBorderIcon />
+                            )}
                           </Typography>
                           <Link
                             to="/comments"
@@ -244,26 +251,29 @@ class Posts extends Component {
                             className="likeCommentBtn"
                             onClick={() => {
                               this.submitLike(post.id);
+                              post.hasLikeByLoggedInUser =
+                                !post.hasLikeByLoggedInUser;
                             }}
                           >
-                            <Typography className={classes.typography}>
-                              <ThumbUpOutlinedIcon /> Like
-                            </Typography>
+                            <Box className={classes.boxbtn}>
+                              <ThumbUpOutlinedIcon />
+                              <Box style={{ marginLeft: "5px" }}>Like</Box>
+                            </Box>
                           </Button>
 
-                          <Link
+                          <Button
+                            component={NavLink}
+                            className="likeCommentBtn"
                             to="/comments"
                             onClick={() => {
                               forumSession.post.saveId(post.id);
                             }}
-                            className="likeCommentBtn"
                           >
-                            <Button className="likeCommentBtn">
-                              <Typography className={classes.typography}>
-                                <ChatBubbleOutlineOutlinedIcon /> Comment
-                              </Typography>
-                            </Button>
-                          </Link>
+                            <Box className={classes.boxbtn}>
+                              <ChatBubbleOutlineOutlinedIcon />
+                              <Box style={{ marginLeft: "5px" }}>Comment</Box>
+                            </Box>
+                          </Button>
                         </Grid>
                       </Grid>
                     </Paper>

@@ -7,7 +7,7 @@ import NewUser from "./components/AdminLayout/NewUser/NewUser";
 import User from "./components/AdminLayout/User/User";
 import UserList from "./components/AdminLayout/UserList/UserList";
 import Comments from "./components/Comments/Comments";
-import CreateCategories from "./components/CreateCategories/CreateCategories";
+import CreateCategories from "./components/AdminLayout/Categories/CreateCategories/CreateCategories";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
 import ForumLayout from "./components/ForumLayout/ForumLayout";
 import Home from "./components/Home/Home";
@@ -20,6 +20,7 @@ import AdminRoute from "./components/security/AdminRoute";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import AuthenticationService from "./components/security/AuthenticationService";
 import UserService from "./utils/UserService";
+import CategoriesList from "./components/AdminLayout/Categories/CategoriesList/CategoriesList";
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
@@ -41,7 +42,6 @@ const App = () => {
           "/",
           "/login",
           "/register",
-          "/createcategories",
           "/createposts",
           "/posts",
           "/comments",
@@ -55,7 +55,16 @@ const App = () => {
             updateIsAdminLoggedIn={updateIsAdminLoggedIn}
           />
           <Switch>
-            <Route path="/" exact component={Home} />
+            <Route
+              path="/"
+              exact
+              component={() => (
+                <Home
+                  isAdminLoggedIn={isAdminLoggedIn}
+                  // updateIsAdminLoggedIn={updateIsAdminLoggedIn}
+                />
+              )}
+            />
             <Route
               path="/login"
               exact
@@ -67,12 +76,6 @@ const App = () => {
               )}
             />
             <Route path="/register" exact component={Register} />
-            <AuthenticatedRoute
-              path="/createcategories"
-              exact
-              component={CreateCategories}
-              isUserLoggedIn={isUserLoggedIn}
-            />
             <AuthenticatedRoute
               path="/createposts"
               exact
@@ -99,6 +102,8 @@ const App = () => {
         exact
         path={[
           "/dashboard",
+          "/dashboard/categories",
+          "/dashboard/createcategories",
           "/dashboard/users",
           "/dashboard/user/:id",
           "/dashboard/newUser",
@@ -133,6 +138,18 @@ const App = () => {
               path="/dashboard/newUser"
               exact
               component={NewUser}
+              isAdminLoggedIn={isAdminLoggedIn}
+            />
+            <AdminRoute
+              path="/dashboard/categories"
+              exact
+              component={CategoriesList}
+              isAdminLoggedIn={isAdminLoggedIn}
+            />
+            <AdminRoute
+              path="/dashboard/createcategories"
+              exact
+              component={CreateCategories}
               isAdminLoggedIn={isAdminLoggedIn}
             />
           </Switch>

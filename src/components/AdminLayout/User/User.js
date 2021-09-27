@@ -16,7 +16,6 @@ import {
   makeStyles,
   MenuItem,
   Paper,
-  Select,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -30,6 +29,7 @@ import { NavLink, useHistory, useParams } from "react-router-dom";
 import * as yup from "yup";
 import { api } from "../../../utils/Api";
 import { successToast } from "../../Toastify/Toastify";
+import Select from "@mui/material/Select";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -119,12 +119,10 @@ const schema = yup.object().shape({
     .min(4, "The password must be at least 4 characters long."),
 });
 
-const rolesz = ["test1", "test2", "test3"];
-
 const User = () => {
   const [values, setValues] = useState({
     username: "",
-    roles: ["dsa"],
+    roles: [],
     email: "",
     password: "",
   });
@@ -132,17 +130,9 @@ const User = () => {
   const handleChange = (event) => {
     // setCurrency(event.target.value);
   };
-  const [roles, setRoles] = useState([]);
 
-  // async function getRoles() {
-  //   api
-  //     .getRoles()
-  //     .then(({ data }) => {
-  //       setValue("roles", data.roles);
-  //       console.log(roles);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
+  const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState("USER");
 
   const {
     register,
@@ -158,14 +148,11 @@ const User = () => {
 
   const { id } = useParams();
 
-  // const { username, roles, email, password, confirmPassword } = values;
-
   useEffect(() => {
     api
       .getRoles()
       .then(({ data }) => {
         setRoles(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
 
@@ -323,13 +310,20 @@ const User = () => {
                           variant="outlined"
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          value={values.roles}
+                          defaultValue={"role"}
+                          value={role}
                           label="Select"
                           onChange={handleChange}
                         >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          {roles.map((role) => (
+                            <MenuItem
+                              key={role}
+                              value={role}
+                              // style={getStyles(name, personName, theme)}
+                            >
+                              {role}
+                            </MenuItem>
+                          ))}
                         </Select>
 
                         {/* <TextField

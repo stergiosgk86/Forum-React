@@ -28,6 +28,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ScrollIntoView from "react-scroll-into-view";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -284,7 +286,12 @@ class Comments extends Component {
                 className={classes.likesComments}
               >
                 <Typography variant="body2">
-                  {this.state.likes} <Favorite color="error" />
+                  {this.state.likes}
+                  {this.state.post.hasLikeByLoggedInUser ? (
+                    <FavoriteIcon color="error" />
+                  ) : (
+                    <FavoriteBorderIcon />
+                  )}
                 </Typography>
 
                 <Typography variant="body2">

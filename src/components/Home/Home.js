@@ -16,7 +16,7 @@ import {
 import "./Home.css";
 import SkeletonCategories from "../Skeletons/SkeletonCategories";
 
-const Home = () => {
+const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -283,14 +283,18 @@ const Home = () => {
           paginate={paginate}
         />
       </Container>
-      <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
-        <Link
-          to="/createcategories"
-          className="text-decoration-none btn btn-grad"
-        >
-          Add Category
-        </Link>
-      </Container>
+      {isAdminLoggedIn ? (
+        <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
+          <Link
+            to="/dashboard/createcategories"
+            className="text-decoration-none btn btn-grad"
+          >
+            Add Category
+          </Link>
+        </Container>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

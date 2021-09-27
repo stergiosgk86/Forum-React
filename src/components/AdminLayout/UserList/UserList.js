@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   containergrid: {
     padding: 20,
   },
-  userUpdateButton: {
+  userCreateEditButton: {
     outline: "none!important",
     textTransform: "none!important",
     borderRadius: theme.spacing(2),
@@ -136,7 +136,7 @@ const UserList = () => {
               <Button
                 variant="contained"
                 color="primary"
-                className={classes.userUpdateButton}
+                className={classes.userCreateEditButton}
                 startIcon={<EditIcon />}
               >
                 Edit
@@ -169,7 +169,7 @@ const UserList = () => {
         </Typography>
         <NavLink to="/dashboard/newUser" className="navlink">
           <Button
-            className={classes.userUpdateButton}
+            className={classes.userCreateEditButton}
             variant="contained"
             size="medium"
             color="primary"

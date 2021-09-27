@@ -1,42 +1,46 @@
 img {
-    display: block;
-    width: 100%;
-    max-height: 500px;
-    object-fit: contain;
+  display: block;
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
 }
 
 .likeCommentBtn {
-    color: black;
-    font-weight: bold;
-    font-size: 17px;
-    outline: none!important;
-    text-transform: none!important;
+  color: black;
+  font-weight: bold;
+  font-size: 17px;
+  outline: none !important;
+  text-transform: none !important;
 }
 
 .likeCommentBtn:hover {
-    color: rgba(102,181,198,1);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 17px;
-    cursor: pointer;
+  color: rgba(102, 181, 198, 1);
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.btn-grad {background-image: linear-gradient(to right, #1A2980 0%, #26D0CE  51%, #1A2980  100%)}
 .btn-grad {
-   padding: 10px 35px;
-   text-align: center;
-   text-transform: uppercase;
-   transition: 0.5s;
-   background-size: 200% auto;
-   color: white;
-   font-weight: 500;            
-   box-shadow: 0 0 20px rgb(0, 0, 0);
-   border-radius: 10px;
- }
+  background-image: linear-gradient(
+    to right,
+    #1a2980 0%,
+    #26d0ce 51%,
+    #1a2980 100%
+  );
+}
+.btn-grad {
+  padding: 10px 35px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 0 20px rgb(0, 0, 0);
+  border-radius: 10px;
+}
 
- .btn-grad:hover {
-   background-position: right center; /* change the direction of the change here */
-   color: #fff;
-   text-decoration: none;
- }
- 
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
