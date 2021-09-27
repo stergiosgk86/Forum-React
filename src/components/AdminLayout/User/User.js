@@ -26,6 +26,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import PublishIcon from "@material-ui/icons/Publish";
+import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink, useHistory, useParams } from "react-router-dom";
@@ -117,8 +118,6 @@ const schema = yup.object().shape({
     .email("Email address is invalid")
     .required("Email is required."),
   password: yup.string().trim(),
-  // .required("Password is required.")
-  // .min(4, "The password must be at least 4 characters long."),
 });
 
 const ITEM_HEIGHT = 48;
@@ -162,7 +161,6 @@ const User = () => {
   const theme = useTheme();
   const [roles, setRoles] = useState([]);
   const [roleName, setRoleName] = useState([]);
-  const [role, setRole] = useState("USER");
 
   const {
     register,
@@ -192,7 +190,7 @@ const User = () => {
         setValue("username", data.username);
         setValue("email", data.email);
         setValue("roles", data.roles);
-        console.log(data);
+        setValues(data);
       })
       .catch((err) => {
         console.log(err);
@@ -275,7 +273,17 @@ const User = () => {
                         variant="subtitle2"
                         component="h6"
                       >
-                        annabeck99
+                        {values.username}
+                      </Typography>
+                    </Box>
+                    <Box className={classes.userShowInfo}>
+                      <DnsOutlinedIcon />
+                      <Typography
+                        className={classes.typography}
+                        variant="subtitle2"
+                        component="h6"
+                      >
+                        {values.roles}
                       </Typography>
                     </Box>
                     <Box className={classes.userShowInfo}>
@@ -285,17 +293,12 @@ const User = () => {
                         variant="subtitle2"
                         component="h6"
                       >
-                        annabeck99@gmail.com
+                        {values.email}
                       </Typography>
                     </Box>
                   </Box>
                 </Box>
               </CardContent>
-              <CardActions>
-                <Button fullWidth size="medium">
-                  Primary
-                </Button>
-              </CardActions>
             </Paper>
           </Grid>
           <Grid item xs={12} md={6} lg={8} xl={9}>
@@ -359,7 +362,7 @@ const User = () => {
                                 marginLeft: "15px",
                               }}
                             >
-                              Chip
+                              Role
                             </InputLabel>
                             <Select
                               labelId="multiple-chip-label"
