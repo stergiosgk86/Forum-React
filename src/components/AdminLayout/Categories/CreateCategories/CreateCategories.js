@@ -1,160 +1,169 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { api } from "../../../../utils/Api";
-import Input from "../../../controls/Input";
 import {
   Box,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
   Container,
+  Divider,
+  Grid,
   makeStyles,
   Paper,
-  Typography,
+  TextField,
 } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import { successToast } from "../../../Toastify/Toastify";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    paper: {
-      padding: theme.spacing(2),
+  textfield: {
+    ["& fieldset"]: {
+      borderRadius: `16px`,
     },
   },
-  header: {
-    backgroundImage: `radial-gradient(circle, rgba(2,0,43,1) 0%, rgba(58,58,185,1) 50%, rgba(102,181,198,1) 100%)`,
-    color: "#fff",
+  container: {
+    paddingTop: theme.spacing(10),
+  },
+  paper: {
+    borderRadius: theme.spacing(2),
+  },
+  cardBottom: {
+    padding: theme.spacing(2),
+    display: "flex",
+    justifyContent: "end",
+  },
+  saveButton: {
+    outline: "none!important",
+    textTransform: "none!important",
+    borderRadius: theme.spacing(2),
+    backgroundColor: "rgb(86, 100, 210)",
+    color: "white",
   },
 }));
 
-const initialValues = {
-  title: "",
-  description: "",
-};
+const schema = yup.object().shape({
+  title: yup.string().trim().required("Title is required."),
+  description: yup.string().trim().required("Description is required."),
+});
 
-const CreateCategories = (validateOnChange = false) => {
-  const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState({});
+const CreateCategories = () => {
   const history = useHistory();
   const classes = useStyles();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-    if (validateOnChange) validate({ [name]: value });
+  const [values, setValues] = useState({
+    title: "",
+    description: "",
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (values, e) => {
+    e.preventDefault();
+
+    api
+      .saveCategory(values)
+      .then((response) => {
+        successToast(
+          "Congratulations! Your Category has been successfully created."
+        );
+        history.push("/");
+      })
+      .catch((err) => {});
   };
 
-  const validate = (fieldValues = values) => {
-    let temp = { ...errors };
-    if ("title" in fieldValues)
-      temp.title = fieldValues.title ? "" : "This field is required.";
-    if ("description" in fieldValues)
-      temp.description = fieldValues.description
-        ? ""
-        : "This field is required.";
-    setErrors({
-      ...temp,
-    });
-
-    if ((fieldValues = values))
-      return Object.values(temp).every((x) => x == "");
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (validate()) {
-      api
-        .saveCategory(values)
-        .then(() => {
-          successToast(
-            "Congratulations! Your Category has been successfully created."
-          );
-          history.push("/");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      // window.alert("Not Validated...");
+  const keypress = (e) => {
+    if (e.key === "Enter") {
     }
   };
 
   const resetForm = () => {
-    setValues(initialValues);
-    setErrors({});
+    reset({});
   };
 
   return (
-    <Box py={5}>
-      <Container maxWidth="sm">
-        <Paper elevation={20}>
-          <Box p={2} className={classes.header}>
-            <Typography variant="h5">Add Category</Typography>
-          </Box>
-          <Box p={3}>
-            <form
-              onSubmit={handleSubmit}
-              className={classes.root}
-              autoComplete="off"
-            >
-              <Box mb={2} display="flex" justifyContent="start">
-                <Input
-                  autoFocus
-                  fullWidth
-                  size="small"
-                  variant="outlined"
-                  label="Title"
-                  placeholder="Enter Title"
-                  name="title"
-                  value={values.title}
-                  onChange={handleChange}
-                  error={errors.title}
-                />
-              </Box>
-              <Box display="flex" justifyContent="start">
-                <Input
-                  fullWidth
-                  size="small"
-                  variant="outlined"
-                  label="Description"
-                  placeholder="Enter Description"
-                  name="description"
-                  value={values.description}
-                  onChange={handleChange}
-                  error={errors.description}
-                />
-              </Box>
-              <Box display="flex" justifyContent="center" flexWrap="wrap">
-                <Box display="flex" justifyContent="start" mt={2} mr={1}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    startIcon={<SaveIcon />}
-                  >
-                    Save
-                  </Button>
-                </Box>
-                <Box display="flex" justifyContent="start" mt={2}>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="secondary"
-                    onClick={resetForm}
-                    startIcon={<RotateLeftIcon />}
-                  >
-                    Reset
-                  </Button>
-                </Box>
-              </Box>
-            </form>
-          </Box>
-        </Paper>
-      </Container>
-    </Box>
+    <Container maxWidth="sm" className={classes.container}>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+          <Paper component={Card} elevation={3} className={classes.paper}>
+            <CardHeader title="Create Category" />
+            <Divider />
+            <CardContent>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    autoComplete="off"
+                    label="Title"
+                    placeholder="Enter Title"
+                    name="title"
+                    type="text"
+                    variant="outlined"
+                    margin="normal"
+                    className={classes.textfield}
+                    onKeyPress={keypress}
+                    {...register("title")}
+                    error={Boolean(errors.title)}
+                    helperText={errors?.title?.message}
+                  />
+
+                  <TextField
+                    fullWidth
+                    autoComplete="off"
+                    label="Description"
+                    placeholder="Enter Description"
+                    name="description"
+                    type="text"
+                    variant="outlined"
+                    margin="normal"
+                    className={classes.textfield}
+                    onKeyPress={keypress}
+                    {...register("description")}
+                    error={Boolean(errors.description)}
+                    helperText={errors?.description?.message}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+            <Divider />
+            <Box className={classes.cardBottom}>
+              <Button
+                className={classes.saveButton}
+                type="submit"
+                variant="contained"
+                size="medium"
+                color="primary"
+                startIcon={<SaveIcon />}
+              >
+                Save
+              </Button>
+              <Button
+                className="userListDelete"
+                variant="contained"
+                size="medium"
+                color="secondary"
+                onClick={resetForm}
+                startIcon={<RotateLeftIcon />}
+              >
+                Reset
+              </Button>
+            </Box>
+          </Paper>
+        </form>
+      </div>
+    </Container>
   );
 };
 

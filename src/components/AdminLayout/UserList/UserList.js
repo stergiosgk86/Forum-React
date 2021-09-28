@@ -11,6 +11,7 @@ import {
   Grid,
   Paper,
   Typography,
+  Avatar,
 } from "@material-ui/core";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import EditIcon from "@material-ui/icons/Edit";
@@ -56,9 +57,7 @@ const UserList = () => {
       .then((res) => {
         setUsers(res.data);
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch((err) => {});
   }, []);
 
   const handleDelete = async (id) => {
@@ -85,7 +84,7 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="" />
+            <Avatar className="userListImg" src={params.row.avatar} alt="" />
             {params.row.username}
           </div>
         );

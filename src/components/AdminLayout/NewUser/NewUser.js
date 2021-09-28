@@ -117,7 +117,7 @@ const NewUser = () => {
   return (
     <Container maxWidth="sm" className={classes.container}>
       <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <Paper component={Card} elevation={3} className={classes.paper}>
             <CardHeader title="Create User" />
             <Divider />
@@ -125,7 +125,6 @@ const NewUser = () => {
               <Grid container>
                 <Grid item xs={12}>
                   <TextField
-                    autoFocus
                     fullWidth
                     autoComplete="off"
                     label="Username"

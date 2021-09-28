@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardMedia,
   Chip,
   Divider,
   FormControl,
@@ -256,7 +255,7 @@ const User = () => {
                     <Avatar
                       className={classes.avatar}
                       variant="circular"
-                      src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                      src=""
                       alt=""
                     ></Avatar>
                   </Box>
@@ -304,7 +303,7 @@ const User = () => {
           </Grid>
           <Grid item xs={12} md={6} lg={8} xl={9}>
             <div>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Paper component={Card} elevation={3} className={classes.paper}>
                   <CardHeader title="Edit" />
                   <Divider />
@@ -467,19 +466,14 @@ const User = () => {
                         style={{ padding: "10px 0px" }}
                       >
                         <Box className={classes.userUpdateUpload}>
-                          <CardMedia
-                            className={classes.cardmedia}
-                            component="img"
-                            src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                            alt=""
-                          />
+                          <Avatar src="" alt="" className={classes.cardmedia} />
                         </Box>
                         <Box className={classes.userUploadImg}>
                           <Button
                             className={classes.userUpdateButton}
                             variant="contained"
                             component="label"
-                            size="medium"
+                            size="small"
                             color="primary"
                             startIcon={<PublishIcon />}
                           >
