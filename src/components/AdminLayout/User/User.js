@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -201,6 +200,8 @@ const User = () => {
     e.preventDefault();
 
     const signUpRequest = Object.assign({}, values);
+    signUpRequest.password =
+      signUpRequest.password === "" ? null : signUpRequest.password;
 
     api
       .updateUser(id, signUpRequest)

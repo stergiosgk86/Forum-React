@@ -15,6 +15,7 @@ import {
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   datagrid: {
@@ -63,7 +64,7 @@ const UserList = () => {
   const handleDelete = async (id) => {
     await api.deleteUser(id);
     const newUserList = users.filter((user) => {
-      return user.id !== id;
+      return user.key !== id;
     });
 
     successToast("User has been successfully deleted");
@@ -127,12 +128,12 @@ const UserList = () => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Actions",
       width: 220,
       renderCell: (params) => {
         return (
           <>
-            <NavLink exact to={`/dashboard/user/${params.row.id}`}>
+            <NavLink exact to={`/dashboard/user/${params.row.key}`}>
               <Button
                 variant="contained"
                 color="primary"
@@ -147,11 +148,41 @@ const UserList = () => {
               color="secondary"
               className="userListDelete"
               startIcon={<DeleteIcon />}
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row.key)}
             >
               Delete
             </Button>
           </>
+        );
+      },
+    },
+    {
+      field: "modifiedBy",
+      headerName: "Modified By",
+      width: 153,
+    },
+    {
+      field: "modified",
+      headerName: "Modified At",
+      width: 218,
+      renderCell: (params) => {
+        return (
+          <>{moment(params.row.modified).format("MMMM D, YYYY [at] h:mm A")}</>
+        );
+      },
+    },
+    {
+      field: "createdBy",
+      headerName: "Created By",
+      width: 146,
+    },
+    {
+      field: "created",
+      headerName: "Created At",
+      width: 218,
+      renderCell: (params) => {
+        return (
+          <>{moment(params.row.created).format("MMMM D, YYYY [at] h:mm A")}</>
         );
       },
     },
