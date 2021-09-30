@@ -133,7 +133,7 @@ class Posts extends Component {
               color="primary"
               startIcon={<AddBoxIcon />}
             >
-              Add Post
+              Create Post
             </Button>
           </NavLink>
         </div>

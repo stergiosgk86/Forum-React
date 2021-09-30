@@ -18,5 +18,6 @@
 .userListDelete {
   border-radius: 16px !important;
   margin-left: 20px !important;
+  text-transform: none !important;
   outline: none !important;
 }

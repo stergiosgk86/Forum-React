@@ -1,8 +1,52 @@
 import React, { Component } from "react";
-import { Form, Card, Button, ProgressBar } from "react-bootstrap";
+import { ProgressBar } from "react-bootstrap";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import { successToast } from "../Toastify/Toastify";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Divider,
+  Grid,
+  withStyles,
+  Paper,
+  TextField,
+} from "@material-ui/core";
+import BackupIcon from "@mui/icons-material/Backup";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+
+const styles = (theme) => ({
+  textfield: {
+    ["& fieldset"]: {
+      borderRadius: `16px`,
+    },
+  },
+  container: {
+    paddingTop: theme.spacing(10),
+  },
+  paper: {
+    borderRadius: theme.spacing(2),
+  },
+  boxImage: {
+    paddingTop: theme.spacing(2),
+  },
+  cardBottom: {
+    padding: theme.spacing(2),
+    display: "flex",
+    justifyContent: "end",
+  },
+  customButton: {
+    outline: "none!important",
+    textTransform: "none!important",
+    borderRadius: theme.spacing(2),
+    backgroundColor: "rgb(86, 100, 210)",
+    color: "white",
+  },
+});
 
 class CreatePosts extends Component {
   constructor(props) {
@@ -74,18 +118,12 @@ class CreatePosts extends Component {
           }
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-
-  resetPost = () => {
-    this.setState(() => this.initialState);
-  };
 
   postChange = (event) => {
     this.setState({
@@ -93,80 +131,122 @@ class CreatePosts extends Component {
     });
   };
 
+  keypress = (e) => {
+    if (e.key === "Enter") {
+    }
+  };
+
+  resetForm = () => {
+    this.setState(() => this.initialState);
+  };
+
   render() {
-    const { title, description } = this.state;
     const { uploadPercentage } = this.state;
+    const { classes } = this.props;
 
     return (
-      <div className="container pt-5 animated fadeInUp">
-        <Card className="cardBorder shadow-lg">
-          <Card.Header>Add a Post</Card.Header>
-          <Form onSubmit={this.submitPost} onReset={this.resetPost}>
-            <Card.Body>
-              <Form.Group controlId="formBasicTitle">
-                <Form.Label>Tittle</Form.Label>
-                <Form.Control
-                  required
-                  autoComplete="off"
-                  type="title"
-                  name="title"
-                  value={title}
-                  onChange={this.postChange}
-                  placeholder="Enter Title"
-                />
-              </Form.Group>
-              <Form.Group controlId="formBasicDescription">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  required
-                  autoComplete="off"
-                  type="description"
-                  name="description"
-                  value={description}
-                  onChange={this.postChange}
-                  placeholder="Enter Description"
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Image</Form.Label>
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">Upload</span>
-                  </div>
-                  <div className="custom-file">
-                    <input
-                      type="file"
-                      className="custom-file-input"
-                      id="imageFile"
-                      onChange={this.encodeImage}
+      <Container maxWidth="sm" className={classes.container}>
+        <div>
+          <form
+            onSubmit={this.submitPost}
+            onReset={this.resetForm}
+            autoComplete="off"
+          >
+            <Paper component={Card} elevation={3} className={classes.paper}>
+              <CardHeader title="Create Post" />
+              <Divider />
+              <CardContent>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      autoComplete="off"
+                      label="Title"
+                      placeholder="Enter Title"
+                      name="title"
+                      type="text"
+                      variant="outlined"
+                      margin="normal"
+                      className={classes.textfield}
+                      onKeyPress={this.keypress}
+                      onChange={this.postChange}
+                      // {...register("title")}
+                      // error={Boolean(errors.title)}
+                      // helperText={errors?.title?.message}
                     />
-                    <label className="custom-file-label">Choose an Image</label>
-                  </div>
-                </div>
-                {uploadPercentage > 0 && (
-                  <ProgressBar
-                    animated
-                    now={uploadPercentage}
-                    label={`${uploadPercentage}%`}
-                  />
-                )}
-              </Form.Group>
-            </Card.Body>
-            <Card.Footer>
-              <Button variant="primary mr-2" type="submit">
-                <i className="fas fa-save pr-2"></i>
-                Submit
-              </Button>
-              <Button variant="info" type="reset">
-                <i className="fas fa-undo pr-2"></i>
-                Reset
-              </Button>
-            </Card.Footer>
-          </Form>
-        </Card>
-      </div>
+                    <TextField
+                      fullWidth
+                      autoComplete="off"
+                      label="Description"
+                      placeholder="Enter Description"
+                      name="description"
+                      type="text"
+                      variant="outlined"
+                      margin="normal"
+                      className={classes.textfield}
+                      onKeyPress={this.keypress}
+                      onChange={this.postChange}
+                      // {...register("description")}
+                      // error={Boolean(errors.description)}
+                      // helperText={errors?.description?.message}
+                    />
+
+                    <Box className={classes.boxImage}>
+                      <Button
+                        className={classes.customButton}
+                        variant="contained"
+                        component="label"
+                        size="small"
+                        color="primary"
+                        startIcon={<BackupIcon />}
+                      >
+                        <Box>Upload Image</Box>
+                        <input type="file" onChange={this.encodeImage} hidden />
+                      </Button>
+
+                      <Box pt={2}>
+                        {uploadPercentage > 0 && (
+                          <ProgressBar
+                            animated
+                            now={uploadPercentage}
+                            label={`${uploadPercentage}%`}
+                          />
+                        )}
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </CardContent>
+
+              <Divider />
+              <Box className={classes.cardBottom}>
+                <Button
+                  className={classes.customButton}
+                  type="submit"
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  startIcon={<BackupIcon />}
+                >
+                  Submit
+                </Button>
+                <Button
+                  className="userListDelete"
+                  variant="contained"
+                  size="medium"
+                  color="secondary"
+                  onClick={this.resetForm}
+                  startIcon={<RotateLeftIcon />}
+                >
+                  Reset
+                </Button>
+              </Box>
+            </Paper>
+          </form>
+        </div>
+      </Container>
     );
   }
 }
 
-export default CreatePosts;
+export default withStyles(styles)(CreatePosts);
