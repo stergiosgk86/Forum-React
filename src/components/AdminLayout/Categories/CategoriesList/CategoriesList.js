@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  makeStyles,
-  Button,
-  Box,
-  Grid,
-  Typography,
-  Paper,
-} from "@material-ui/core";
-import { NavLink } from "react-router-dom";
+import { makeStyles, Box, Grid, Typography, Paper } from "@material-ui/core";
 import { api } from "../../../../utils/Api";
 import MaterialTable from "material-table";
+import { successToast } from "../../../Toastify/Toastify";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -57,8 +50,22 @@ const CategoriesList = () => {
 
   const columns = [
     { title: "ID", field: "id", editable: "never" },
-    { title: "Title", field: "title" },
-    { title: "Description", field: "description" },
+    {
+      title: "Title",
+      field: "title",
+      validate: (rowData) =>
+        rowData.title === undefined || rowData.title === ""
+          ? "Title is required."
+          : true,
+    },
+    {
+      title: "Description",
+      field: "description",
+      validate: (rowData) =>
+        rowData.description === undefined || rowData.description === ""
+          ? "Description is required."
+          : true,
+    },
     { title: "Posts", field: "numPosts", editable: "never" },
     { title: "Comments", field: "numComments", editable: "never" },
   ];
@@ -73,16 +80,6 @@ const CategoriesList = () => {
         >
           Categories
         </Typography>
-        {/* <NavLink to="/dashboard/createcategories" className="navlink">
-          <Button
-            className={classes.categoryCreateEditButton}
-            variant="contained"
-            size="medium"
-            color="primary"
-          >
-            Create Category
-          </Button>
-        </NavLink> */}
       </Grid>
       <Grid container className={classes.containergrid}>
         <Grid item xs={12}>
@@ -98,6 +95,9 @@ const CategoriesList = () => {
                     api
                       .saveCategory(newCategory)
                       .then((response) => {
+                        successToast(
+                          "Congratulations! Category has been successfully created."
+                        );
                         getAllCategories();
                         resolve();
                       })
@@ -105,21 +105,35 @@ const CategoriesList = () => {
                         resolve();
                       });
                   }),
-                onRowDelete: (selectedRow) =>
+                onRowDelete: (oldCategory) =>
                   new Promise((resolve, reject) => {
-                    // const index = selectedRow.tableData.id;
-                    // const updatedRows = [...data];
-                    // updatedRows.splice(index, 1);
-                    // setData(updatedRows);
-                    // resolve();
+                    api
+                      .deleteCategory(oldCategory.id)
+                      .then((response) => {
+                        successToast(
+                          "Congratulations! Category has been successfully deleted."
+                        );
+                        getAllCategories();
+                        resolve();
+                      })
+                      .catch((err) => {
+                        resolve();
+                      });
                   }),
-                onRowUpdate: (updatedRow, oldRow) =>
+                onRowUpdate: (newCategory, oldCategory) =>
                   new Promise((resolve, reject) => {
-                    // const index = oldRow.tableData.id;
-                    // const updatedRows = [...data];
-                    // updatedRows[index] = updatedRow;
-                    // setData(updatedRows);
-                    // resolve();
+                    api
+                      .updateCategory(oldCategory.id, newCategory)
+                      .then((response) => {
+                        successToast(
+                          "Congratulations! Category has been successfully updated."
+                        );
+                        getAllCategories();
+                        resolve();
+                      })
+                      .catch((err) => {
+                        resolve();
+                      });
                   }),
               }}
               options={{

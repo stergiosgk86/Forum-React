@@ -18,6 +18,12 @@ const api = {
   getCategoryPosts: (categoryId) => {
     return instance.get(`/categories/${categoryId}/posts`);
   },
+  updateCategory: (categoryId, payload) => {
+    return instance.put(`/categories/${categoryId}`, payload);
+  },
+  deleteCategory: (categoryId) => {
+    return instance.delete(`/categories/${categoryId}`);
+  },
   savePost: (categoryId, post, options) => {
     return instance.post(`/categories/${categoryId}/posts`, post, options);
   },
