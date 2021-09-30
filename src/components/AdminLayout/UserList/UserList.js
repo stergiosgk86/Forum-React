@@ -17,6 +17,7 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import moment from "moment";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const useStyles = makeStyles((theme) => ({
   datagrid: {
@@ -166,7 +167,7 @@ const UserList = () => {
       width: 218,
       renderCell: (params) => {
         return (
-          <>{moment(params.row.modified).format("MMMM D, YYYY [at] h:mm A")}</>
+          <>{moment(params.row.modified).format("D, MM, YYYY [at] h:mm A")}</>
         );
       },
     },
@@ -181,7 +182,7 @@ const UserList = () => {
       width: 218,
       renderCell: (params) => {
         return (
-          <>{moment(params.row.created).format("MMMM D, YYYY [at] h:mm A")}</>
+          <>{moment(params.row.dateCreated).format("D, MM YYYY [at] h:mm A")}</>
         );
       },
     },
@@ -203,6 +204,7 @@ const UserList = () => {
             variant="contained"
             size="medium"
             color="primary"
+            startIcon={<AddBoxIcon />}
           >
             Create User
           </Button>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import moment from "moment";
@@ -12,9 +12,11 @@ import {
   Grid,
   Paper,
   Hidden,
+  Button,
 } from "@material-ui/core";
 import "./Home.css";
 import SkeletonCategories from "../Skeletons/SkeletonCategories";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
   const [categories, setCategories] = useState([]);
@@ -74,6 +76,13 @@ const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
     media: {
       height: 90,
       borderRadius: 10,
+    },
+    customButton: {
+      outline: "none!important",
+      textTransform: "none!important",
+      borderRadius: theme.spacing(2),
+      backgroundColor: "rgb(86, 100, 210)",
+      color: "white",
     },
   }));
 
@@ -285,12 +294,17 @@ const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
       </Container>
       {isAdminLoggedIn ? (
         <Container maxWidth="lg" fixed={true} component={Box} pb={3}>
-          <Link
-            to="/dashboard/createcategories"
-            className="text-decoration-none btn btn-grad"
-          >
-            Add Category
-          </Link>
+          <NavLink to="/dashboard/categories" className="navlink">
+            <Button
+              className={classes.customButton}
+              variant="contained"
+              size="large"
+              color="primary"
+              startIcon={<AddBoxIcon />}
+            >
+              Add Category
+            </Button>
+          </NavLink>
         </Container>
       ) : (
         ""

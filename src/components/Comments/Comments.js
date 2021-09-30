@@ -198,9 +198,7 @@ class Comments extends Component {
           return state;
         });
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch((err) => {});
   }
 
   handleExpandClick = () => {
@@ -383,33 +381,33 @@ class Comments extends Component {
                 </Grid>
 
                 <Grid item xs={10} sm={11}>
-                  <ScrollIntoView selector="#input">
-                    <TextField
-                      id="input"
-                      multiline
-                      variant="standard"
-                      fullWidth
-                      size="small"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={this.submitComment}
-                              className={classes.sendBtn}
-                            >
-                              <SendIcon color="primary" />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      aria-label="empty textarea"
-                      placeholder="Write a comment..."
-                      value={this.state.text}
-                      onKeyPress={this.keypress}
-                      onChange={this.handleChange}
-                      name="text"
-                    />
-                  </ScrollIntoView>
+                  {/* <ScrollIntoView selector="#input"> */}
+                  <TextField
+                    id="input"
+                    multiline
+                    variant="standard"
+                    fullWidth
+                    size="small"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={this.submitComment}
+                            className={classes.sendBtn}
+                          >
+                            <SendIcon color="primary" />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    aria-label="empty textarea"
+                    placeholder="Write a comment..."
+                    value={this.state.text}
+                    onKeyPress={this.keypress}
+                    onChange={this.handleChange}
+                    name="text"
+                  />
+                  {/* </ScrollIntoView> */}
                 </Grid>
               </Grid>
             </Grid>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { api, BASE_URL } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
 import moment from "moment";
@@ -12,21 +12,28 @@ import {
   Paper,
   Avatar,
   Button,
+  Divider,
 } from "@material-ui/core";
 import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
 import { CameraAlt } from "@material-ui/icons";
-import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import SkeletonPosts from "../Skeletons/SkeletonPosts";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
+  },
+  customButton: {
+    outline: "none!important",
+    textTransform: "none!important",
+    borderRadius: theme.spacing(2),
+    backgroundColor: "rgb(86, 100, 210)",
+    color: "white",
   },
   paper: {
     padding: theme.spacing(2),
@@ -52,17 +59,13 @@ const styles = (theme) => ({
     fontWeight: 500,
     opacity: 0.6,
   },
-  likesComments: {
-    padding: theme.spacing(1),
-    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
-  },
   likeCommentBtn: {
     padding: theme.spacing(1),
   },
   boxbtn: {
     alignItems: "center",
     display: "flex",
-    fontWeight: 700,
+    fontWeight: 500,
   },
   description: {
     padding: theme.spacing(2),
@@ -96,9 +99,7 @@ class Posts extends Component {
           return { state };
         });
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch((err) => {});
   }
 
   submitLike(postId) {
@@ -115,9 +116,7 @@ class Posts extends Component {
           });
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   render() {
@@ -126,10 +125,17 @@ class Posts extends Component {
     return (
       <>
         <div className="text-center position-sticky fixed-top sticky">
-          <Link to="/createposts" className="btn btn-grad">
-            <i className="fas fa-plus-square pr-2"></i>
-            Add Post
-          </Link>
+          <NavLink to="/createposts" className="navlink">
+            <Button
+              className={classes.customButton}
+              variant="contained"
+              size="large"
+              color="primary"
+              startIcon={<AddBoxIcon />}
+            >
+              Add Post
+            </Button>
+          </NavLink>
         </div>
 
         {this.state.loading ? (
@@ -214,38 +220,11 @@ class Posts extends Component {
                             ""
                           )}
                         </Grid>
-                        <Grid
-                          container
-                          component={Box}
-                          justifyContent="space-between"
-                          className={classes.likesComments}
-                        >
-                          <Typography variant="body2">
-                            {post.likes}
-                            {post.hasLikeByLoggedInUser ? (
-                              <FavoriteIcon color="error" />
-                            ) : (
-                              <FavoriteBorderIcon />
-                            )}
-                          </Typography>
-                          <Link
-                            to="/comments"
-                            onClick={() => {
-                              forumSession.post.saveId(post.id);
-                            }}
-                            className="likeCommentBtn"
-                          >
-                            <Typography variant="body2">
-                              {post.numComments} Comments
-                            </Typography>
-                          </Link>
-                        </Grid>
 
                         <Grid
                           container
                           component={Box}
                           justifyContent="space-between"
-                          className={classes.likeCommentBtn}
                         >
                           <Button
                             className="likeCommentBtn"
@@ -255,12 +234,15 @@ class Posts extends Component {
                                 !post.hasLikeByLoggedInUser;
                             }}
                           >
-                            <Box className={classes.boxbtn}>
-                              <ThumbUpOutlinedIcon />
-                              <Box style={{ marginLeft: "5px" }}>Like</Box>
-                            </Box>
+                            <Typography variant="body2">
+                              {post.likes}
+                              {post.hasLikeByLoggedInUser ? (
+                                <FavoriteIcon color="error" />
+                              ) : (
+                                <FavoriteBorderIcon />
+                              )}
+                            </Typography>
                           </Button>
-
                           <Button
                             component={NavLink}
                             className="likeCommentBtn"
@@ -270,8 +252,8 @@ class Posts extends Component {
                             }}
                           >
                             <Box className={classes.boxbtn}>
-                              <ChatBubbleOutlineOutlinedIcon />
-                              <Box style={{ marginLeft: "5px" }}>Comment</Box>
+                              {post.numComments}
+                              <Box style={{ marginLeft: "5px" }}>Comments</Box>
                             </Box>
                           </Button>
                         </Grid>

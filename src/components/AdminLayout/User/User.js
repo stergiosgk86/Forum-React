@@ -33,6 +33,7 @@ import { api } from "../../../utils/Api";
 import { successToast } from "../../Toastify/Toastify";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -241,6 +242,7 @@ const User = () => {
               variant="contained"
               size="medium"
               color="primary"
+              startIcon={<AddBoxIcon />}
             >
               Create User
             </Button>
