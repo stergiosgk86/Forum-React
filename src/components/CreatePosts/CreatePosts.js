@@ -192,18 +192,9 @@ class CreatePosts extends Component {
                     />
 
                     <Box className={classes.boxImage}>
-                      <Button
-                        className={classes.customButton}
-                        variant="contained"
-                        component="label"
-                        size="small"
-                        color="primary"
-                        startIcon={<BackupIcon />}
-                      >
-                        <Box>Upload Image</Box>
-                        <input type="file" onChange={this.encodeImage} hidden />
-                      </Button>
-
+                      <div>
+                        <input type="file" className="upload-box" />
+                      </div>
                       <Box pt={2}>
                         {uploadPercentage > 0 && (
                           <ProgressBar

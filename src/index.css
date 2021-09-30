@@ -17,6 +17,34 @@ body {
   color: inherit !important;
 }
 
+/* Custom input type file */
+.upload-box {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.75;
+  background: white;
+  border-radius: 16px;
+  width: auto;
+  cursor: pointer;
+  outline: none;
+}
+
+::-webkit-file-upload-button {
+  color: white;
+  letter-spacing: 0.02857em;
+  background: rgb(86, 100, 210);
+  padding: 6px 16px;
+  border: none;
+  border-radius: 16px;
+  outline: none;
+}
+
+::-webkit-file-upload-button:hover {
+  background: rgb(40, 53, 156);
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 15px; /* Total width including `border-width` of scrollbar thumb */
