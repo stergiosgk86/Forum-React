@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import json from "../../Assets/StatusCodes.json";
+import json from "assets/StatusCodes.json";
 import { instance } from "../../utils/Api";
 import UserService from "../../utils/UserService";
 import { errorToast } from "../Toastify/Toastify";

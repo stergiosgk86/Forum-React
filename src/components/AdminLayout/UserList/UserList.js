@@ -73,7 +73,7 @@ const UserList = () => {
 
   const columns = [
     {
-      field: "id",
+      field: "key",
       headerName: "ID",
       width: 90,
     },
@@ -214,7 +214,6 @@ const UserList = () => {
         <Grid item xs={12}>
           <Paper elevation={3} className={classes.paper}>
             <DataGrid
-              style={{ minWidth: "215px!important" }}
               className={classes.datagrid}
               autoHeight={true}
               rows={users}

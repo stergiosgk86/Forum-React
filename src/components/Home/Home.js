@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Hidden,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { api } from "../../utils/Api";
 import { forumSession } from "../../utils/SessionStorage";
-import moment from "moment";
 import Pagination from "../Pagination/Pagination";
-import {
-  makeStyles,
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Paper,
-  Hidden,
-  Button,
-} from "@material-ui/core";
-import "./Home.css";
 import SkeletonCategories from "../Skeletons/SkeletonCategories";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import "./Home.css";
 
 const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
   const [categories, setCategories] = useState([]);
@@ -32,9 +32,7 @@ const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
         setCategories(res.data);
         setLoading(false);
       })
-      .catch((err) => {
-        // console.log(err);
-      });
+      .catch((err) => {});
   }, []);
 
   //Get current categories

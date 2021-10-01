@@ -3,6 +3,7 @@ import { makeStyles, Box, Grid, Typography, Paper } from "@material-ui/core";
 import { api } from "../../../../utils/Api";
 import MaterialTable from "material-table";
 import { successToast } from "../../../Toastify/Toastify";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -73,16 +74,16 @@ const CategoriesList = () => {
     {
       title: "Modified At",
       field: "modified",
-      type: "date",
-      dateSetting: { locale: "en-GB" },
+      render: (rowData) =>
+        moment(rowData.modified).format("DD/MM/YYYY [at] h:mm A"),
       editable: "never",
     },
     { title: "Created By", field: "createdBy", editable: "never" },
     {
       title: "Created At",
       field: "dateCreated",
-      type: "date",
-      dateSetting: { locale: "en-GB" },
+      render: (rowData) =>
+        moment(rowData.dateCreated).format("DD/MM/YYYY [at] h:mm A"),
       editable: "never",
     },
   ];
@@ -156,13 +157,13 @@ const CategoriesList = () => {
               options={{
                 actionsColumnIndex: -1,
                 addRowPosition: "first",
-                filtering: true,
+                // filtering: true,
                 pageSizeOptions: [2, 5, 8, 10, 20, 50, 100],
                 pageSize: 5,
                 paginationType: "stepped",
                 exportButton: true,
                 exportAllData: true,
-                selection: true,
+                // selection: true,
                 grouping: true,
                 columnsButton: true,
                 tableLayout: "auto",

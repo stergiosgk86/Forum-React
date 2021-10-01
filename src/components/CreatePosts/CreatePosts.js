@@ -193,7 +193,11 @@ class CreatePosts extends Component {
 
                     <Box className={classes.boxImage}>
                       <div>
-                        <input type="file" className="upload-box" />
+                        <input
+                          type="file"
+                          className="upload-box"
+                          onChange={this.encodeImage}
+                        />
                       </div>
                       <Box pt={2}>
                         {uploadPercentage > 0 && (

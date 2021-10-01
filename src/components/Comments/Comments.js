@@ -9,6 +9,7 @@ import {
   Box,
   Container,
   Typography,
+  Button,
   Grid,
   Paper,
   TextField,
@@ -169,6 +170,20 @@ class Comments extends Component {
       });
   }
 
+  submitLike() {
+    api
+      .submitLike(this.state.postId, this.state.userId)
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState((state) => {
+            state.likes = res.data.likes;
+            return state;
+          });
+        }
+      })
+      .catch((err) => {});
+  }
+
   keypress(e) {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -283,15 +298,23 @@ class Comments extends Component {
                 alignItems="center"
                 className={classes.likesComments}
               >
-                <Typography variant="body2">
-                  {this.state.likes}
-                  {this.state.post.hasLikeByLoggedInUser ? (
-                    <FavoriteIcon color="error" />
-                  ) : (
-                    <FavoriteBorderIcon />
-                  )}
-                </Typography>
-
+                <Button
+                  className="likeCommentBtn"
+                  onClick={() => {
+                    this.submitLike();
+                    this.state.post.hasLikeByLoggedInUser =
+                      !this.state.post.hasLikeByLoggedInUser;
+                  }}
+                >
+                  <Typography variant="body2">
+                    {this.state.likes}
+                    {this.state.post.hasLikeByLoggedInUser ? (
+                      <FavoriteIcon color="error" />
+                    ) : (
+                      <FavoriteBorderIcon />
+                    )}
+                  </Typography>
+                </Button>
                 <Typography variant="body2">
                   {this.state.numComments} Comments
                   {this.state.comments.length ? (
