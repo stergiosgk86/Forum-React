@@ -68,6 +68,23 @@ const CategoriesList = () => {
     },
     { title: "Posts", field: "numPosts", editable: "never" },
     { title: "Comments", field: "numComments", editable: "never" },
+    { title: "Last Comment", field: "lastComment.username", editable: "never" },
+    { title: "Modified By", field: "modifiedBy", editable: "never" },
+    {
+      title: "Modified At",
+      field: "modified",
+      type: "date",
+      dateSetting: { locale: "en-GB" },
+      editable: "never",
+    },
+    { title: "Created By", field: "createdBy", editable: "never" },
+    {
+      title: "Created At",
+      field: "dateCreated",
+      type: "date",
+      dateSetting: { locale: "en-GB" },
+      editable: "never",
+    },
   ];
 
   return (
@@ -85,7 +102,7 @@ const CategoriesList = () => {
         <Grid item xs={12}>
           <Paper elevation={3} className={classes.paper}>
             <MaterialTable
-              style={{ borderRadius: "16px" }}
+              style={{ borderRadius: "16px", minWidth: "215px" }}
               title="Categories"
               data={categories}
               columns={columns}
