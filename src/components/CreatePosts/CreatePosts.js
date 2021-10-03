@@ -15,9 +15,11 @@ import {
   withStyles,
   Paper,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import BackupIcon from "@mui/icons-material/Backup";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import AddAPhotoRoundedIcon from "@mui/icons-material/AddAPhotoRounded";
 
 const styles = (theme) => ({
   textfield: {
@@ -147,11 +149,7 @@ class CreatePosts extends Component {
     return (
       <Container maxWidth="sm" className={classes.container}>
         <div>
-          <form
-            onSubmit={this.submitPost}
-            onReset={this.resetForm}
-            autoComplete="off"
-          >
+          <form onSubmit={this.submitPost} autoComplete="off">
             <Paper component={Card} elevation={3} className={classes.paper}>
               <CardHeader title="Create Post" />
               <Divider />
@@ -192,13 +190,30 @@ class CreatePosts extends Component {
                     />
 
                     <Box className={classes.boxImage}>
-                      <div>
-                        <input
-                          type="file"
-                          className="upload-box"
-                          onChange={this.encodeImage}
-                        />
-                      </div>
+                      <Grid container>
+                        <Grid item xs={6} sm={4}>
+                          <Button
+                            component="label"
+                            className={classes.customButton}
+                            variant="contained"
+                            size="medium"
+                            color="primary"
+                            startIcon={<AddAPhotoRoundedIcon />}
+                          >
+                            Upload Image
+                            <input
+                              type="file"
+                              onChange={this.encodeImage}
+                              hidden
+                            />
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6} sm={8}>
+                          <Typography variant="subtitle2">
+                            {this.state.image.name}
+                          </Typography>
+                        </Grid>
+                      </Grid>
                       <Box pt={2}>
                         {uploadPercentage > 0 && (
                           <ProgressBar
@@ -227,6 +242,7 @@ class CreatePosts extends Component {
                 </Button>
                 <Button
                   className="userListDelete"
+                  type="reset"
                   variant="contained"
                   size="medium"
                   color="secondary"
