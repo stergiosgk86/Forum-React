@@ -1,5 +1,4 @@
 * {
-  /* word-wrap: "break-word"; */
   overflow-wrap: break-word;
 }
 
@@ -18,7 +17,7 @@ body {
 }
 
 /* Custom input type file */
-.upload-box {
+/* .upload-box {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.75;
@@ -43,7 +42,7 @@ body {
   background: rgb(40, 53, 156);
   cursor: pointer;
   transition: 0.3s ease-in-out;
-}
+} */
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {

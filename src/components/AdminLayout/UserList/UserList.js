@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
-import "./UserList.css";
-import { NavLink } from "react-router-dom";
-import { api } from "../../../utils/Api";
-import { DataGrid } from "@material-ui/data-grid";
-import { successToast } from "../../Toastify/Toastify";
 import {
-  makeStyles,
-  Button,
+  Avatar,
   Box,
+  Chip,
   Grid,
+  makeStyles,
   Paper,
   Typography,
-  Avatar,
 } from "@material-ui/core";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+import MaterialTable from "material-table";
 import moment from "moment";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import Multiselect from "multiselect-react-dropdown";
+import { api } from "../../../utils/Api";
+import { successToast } from "../../Toastify/Toastify";
+import "./UserList.css";
 
 const useStyles = makeStyles((theme) => ({
   datagrid: {
     borderRadius: theme.spacing(2),
+  },
+  rolesGrid: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   paper: {
     borderRadius: theme.spacing(2),
@@ -50,141 +53,153 @@ const useStyles = makeStyles((theme) => ({
 
 const UserList = () => {
   const classes = useStyles();
+
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
+
+  const regex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  const getAllUsers = () => {
     api
-      .getAllUsers()
+      .getUsers()
       .then((res) => {
         setUsers(res.data);
       })
       .catch((err) => {});
-  }, []);
-
-  const handleDelete = async (id) => {
-    await api.deleteUser(id);
-    const newUserList = users.filter((user) => {
-      return user.key !== id;
-    });
-
-    successToast("User has been successfully deleted");
-    setUsers(newUserList);
+    api
+      .getRoles()
+      .then(({ data }) => {
+        setRoles(data);
+      })
+      .catch((err) => {});
   };
 
   const columns = [
     {
       field: "key",
-      headerName: "ID",
-      width: 90,
+      title: "ID",
+      editable: "never",
     },
     {
-      field: "user",
-      headerName: "User",
-      width: 220,
-      editable: true,
-      renderCell: (params) => {
-        return (
-          <div className="userListUser">
-            <Avatar className="userListImg" src={params.row.avatar} alt="" />
-            {params.row.username}
-          </div>
-        );
-      },
+      field: "username",
+      title: "Username",
+      render: (rowData) => (
+        <Grid className="userListUser">
+          <Avatar className="userListImg" src="" alt="">
+            {rowData.username.charAt(0)}
+          </Avatar>
+          {rowData.username}
+        </Grid>
+      ),
+      validate: (rowData) =>
+        rowData.username === undefined || rowData.username === ""
+          ? "Username is required."
+          : true,
     },
     {
       field: "roles",
-      headerName: "Roles",
-      width: 120,
-      editable: true,
+      title: "Roles",
+      editComponent: (tableData) => (
+        <Multiselect
+          style={{
+            chips: { backgroundColor: "rgb(86, 100, 210)" },
+            searchBox: {
+              border: "1px solid rgb(86, 100, 210)",
+              borderRadius: "16px",
+            },
+            option: {
+              backgroundColor: "rgb(86, 100, 210)",
+              borderRadius: "16px",
+            },
+            optionContainer: {
+              borderRadius: "16px",
+              border: "none",
+              color: "white",
+              backgroundColor: "rgb(86, 100, 210)",
+            },
+          }}
+          placeholder="Select Role"
+          options={roles} // Options to display in the dropdown
+          selectedValues={tableData.rowData.roles} // Preselected value to persist in dropdown
+          onSelect={(newRoles) => (tableData.rowData.roles = newRoles)} // Function will trigger on select event
+          onRemove={(newRoles) => (tableData.rowData.roles = newRoles)} // Function will trigger on remove event
+          isObject={false}
+        />
+      ),
+      render: (rowData) => (
+        <Grid className={classes.rolesGrid}>
+          {rowData.roles.map((role) => (
+            <Chip
+              style={{
+                marginBottom: "5px",
+                backgroundColor: "rgb(86, 100, 210)",
+                color: "white",
+              }}
+              key={role}
+              label={role}
+            />
+          ))}
+        </Grid>
+      ),
     },
     {
       field: "email",
-      headerName: "Email",
-      width: 220,
-      editable: true,
+      title: "Email",
+      validate: (rowData) =>
+        regex.test(rowData.email) ? true : "Email is required.",
+    },
+    {
+      field: "password",
+      title: "Password",
     },
     {
       field: "active",
-      headerName: "Status",
-      width: 118,
-      editable: true,
-      renderCell: (params) => {
-        return (
-          <div>
-            {params.row.active === true ? (
-              <FiberManualRecordIcon
-                fontSize="small"
-                style={{ color: "#4caf50" }}
-              />
-            ) : (
-              <FiberManualRecordIcon
-                fontSize="small"
-                style={{ color: "#d9182e" }}
-              />
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: "Actions",
-      width: 220,
-      renderCell: (params) => {
-        return (
-          <>
-            <NavLink exact to={`/dashboard/user/${params.row.key}`}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.userCreateEditButton}
-                startIcon={<EditIcon />}
-              >
-                Edit
-              </Button>
-            </NavLink>
-            <Button
-              variant="contained"
-              color="secondary"
-              className="userListDelete"
-              startIcon={<DeleteIcon />}
-              onClick={() => handleDelete(params.row.key)}
-            >
-              Delete
-            </Button>
-          </>
-        );
-      },
+      title: "Status",
+      render: (rowData) => (
+        <Grid>
+          {rowData.active === true ? (
+            <FiberManualRecordIcon
+              fontSize="small"
+              style={{ color: "#4caf50" }}
+            />
+          ) : (
+            <FiberManualRecordIcon
+              fontSize="small"
+              style={{ color: "#d9182e" }}
+            />
+          )}
+        </Grid>
+      ),
+      editable: "never",
     },
     {
       field: "modifiedBy",
-      headerName: "Modified By",
-      width: 153,
+      title: "Modified By",
+      editable: "never",
     },
     {
       field: "modified",
-      headerName: "Modified At",
-      width: 218,
-      renderCell: (params) => {
-        return (
-          <>{moment(params.row.modified).format("D, MM, YYYY [at] h:mm A")}</>
-        );
-      },
+      title: "Modified At",
+      render: (rowData) =>
+        moment(rowData.modified).format("DD/MM/YYYY [at] h:mm A"),
+      editable: "never",
     },
     {
       field: "createdBy",
-      headerName: "Created By",
-      width: 146,
+      title: "Created By",
+      editable: "never",
     },
     {
       field: "created",
-      headerName: "Created At",
-      width: 218,
-      renderCell: (params) => {
-        return (
-          <>{moment(params.row.dateCreated).format("D, MM YYYY [at] h:mm A")}</>
-        );
-      },
+      title: "Created At",
+      render: (rowData) =>
+        moment(rowData.dateCreated).format("DD/MM/YYYY [at] h:mm A"),
+      editable: "never",
     },
   ];
 
@@ -198,29 +213,76 @@ const UserList = () => {
         >
           Users
         </Typography>
-        <NavLink to="/dashboard/newUser" className="navlink">
-          <Button
-            className={classes.userCreateEditButton}
-            variant="contained"
-            size="medium"
-            color="primary"
-            startIcon={<AddBoxIcon />}
-          >
-            Create User
-          </Button>
-        </NavLink>
       </Grid>
       <Grid container className={classes.containergrid}>
         <Grid item xs={12}>
           <Paper elevation={3} className={classes.paper}>
-            <DataGrid
-              className={classes.datagrid}
-              autoHeight={true}
-              rows={users}
+            <MaterialTable
+              style={{ borderRadius: "16px", minWidth: "215px" }}
+              title="Users"
+              data={users}
               columns={columns}
-              pageSize={10}
-              checkboxSelection
-              disableSelectionOnClick
+              editable={{
+                onRowAdd: (newUser) =>
+                  new Promise((resolve, reject) => {
+                    api
+                      .register(newUser)
+                      .then((response) => {
+                        successToast(
+                          "Congratulations! User has been successfully created."
+                        );
+                        getAllUsers();
+                        resolve();
+                      })
+                      .catch((err) => {
+                        resolve();
+                      });
+                  }),
+                onRowDelete: (oldUser) =>
+                  new Promise((resolve, reject) => {
+                    api
+                      .deleteUser(oldUser.key)
+                      .then((response) => {
+                        successToast(
+                          "Congratulations! User has been successfully deleted."
+                        );
+                        getAllUsers();
+                        resolve();
+                      })
+                      .catch((err) => {
+                        resolve();
+                      });
+                  }),
+                onRowUpdate: (newUser, oldUser) =>
+                  new Promise((resolve, reject) => {
+                    api
+                      .updateUser(oldUser.key, newUser)
+                      .then((response) => {
+                        successToast(
+                          "Congratulations! User has been successfully updated."
+                        );
+                        getAllUsers();
+                        resolve();
+                      })
+                      .catch((err) => {
+                        resolve();
+                      });
+                  }),
+              }}
+              options={{
+                actionsColumnIndex: -1,
+                addRowPosition: "first",
+                // filtering: true,
+                pageSizeOptions: [2, 5, 8, 10, 20, 50, 100],
+                pageSize: 5,
+                paginationType: "stepped",
+                exportButton: true,
+                exportAllData: true,
+                // selection: true,
+                grouping: true,
+                columnsButton: true,
+                tableLayout: "auto",
+              }}
             />
           </Paper>
         </Grid>

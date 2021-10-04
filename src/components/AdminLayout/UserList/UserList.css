@@ -21,3 +21,8 @@
   text-transform: none !important;
   outline: none !important;
 }
+
+.option:hover {
+  background-color: rgb(55, 72, 194) !important;
+  transition: ease-in-out 0.3s;
+}

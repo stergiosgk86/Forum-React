@@ -45,7 +45,7 @@ const api = {
   logout: () => {
     return instance.get(`/logout`);
   },
-  getAllUsers: () => {
+  getUsers: () => {
     return instance.get(`/users`);
   },
   getUserById: (userId) => {
