@@ -69,10 +69,6 @@ const styles = (theme) => ({
   },
   description: {
     padding: theme.spacing(2),
-    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
-  },
-  border: {
-    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
   },
 });
 
@@ -159,12 +155,7 @@ class Posts extends Component {
                         alignItems="center"
                         component={Box}
                       >
-                        <Grid
-                          container
-                          justifyContent="center"
-                          component={Box}
-                          className={classes.border}
-                        >
+                        <Grid container justifyContent="center" component={Box}>
                           <Typography
                             variant="inherit"
                             className={classes.postTitle}
@@ -172,6 +163,7 @@ class Posts extends Component {
                             {post.title}
                           </Typography>
                         </Grid>
+                        <Divider variant="fullWidth" component="legend" />
                         <Grid container py={2} component={Box}>
                           <Grid className={classes.avatar}>
                             <Avatar alt="" src="">
@@ -220,7 +212,7 @@ class Posts extends Component {
                             ""
                           )}
                         </Grid>
-
+                        <Divider variant="fullWidth" component="legend" />
                         <Grid
                           container
                           component={Box}

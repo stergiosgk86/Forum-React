@@ -18,7 +18,7 @@ import Pagination from "../Pagination/Pagination";
 import SkeletonCategories from "../Skeletons/SkeletonCategories";
 import "./Home.css";
 
-const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
+const Home = ({ isAdminLoggedIn }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -156,7 +156,6 @@ const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
                 component={Box}
                 pb={2}
                 key={category.id}
-                className="animated fadeInUp"
               >
                 <Paper className={classes.paper} elevation={10}>
                   <Grid container>
@@ -168,26 +167,26 @@ const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
                       className={classes.border}
                       className="seperate"
                     >
-                      <Link
+                      <Typography
+                        component={Link}
+                        color="textPrimary"
                         to="/posts"
                         onClick={() =>
                           forumSession.category.saveId(category.id)
                         }
                         className="link text-decoration-none"
                       >
-                        <Box>
-                          <Typography variant="inherit" noWrap={true}>
-                            {category.title}
-                          </Typography>
-                          <Typography
-                            className={classes.description}
-                            variant="subtitle1"
-                            noWrap={true}
-                          >
-                            {category.description}
-                          </Typography>
-                        </Box>
-                      </Link>
+                        <Typography variant="h6" noWrap={true}>
+                          {category.title}
+                        </Typography>
+                        <Typography
+                          className={classes.description}
+                          variant="subtitle1"
+                          noWrap={true}
+                        >
+                          {category.description}
+                        </Typography>
+                      </Typography>
                     </Grid>
                     <Hidden smDown>
                       <Grid container item xs={6}>
@@ -277,13 +276,7 @@ const Home = ({ isAdminLoggedIn, updateIsAdminLoggedIn }) => {
         )}
       </>
 
-      <Container
-        className="animated fadeInUp"
-        maxWidth="lg"
-        fixed={true}
-        component={Box}
-        pb={2}
-      >
+      <Container maxWidth="lg" fixed={true} component={Box} pb={2}>
         <Pagination
           categoriesPerPage={categoriesPerPage}
           totalCategories={categories.length}

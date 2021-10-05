@@ -21,10 +21,10 @@ import {
   CardContent,
   Badge,
   Collapse,
+  Divider,
 } from "@material-ui/core";
 import clsx from "clsx";
 import AuthenticationService from "../security/AuthenticationService";
-import { Favorite } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ScrollIntoView from "react-scroll-into-view";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -110,14 +110,9 @@ const styles = (theme) => ({
   },
   likesComments: {
     padding: theme.spacing(1),
-    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
   },
   description: {
     padding: theme.spacing(2),
-    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
-  },
-  border: {
-    borderBottom: "2px solid rgba(0, 0, 0, 0.05)",
   },
   textarea: {
     resize: "both",
@@ -241,16 +236,12 @@ class Comments extends Component {
               alignItems="center"
               component={Box}
             >
-              <Grid
-                container
-                justifyContent="center"
-                component={Box}
-                className={classes.border}
-              >
+              <Grid container justifyContent="center" component={Box}>
                 <Typography variant="inherit" className={classes.postTitle}>
                   {this.state.post.title}
                 </Typography>
               </Grid>
+              <Divider variant="fullWidth" component="legend" />
               <Grid container py={2} component={Box}>
                 <Grid className={classes.avatar}>
                   <Avatar alt="" src="">
@@ -291,6 +282,7 @@ class Comments extends Component {
                   ""
                 )}
               </Grid>
+              <Divider variant="fullWidth" component="legend" />
               <Grid
                 container
                 component={Box}
@@ -334,7 +326,7 @@ class Comments extends Component {
                   )}
                 </Typography>
               </Grid>
-
+              <Divider variant="fullWidth" component="legend" />
               <Collapse
                 className={classes.collapse}
                 in={this.state.expanded}

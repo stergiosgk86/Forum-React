@@ -226,7 +226,7 @@ const UserList = () => {
                 onRowAdd: (newUser) =>
                   new Promise((resolve, reject) => {
                     api
-                      .register(newUser)
+                      .saveUser(newUser)
                       .then((response) => {
                         successToast(
                           "Congratulations! User has been successfully created."

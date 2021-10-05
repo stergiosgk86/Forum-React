@@ -57,6 +57,9 @@ const api = {
   deleteUser: (userId) => {
     return instance.delete(`users/${userId}`);
   },
+  saveUser: (payload) => {
+    return instance.post(`/users`, payload);
+  },
   getRoles: () => {
     return instance.get("users/roles");
   },

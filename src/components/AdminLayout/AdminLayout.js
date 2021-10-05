@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   AppBar,
-  Badge,
   CssBaseline,
   Divider,
   Drawer,
@@ -14,11 +13,11 @@ import {
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import MenuIcon from "@material-ui/icons/Menu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import clsx from "clsx";
 import MainListItems from "./ListItems/MainListItems";
 import SecondaryListItems from "./ListItems/SecondaryListItems";
 import AuthenticationService from "../security/AuthenticationService";
+import DarkModeBtn from "components/DarkModeBtn/DarkModeBtn";
 
 const drawerWidth = 240;
 
@@ -104,6 +103,8 @@ const AdminLayout = ({
   updateIsUserLoggedIn,
   isAdminLoggedIn,
   updateIsAdminLoggedIn,
+  darkMode,
+  setDarkMode,
   ...props
 }) => {
   const classes = useStyles();
@@ -146,6 +147,7 @@ const AdminLayout = ({
             Dashboard
           </Typography>
           <Grid item className={classes.appbarUsernameGrid}>
+            <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
             <Typography>Welcome,</Typography>
             <Typography className={classes.appbarUsername}>
               {getUsername}

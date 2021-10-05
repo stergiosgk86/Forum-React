@@ -29,6 +29,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import logo from "../../Img/devil.png";
 import AuthenticationService from "../security/AuthenticationService";
+import DarkModeBtn from "components/DarkModeBtn/DarkModeBtn";
 
 const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
@@ -60,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     width: "80px",
+  },
+  appbarLeft: {
+    display: "flex",
+    justifyContent: "start",
   },
   appbarRight: {
     display: "flex",
@@ -105,6 +110,8 @@ const Navigationbar = ({
   updateIsUserLoggedIn,
   isAdminLoggedIn,
   updateIsAdminLoggedIn,
+  darkMode,
+  setDarkMode,
   props,
 }) => {
   const logoutHandler = () => {
@@ -164,6 +171,9 @@ const Navigationbar = ({
                   {getUsername}
                 </Typography>
               </ListItem>
+              <ListItem style={{ justifyContent: "center" }}>
+                <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
+              </ListItem>
 
               {isAdminLoggedIn ? (
                 <ListItem
@@ -208,6 +218,9 @@ const Navigationbar = ({
             </>
           ) : (
             <>
+              <ListItem style={{ justifyContent: "center" }}>
+                <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
+              </ListItem>
               <ListItem
                 button
                 className={classes.navButton}
@@ -249,7 +262,7 @@ const Navigationbar = ({
               <img src={logo} alt="logo" className={classes.logo} />
             </Box>
             <Grid container className={classes.sectionDesktop}>
-              <Grid item md={6}>
+              <Grid item md={6} className={classes.appbarLeft}>
                 <Button
                   color="inherit"
                   className={classes.navButton}
@@ -268,6 +281,7 @@ const Navigationbar = ({
                 </Button>
               </Grid>
               <Grid item md={6} className={classes.appbarRight}>
+                <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
                 {isUserLoggedIn ? (
                   <>
                     <Grid item className={classes.appbarUsernameGrid}>
