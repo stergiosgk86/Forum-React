@@ -104,7 +104,7 @@ const AdminLayout = ({
   isAdminLoggedIn,
   updateIsAdminLoggedIn,
   darkMode,
-  setDarkMode,
+  handleDarkModeChange,
   ...props
 }) => {
   const classes = useStyles();
@@ -147,7 +147,10 @@ const AdminLayout = ({
             Dashboard
           </Typography>
           <Grid item className={classes.appbarUsernameGrid}>
-            <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
+            <DarkModeBtn
+              darkMode={darkMode}
+              handleDarkModeChange={handleDarkModeChange}
+            />
             <Typography>Welcome,</Typography>
             <Typography className={classes.appbarUsername}>
               {getUsername}

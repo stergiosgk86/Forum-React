@@ -22,7 +22,6 @@ import AuthenticationService from "./components/security/AuthenticationService";
 import UserService from "./utils/UserService";
 import CategoriesList from "./components/AdminLayout/Categories/CategoriesList/CategoriesList";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
-import DarkModeBtn from "components/DarkModeBtn/DarkModeBtn";
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
@@ -36,7 +35,15 @@ const App = () => {
     setIsAdminLoggedIn(adminLoggedIn);
   };
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const mode = localStorage.getItem("darkMode");
+    return mode === "true" || false;
+  });
+
+  const handleDarkModeChange = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem("darkMode", !darkMode);
+  };
 
   const theme = createMuiTheme({
     palette: {
@@ -65,7 +72,7 @@ const App = () => {
               isAdminLoggedIn={isAdminLoggedIn}
               updateIsAdminLoggedIn={updateIsAdminLoggedIn}
               darkMode={darkMode}
-              setDarkMode={setDarkMode}
+              handleDarkModeChange={handleDarkModeChange}
             />
             <Switch>
               <Route
@@ -123,7 +130,7 @@ const App = () => {
             isAdminLoggedIn={isAdminLoggedIn}
             updateIsAdminLoggedIn={updateIsAdminLoggedIn}
             darkMode={darkMode}
-            setDarkMode={setDarkMode}
+            handleDarkModeChange={handleDarkModeChange}
           >
             <Switch>
               <AdminRoute

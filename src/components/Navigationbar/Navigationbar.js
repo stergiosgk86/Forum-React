@@ -111,7 +111,7 @@ const Navigationbar = ({
   isAdminLoggedIn,
   updateIsAdminLoggedIn,
   darkMode,
-  setDarkMode,
+  handleDarkModeChange,
   props,
 }) => {
   const logoutHandler = () => {
@@ -172,7 +172,10 @@ const Navigationbar = ({
                 </Typography>
               </ListItem>
               <ListItem style={{ justifyContent: "center" }}>
-                <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
+                <DarkModeBtn
+                  darkMode={darkMode}
+                  handleDarkModeChange={handleDarkModeChange}
+                />
               </ListItem>
 
               {isAdminLoggedIn ? (
@@ -219,7 +222,10 @@ const Navigationbar = ({
           ) : (
             <>
               <ListItem style={{ justifyContent: "center" }}>
-                <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
+                <DarkModeBtn
+                  darkMode={darkMode}
+                  handleDarkModeChange={handleDarkModeChange}
+                />
               </ListItem>
               <ListItem
                 button
@@ -281,7 +287,10 @@ const Navigationbar = ({
                 </Button>
               </Grid>
               <Grid item md={6} className={classes.appbarRight}>
-                <DarkModeBtn darkMode={darkMode} setDarkMode={setDarkMode} />
+                <DarkModeBtn
+                  darkMode={darkMode}
+                  handleDarkModeChange={handleDarkModeChange}
+                />
                 {isUserLoggedIn ? (
                   <>
                     <Grid item className={classes.appbarUsernameGrid}>

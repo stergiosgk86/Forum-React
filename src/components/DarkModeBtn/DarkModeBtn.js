@@ -49,13 +49,13 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const DarkModeBtn = ({ darkMode, setDarkMode }) => {
+const DarkModeBtn = ({ darkMode, handleDarkModeChange }) => {
   return (
     <div>
       <MaterialUISwitch
         sx={{ m: 1 }}
         checked={darkMode}
-        onChange={() => setDarkMode(!darkMode)}
+        onChange={handleDarkModeChange}
       />
     </div>
   );
