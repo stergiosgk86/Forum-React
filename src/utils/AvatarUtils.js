@@ -1,4 +1,4 @@
-import json from "assets/Avatars/Avatars.json";
+import json from "../assets/Avatars/Avatars.json";
 
 export const exportAvatarArray = () => {
   return json.reduce((arr, data) => {

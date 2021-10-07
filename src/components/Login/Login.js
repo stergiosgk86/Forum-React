@@ -64,7 +64,8 @@ const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn }) => {
       .then((res) => {
         AuthenticationService.successfulLogin(
           res.data.username,
-          res.data.roles
+          res.data.roles,
+          res.data.avatarId
         );
 
         updateIsUserLoggedIn(true);

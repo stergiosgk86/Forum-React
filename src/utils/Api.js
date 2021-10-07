@@ -30,8 +30,8 @@ const api = {
   getPostComments: (postId) => {
     return instance.get(`/posts/${postId}/comments`);
   },
-  submitLike: (postId, userId) => {
-    return instance.post(`/posts/${postId}/${userId}/likes`);
+  submitLike: (postId) => {
+    return instance.post(`/posts/${postId}/likes`);
   },
   saveComment: (postId, payload) => {
     return instance.post(`/posts/${postId}/comments`, payload);
@@ -62,6 +62,9 @@ const api = {
   },
   getRoles: () => {
     return instance.get("users/roles");
+  },
+  saveAvatar: (avatarId) => {
+    return instance.put(`users/avatar/${avatarId}`);
   },
 };
 

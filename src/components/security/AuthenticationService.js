@@ -19,8 +19,8 @@ class AuthenticationService {
     return user?.username;
   }
 
-  successfulLogin(username, roles) {
-    let user = { username: username, roles: roles };
+  successfulLogin(username, roles, avatarId) {
+    let user = { username: username, roles: roles, avatarId: avatarId };
     UserService.setUser(user, USER_NAME_SESSION_ATTRIBUTE_NAME);
   }
 }

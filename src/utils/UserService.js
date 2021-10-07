@@ -1,4 +1,5 @@
 import { USER_NAME_SESSION_ATTRIBUTE_NAME } from "../components/security/AuthenticationService";
+import { exportAvatarArray } from "../utils/AvatarUtils";
 
 class UserService {
   getUser() {
@@ -17,6 +18,17 @@ class UserService {
   removeUser() {
     localStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
   }
+
+  saveAvatar(avatarId) {
+    let user = { ...this.getUser(), avatarId: avatarId };
+    this.setUser(user, USER_NAME_SESSION_ATTRIBUTE_NAME);
+  }
+  findAvatarById = (avatarId) => {
+    return exportAvatarArray().find((avatar) => avatar.id == avatarId);
+  };
+  findAvatarOfLoggedInUser = () => {
+    return this.findAvatarById(this.getUser().avatarId);
+  };
 }
 
 export default new UserService();

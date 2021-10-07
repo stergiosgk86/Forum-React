@@ -1,10 +1,50 @@
 [
   {
     "id": 1,
-    "path": "assets/Avatars/AvatarImages/avatar1.png"
+    "path": "AvatarImages/avatar1.jpg"
   },
   {
     "id": 2,
-    "path": "assets/Avatars/AvatarImages/avatar2.jpg"
+    "path": "AvatarImages/avatar2.jpg"
+  },
+  {
+    "id": 3,
+    "path": "AvatarImages/avatar3.jpg"
+  },
+  {
+    "id": 4,
+    "path": "AvatarImages/avatar4.png"
+  },
+  {
+    "id": 5,
+    "path": "AvatarImages/avatar5.jpg"
+  },
+  {
+    "id": 6,
+    "path": "AvatarImages/avatar6.png"
+  },
+  {
+    "id": 7,
+    "path": "AvatarImages/avatar7.jpg"
+  },
+  {
+    "id": 8,
+    "path": "AvatarImages/avatar8.jpg"
+  },
+  {
+    "id": 9,
+    "path": "AvatarImages/avatar9.jpg"
+  },
+  {
+    "id": 10,
+    "path": "AvatarImages/avatar10.png"
+  },
+  {
+    "id": 11,
+    "path": "AvatarImages/avatar11.jpg"
+  },
+  {
+    "id": 12,
+    "path": "AvatarImages/avatar12.png"
   }
 ]

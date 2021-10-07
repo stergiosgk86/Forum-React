@@ -23,6 +23,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import UserService from "../../utils/UserService";
 
 const styles = (theme) => ({
   root: {
@@ -167,7 +168,7 @@ class Posts extends Component {
                         <Grid container py={2} component={Box}>
                           <Grid className={classes.avatar}>
                             <Avatar alt="" src="">
-                              {post.username.charAt(0)}
+                              {post.username}
                             </Avatar>
                           </Grid>
                           <Grid item component={Box}>

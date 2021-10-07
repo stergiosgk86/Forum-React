@@ -31,6 +31,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import UserService from "../../utils/UserService";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -142,6 +143,7 @@ class Comments extends Component {
       post: {},
       username: AuthenticationService.getLoggedInUserName(),
       expanded: false,
+      avatar: UserService.findAvatarOfLoggedInUser(),
     };
     this.handleChange = this.handleChange.bind(this);
     this.keypress = this.keypress.bind(this);
@@ -389,9 +391,7 @@ class Comments extends Component {
                     }}
                     variant="dot"
                   >
-                    <Avatar alt="" src="">
-                      {this.state.username.charAt(0)}
-                    </Avatar>
+                    <Avatar src={this.state.avatar?.path} alt="" />
                   </StyledBadge>
                 </Grid>
 

@@ -15,6 +15,7 @@ import Multiselect from "multiselect-react-dropdown";
 import { api } from "../../../utils/Api";
 import { successToast } from "../../Toastify/Toastify";
 import "./UserList.css";
+import UserService from "../../../utils/UserService";
 
 const useStyles = makeStyles((theme) => ({
   datagrid: {
@@ -90,9 +91,14 @@ const UserList = () => {
       title: "Username",
       render: (rowData) => (
         <Grid className="userListUser">
-          <Avatar className="userListImg" src="" alt="">
-            {rowData.username.charAt(0)}
-          </Avatar>
+          <Avatar
+            className="userListImg"
+            src={
+              `${window.location.origin}/` +
+              UserService.findAvatarById(rowData.avatarId)?.path
+            }
+            alt=""
+          />
           {rowData.username}
         </Grid>
       ),

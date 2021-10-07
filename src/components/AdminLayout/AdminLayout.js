@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   AppBar,
+  Avatar,
   CssBaseline,
   Divider,
   Drawer,
@@ -17,7 +18,8 @@ import clsx from "clsx";
 import MainListItems from "./ListItems/MainListItems";
 import SecondaryListItems from "./ListItems/SecondaryListItems";
 import AuthenticationService from "../security/AuthenticationService";
-import DarkModeBtn from "components/DarkModeBtn/DarkModeBtn";
+import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
+import UserService from "../../utils/UserService";
 
 const drawerWidth = 240;
 
@@ -115,7 +117,8 @@ const AdminLayout = ({
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const getUsername = AuthenticationService.getLoggedInUserName();
+  const username = AuthenticationService.getLoggedInUserName();
+  const avatar = UserService.findAvatarOfLoggedInUser();
 
   return (
     <div className={classes.root}>
@@ -147,14 +150,15 @@ const AdminLayout = ({
             Dashboard
           </Typography>
           <Grid item className={classes.appbarUsernameGrid}>
+            {/* <Typography>Welcome,</Typography> */}
+            <Avatar src={avatar?.path} alt="" />
+            <Typography className={classes.appbarUsername}>
+              {username}
+            </Typography>
             <DarkModeBtn
               darkMode={darkMode}
               handleDarkModeChange={handleDarkModeChange}
             />
-            <Typography>Welcome,</Typography>
-            <Typography className={classes.appbarUsername}>
-              {getUsername}
-            </Typography>
           </Grid>
         </Toolbar>
       </AppBar>

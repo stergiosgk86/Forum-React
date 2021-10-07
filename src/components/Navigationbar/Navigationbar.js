@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
   CssBaseline,
   Divider,
   Drawer,
@@ -14,6 +16,8 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
+  Paper,
+  Popover,
   Slide,
   Toolbar,
   Typography,
@@ -22,14 +26,17 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { api } from "../../utils/Api";
+import { exportAvatarArray } from "../../utils/AvatarUtils";
+import UserService from "../../utils/UserService";
 import logo from "../../Img/devil.png";
 import AuthenticationService from "../security/AuthenticationService";
-import DarkModeBtn from "components/DarkModeBtn/DarkModeBtn";
 
 const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
@@ -89,6 +96,16 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
+  paper: {
+    borderRadius: theme.spacing(2),
+  },
+  avatar: {
+    cursor: "pointer",
+  },
+  avatarGrid: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 function HideOnScroll(props) {
@@ -123,14 +140,52 @@ const Navigationbar = ({
   const classes = useStyles();
   const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [userAvatar, setUserAvatar] = useState({});
+  const avatarsArray = exportAvatarArray();
+
+  useEffect(() => {
+    const user = UserService.getUser();
+    const avatar = findAvatarById(user?.avatarId);
+    setUserAvatar(avatar);
+  }, []);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   const openMobileMenu = (event) => {
     setMobileMenuAnchorEl(event.currentTarget);
   };
+
   const closeMobileMenu = () => {
     setMobileMenuAnchorEl(null);
   };
-  const getUsername = AuthenticationService.getLoggedInUserName();
+
+  const username = AuthenticationService.getLoggedInUserName();
+
+  const findAvatarById = (avatarId) => {
+    return avatarsArray.find((avatar) => avatar.id == avatarId);
+  };
+
+  const handleAvatar = (avatarId) => {
+    api
+      .saveAvatar(avatarId)
+      .then(() => {
+        const avatar = findAvatarById(avatarId);
+        setUserAvatar(avatar); // save avatar state
+        UserService.saveAvatar(avatarId); //save in localstorage
+        handleClose(); //close popover
+      })
+      .catch((e) => console.error(e));
+  };
 
   const mobileMenu = (
     <Drawer anchor="left" open={isMobileMenuOpen} onClose={closeMobileMenu}>
@@ -148,7 +203,7 @@ const Navigationbar = ({
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem
+          {/* <ListItem
             button
             className={classes.navButton}
             component={NavLink}
@@ -159,16 +214,76 @@ const Navigationbar = ({
               <InfoIcon />
             </ListItemIcon>
             <ListItemText primary="About Us" />
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
         <List>
           {isUserLoggedIn ? (
             <>
               <ListItem className={classes.drawerListItemUsername}>
-                <Typography>Welcome,</Typography>
+                {/* <Typography>Welcome,</Typography> */}
+                <Avatar
+                  src={userAvatar?.path}
+                  alt=""
+                  onClick={handleClick}
+                  className={classes.avatar}
+                />
+
+                <Popover
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  PaperProps={{
+                    style: { width: "300px" },
+                  }}
+                >
+                  <Paper
+                    elevation={3}
+                    component={Card}
+                    className={classes.paper}
+                  >
+                    <CardHeader
+                      title="Choose your Avatar"
+                      titleTypographyProps={{ variant: "body1" }}
+                      style={{ textAlign: "center" }}
+                    />
+                    <Divider />
+                    <CardContent>
+                      <Grid container>
+                        {avatarsArray.map((avatar) => (
+                          <Grid
+                            item
+                            key={avatar.id}
+                            xs={4}
+                            sm={3}
+                            className={classes.avatarGrid}
+                          >
+                            <Avatar
+                              src={avatar.path}
+                              alt=""
+                              style={{
+                                marginBottom: "10px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleAvatar(avatar.id)}
+                            />
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </CardContent>
+                  </Paper>
+                </Popover>
+
                 <Typography className={classes.appbarUsername}>
-                  {getUsername}
+                  {username}
                 </Typography>
               </ListItem>
               <ListItem style={{ justifyContent: "center" }}>
@@ -194,7 +309,7 @@ const Navigationbar = ({
               ) : (
                 ""
               )}
-              <ListItem
+              {/* <ListItem
                 button
                 className={classes.navButton}
                 component={NavLink}
@@ -205,7 +320,7 @@ const Navigationbar = ({
                   <PersonIcon />
                 </ListItemIcon>
                 <ListItemText primary="Profile" />
-              </ListItem>
+              </ListItem> */}
               <ListItem
                 button
                 className={classes.navButton}
@@ -277,48 +392,105 @@ const Navigationbar = ({
                 >
                   Home
                 </Button>
-                <Button
+                {isAdminLoggedIn ? (
+                  <Button
+                    color="inherit"
+                    className={classes.navButton}
+                    component={NavLink}
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </Button>
+                ) : (
+                  ""
+                )}
+                {/* <Button
                   color="inherit"
                   className={classes.navButton}
                   component={NavLink}
                   to="/aboutUs"
                 >
                   About us
-                </Button>
+                </Button> */}
               </Grid>
               <Grid item md={6} className={classes.appbarRight}>
-                <DarkModeBtn
-                  darkMode={darkMode}
-                  handleDarkModeChange={handleDarkModeChange}
-                />
                 {isUserLoggedIn ? (
                   <>
                     <Grid item className={classes.appbarUsernameGrid}>
-                      <Typography>Welcome,</Typography>
+                      {/* <Typography>Welcome,</Typography> */}
+                      <Avatar
+                        src={userAvatar?.path}
+                        alt=""
+                        onClick={handleClick}
+                        className={classes.avatar}
+                      />
+
+                      <Popover
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "center",
+                        }}
+                        transformOrigin={{
+                          vertical: "top",
+                          horizontal: "center",
+                        }}
+                        PaperProps={{
+                          style: { width: "300px" },
+                        }}
+                      >
+                        <Paper
+                          elevation={3}
+                          component={Card}
+                          className={classes.paper}
+                        >
+                          <CardHeader
+                            title="Choose your Avatar"
+                            titleTypographyProps={{ variant: "body1" }}
+                            style={{ textAlign: "center" }}
+                          />
+                          <Divider />
+                          <CardContent>
+                            <Grid container>
+                              {avatarsArray.map((avatar) => (
+                                <Grid
+                                  item
+                                  key={avatar.id}
+                                  xs={4}
+                                  sm={3}
+                                  className={classes.avatarGrid}
+                                >
+                                  <Avatar
+                                    src={avatar.path}
+                                    alt=""
+                                    style={{
+                                      marginBottom: "10px",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={() => handleAvatar(avatar.id)}
+                                  />
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </CardContent>
+                        </Paper>
+                      </Popover>
+
                       <Typography className={classes.appbarUsername}>
-                        {getUsername}
+                        {username}
                       </Typography>
                     </Grid>
-                    {isAdminLoggedIn ? (
-                      <Button
-                        color="inherit"
-                        className={classes.navButton}
-                        component={NavLink}
-                        to="/dashboard"
-                      >
-                        Dashboard
-                      </Button>
-                    ) : (
-                      ""
-                    )}
-                    <Button
+
+                    {/* <Button
                       color="inherit"
                       className={classes.navButton}
                       component={NavLink}
                       to="/profile"
-                    >
+                      >
                       Profile
-                    </Button>
+                    </Button> */}
                     <Button
                       color="inherit"
                       className={classes.navButton}
@@ -349,6 +521,10 @@ const Navigationbar = ({
                     </Button>
                   </>
                 )}
+                <DarkModeBtn
+                  darkMode={darkMode}
+                  handleDarkModeChange={handleDarkModeChange}
+                />
               </Grid>
             </Grid>
             <Grid item className={classes.sectionMobile}>

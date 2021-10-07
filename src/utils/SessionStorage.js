@@ -1,7 +1,6 @@
 const CATEGORY_ID = "categoryId";
 const POST_ID = "postId";
 const USER_ID = "userId";
-const POST = "post";
 
 const forumSession = {
   category: {
@@ -19,12 +18,6 @@ const forumSession = {
     getId() {
       return sessionStorage.getItem(POST_ID);
     },
-    // savePost(post) {
-    //   sessionStorage.setItem(POST, post);
-    // },
-    // getPost() {
-    //   return sessionStorage.getItem(POST);
-    // },
   },
   user: {
     saveId(userId) {

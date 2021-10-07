@@ -3,11 +3,9 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import AdminLayout from "./components/AdminLayout/AdminLayout";
 import Dashboard from "./components/AdminLayout/Dashboard";
-import NewUser from "./components/AdminLayout/NewUser/NewUser";
 import User from "./components/AdminLayout/User/User";
 import UserList from "./components/AdminLayout/UserList/UserList";
 import Comments from "./components/Comments/Comments";
-import CreateCategories from "./components/AdminLayout/Categories/CreateCategories/CreateCategories";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
 import ForumLayout from "./components/ForumLayout/ForumLayout";
 import Home from "./components/Home/Home";
@@ -118,10 +116,8 @@ const App = () => {
           path={[
             "/dashboard",
             "/dashboard/categories",
-            "/dashboard/createcategories",
             "/dashboard/users",
             "/dashboard/user/:id",
-            "/dashboard/newUser",
           ]}
         >
           <AdminLayout
@@ -152,21 +148,9 @@ const App = () => {
                 isAdminLoggedIn={isAdminLoggedIn}
               />
               <AdminRoute
-                path="/dashboard/newUser"
-                exact
-                component={NewUser}
-                isAdminLoggedIn={isAdminLoggedIn}
-              />
-              <AdminRoute
                 path="/dashboard/categories"
                 exact
                 component={CategoriesList}
-                isAdminLoggedIn={isAdminLoggedIn}
-              />
-              <AdminRoute
-                path="/dashboard/createcategories"
-                exact
-                component={CreateCategories}
                 isAdminLoggedIn={isAdminLoggedIn}
               />
             </Switch>
