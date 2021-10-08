@@ -13,6 +13,8 @@ import {
   Avatar,
   Button,
   Divider,
+  Card,
+  CardActionArea,
 } from "@material-ui/core";
 import "./Posts.css";
 import AuthenticationService from "../security/AuthenticationService";
@@ -23,7 +25,6 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import UserService from "../../utils/UserService";
 
 const styles = (theme) => ({
   root: {
@@ -70,6 +71,9 @@ const styles = (theme) => ({
   },
   description: {
     padding: theme.spacing(2),
+  },
+  cardActionArea: {
+    outline: "none!important",
   },
 });
 
@@ -148,7 +152,11 @@ class Posts extends Component {
                     key={post.id}
                     style={{ maxWidth: "750px" }}
                   >
-                    <Paper className={classes.paper} elevation={10}>
+                    <Paper
+                      className={classes.paper}
+                      elevation={10}
+                      component={Card}
+                    >
                       <Grid
                         container
                         direction="column"
@@ -202,17 +210,24 @@ class Posts extends Component {
                             {post.description}
                           </Typography>
                         </Grid>
-                        <Grid item>
-                          {post.imageUrl ? (
-                            <LazyLoadImage
-                              alt=""
-                              effect="blur"
-                              src={`${BASE_URL}/${post.imageUrl}`}
-                            />
-                          ) : (
-                            ""
-                          )}
-                        </Grid>
+                        <CardActionArea className={classes.cardActionArea}>
+                          <Grid item>
+                            {post.imageUrl ? (
+                              <LazyLoadImage
+                                alt=""
+                                effect="blur"
+                                src={`${BASE_URL}/${post.imageUrl}`}
+                                onDoubleClick={() => {
+                                  this.submitLike(post.id);
+                                  post.hasLikeByLoggedInUser =
+                                    !post.hasLikeByLoggedInUser;
+                                }}
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </Grid>
+                        </CardActionArea>
                         <Divider variant="fullWidth" component="legend" />
                         <Grid
                           container

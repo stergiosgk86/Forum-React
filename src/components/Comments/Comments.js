@@ -131,6 +131,9 @@ const styles = (theme) => ({
   collapse: {
     width: "100%",
   },
+  cardActionArea: {
+    outline: "none!important",
+  },
 });
 
 class Comments extends Component {
@@ -273,17 +276,24 @@ class Comments extends Component {
                   {this.state.post.description}
                 </Typography>
               </Grid>
-              <Grid item>
-                {this.state.post.imageUrl ? (
-                  <LazyLoadImage
-                    alt=""
-                    effect="blur"
-                    src={`${BASE_URL}/${this.state.post.imageUrl}`}
-                  />
-                ) : (
-                  ""
-                )}
-              </Grid>
+              <CardActionArea className={classes.cardActionArea}>
+                <Grid item>
+                  {this.state.post.imageUrl ? (
+                    <LazyLoadImage
+                      alt=""
+                      effect="blur"
+                      src={`${BASE_URL}/${this.state.post.imageUrl}`}
+                      onDoubleClick={() => {
+                        this.submitLike();
+                        this.state.post.hasLikeByLoggedInUser =
+                          !this.state.post.hasLikeByLoggedInUser;
+                      }}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </Grid>
+              </CardActionArea>
               <Divider variant="fullWidth" component="legend" />
               <Grid
                 container
@@ -344,7 +354,7 @@ class Comments extends Component {
                     </Grid>
                     <Grid item xs={10} sm={11}>
                       <Card elevation={2} className={classes.commentBubble}>
-                        <CardActionArea>
+                        <CardActionArea className={classes.cardActionArea}>
                           <CardContent>
                             <Typography className={classes.nameBubble}>
                               {comment.username}
