@@ -98,6 +98,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "capitalize",
     fontWeight: "bold",
   },
+  avatar: {
+    width: 50,
+    height: 50,
+  },
 }));
 
 const AdminLayout = ({
@@ -151,7 +155,7 @@ const AdminLayout = ({
           </Typography>
           <Grid item className={classes.appbarUsernameGrid}>
             {/* <Typography>Welcome,</Typography> */}
-            <Avatar src={avatar?.path} alt="" />
+            <Avatar src={avatar?.path} alt="" className={classes.avatar} />
             <Typography className={classes.appbarUsername}>
               {username}
             </Typography>

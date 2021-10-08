@@ -56,7 +56,7 @@ const Home = ({ isAdminLoggedIn }) => {
     },
     header: {
       padding: theme.spacing(3),
-      backgroundImage: `radial-gradient(circle, rgba(2,0,43,1) 0%, rgba(58,58,185,1) 50%, rgba(102,181,198,1) 100%)`,
+      backgroundColor: "rgb(86, 100, 210)",
       color: "#fff",
       borderRadius: 10,
       textTransform: "uppercase",

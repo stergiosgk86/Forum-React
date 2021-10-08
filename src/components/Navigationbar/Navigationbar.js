@@ -29,13 +29,13 @@ import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import logo from "../../Img/circles.png";
 import { api } from "../../utils/Api";
 import { exportAvatarArray } from "../../utils/AvatarUtils";
 import UserService from "../../utils/UserService";
-import logo from "../../Img/devil.png";
+import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
 import AuthenticationService from "../security/AuthenticationService";
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
     outline: "none!important",
   },
   logo: {
-    width: "80px",
+    width: "56px",
+    height: "56px",
   },
   appbarLeft: {
     display: "flex",
@@ -101,6 +102,14 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     cursor: "pointer",
+    width: 50,
+    height: 50,
+  },
+  avatarPopover: {
+    marginBottom: "10px",
+    cursor: "pointer",
+    width: "56px",
+    height: "56px",
   },
   avatarGrid: {
     display: "flex",
@@ -242,7 +251,7 @@ const Navigationbar = ({
                     horizontal: "center",
                   }}
                   PaperProps={{
-                    style: { width: "300px" },
+                    style: { width: "300px", borderRadius: "16px" },
                   }}
                 >
                   <Paper
@@ -269,10 +278,7 @@ const Navigationbar = ({
                             <Avatar
                               src={avatar.path}
                               alt=""
-                              style={{
-                                marginBottom: "10px",
-                                cursor: "pointer",
-                              }}
+                              className={classes.avatarPopover}
                               onClick={() => handleAvatar(avatar.id)}
                             />
                           </Grid>
@@ -438,7 +444,7 @@ const Navigationbar = ({
                           horizontal: "center",
                         }}
                         PaperProps={{
-                          style: { width: "300px" },
+                          style: { width: "300px", borderRadius: "16px" },
                         }}
                       >
                         <Paper
@@ -465,10 +471,7 @@ const Navigationbar = ({
                                   <Avatar
                                     src={avatar.path}
                                     alt=""
-                                    style={{
-                                      marginBottom: "10px",
-                                      cursor: "pointer",
-                                    }}
+                                    className={classes.avatarPopover}
                                     onClick={() => handleAvatar(avatar.id)}
                                   />
                                 </Grid>

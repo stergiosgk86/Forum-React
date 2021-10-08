@@ -1,15 +1,17 @@
 .paginationBtn {
-    background-color: rgba(102,181,198,1)!important;
-    color: #fff!important;
+  background-color: rgb(86, 100, 210) !important;
+  border-color: rgb(86, 100, 210);
+  border-radius: 12px !important;
+  color: #fff !important;
 }
 
 .paginationBtn:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .paginationBtn:hover {
-    background-color: rgba(58,58,185,1)!important;
-    border-color: rgba(63, 81, 181, 0.5);
-    transform: scale(1.1)!important;
-    transition: all 300ms;
+  background-color: rgba(102, 181, 198, 1) !important;
+  border-color: rgba(102, 181, 198, 1);
+  transform: scale(1.1) !important;
+  transition: all 300ms;
 }
