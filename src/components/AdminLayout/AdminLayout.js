@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Avatar,
@@ -115,6 +115,7 @@ const AdminLayout = ({
 }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
+  const [avatar, setAvatar] = useState({});
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -122,7 +123,10 @@ const AdminLayout = ({
     setOpen(false);
   };
   const username = AuthenticationService.getLoggedInUserName();
-  const avatar = UserService.findAvatarOfLoggedInUser();
+
+  useEffect(() => {
+    setAvatar(UserService.findAvatarOfLoggedInUser());
+  }, []);
 
   return (
     <div className={classes.root}>

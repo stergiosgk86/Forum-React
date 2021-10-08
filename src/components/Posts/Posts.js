@@ -25,6 +25,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import UserService from "../../utils/UserService";
 
 const styles = (theme) => ({
   root: {
@@ -175,9 +176,12 @@ class Posts extends Component {
                         <Divider variant="fullWidth" component="legend" />
                         <Grid container py={2} component={Box}>
                           <Grid className={classes.avatar}>
-                            <Avatar alt="" src="">
-                              {post.username}
-                            </Avatar>
+                            <Avatar
+                              alt=""
+                              src={
+                                UserService.findAvatarById(post.avatarId)?.path
+                              }
+                            />
                           </Grid>
                           <Grid item component={Box}>
                             <Grid container component={Box} px={2}>

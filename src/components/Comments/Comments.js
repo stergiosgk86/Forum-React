@@ -249,9 +249,12 @@ class Comments extends Component {
               <Divider variant="fullWidth" component="legend" />
               <Grid container py={2} component={Box}>
                 <Grid className={classes.avatar}>
-                  <Avatar alt="" src="">
-                    {this.state.post.username?.charAt(0)}
-                  </Avatar>
+                  <Avatar
+                    alt=""
+                    src={
+                      UserService.findAvatarById(this.state.post.avatarId)?.path
+                    }
+                  />
                 </Grid>
                 <Grid item component={Box}>
                   <Grid container component={Box} px={2}>
@@ -348,9 +351,10 @@ class Comments extends Component {
                 {this.state.comments.map((comment) => (
                   <Grid container key={comment.id} className={classes.chat}>
                     <Grid item xs={2} sm={1} className={classes.avatar}>
-                      <Avatar alt="" src="">
-                        {comment.username.charAt(0)}
-                      </Avatar>
+                      <Avatar
+                        alt=""
+                        src={UserService.findAvatarById(comment.avatarId)?.path}
+                      />
                     </Grid>
                     <Grid item xs={10} sm={11}>
                       <Card elevation={2} className={classes.commentBubble}>
