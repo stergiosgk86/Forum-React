@@ -7,6 +7,8 @@ class UserService {
       localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
     );
 
+    if (!localStorageUser) return;
+
     const { username, roles, avatar } = { ...localStorageUser };
 
     return {

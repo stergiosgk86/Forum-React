@@ -156,6 +156,10 @@ const Navigationbar = ({
     setAnchorEl(event.currentTarget);
   };
 
+  useEffect(() => {
+    console.log(isUserLoggedIn);
+  }, []);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
