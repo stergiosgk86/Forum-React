@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import AdminLayout from "./components/AdminLayout/AdminLayout";
 import CategoriesList from "./components/AdminLayout/Categories/CategoriesList/CategoriesList";
-import Dashboard from "./components/AdminLayout/Dashboard";
+import Dashboard from "./components/AdminLayout/Dashboard/Dashboard";
 import UserList from "./components/AdminLayout/UserList/UserList";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
 import ForumLayout from "./components/ForumLayout/ForumLayout";

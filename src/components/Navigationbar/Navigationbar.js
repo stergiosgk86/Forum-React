@@ -29,7 +29,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../Img/circles.png";
 import { api } from "../../utils/Api";
@@ -156,10 +156,6 @@ const Navigationbar = ({
     setAnchorEl(event.currentTarget);
   };
 
-  useEffect(() => {
-    console.log(isUserLoggedIn);
-  }, []);
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -193,7 +189,7 @@ const Navigationbar = ({
         UserService.saveAvatar(avatar); //save in localstorage
         handleClose(); //close popover
       })
-      .catch((e) => console.error(e));
+      .catch((err) => {});
   };
 
   const mobileMenu = (
@@ -230,7 +226,6 @@ const Navigationbar = ({
           {isUserLoggedIn ? (
             <>
               <ListItem className={classes.drawerListItemUsername}>
-                {/* <Typography>Welcome,</Typography> */}
                 <Avatar
                   src={props.user?.avatar?.path}
                   alt=""
@@ -423,7 +418,6 @@ const Navigationbar = ({
                 {isUserLoggedIn ? (
                   <>
                     <Grid item className={classes.appbarUsernameGrid}>
-                      {/* <Typography>Welcome,</Typography> */}
                       <Avatar
                         src={props.user?.avatar?.path}
                         alt=""

@@ -74,4 +74,3 @@ const api = {
 };
 
 export { api, BASE_URL, instance };
-

@@ -23,7 +23,7 @@ import { NavLink } from "react-router-dom";
 import { api, BASE_URL } from "../../utils/Api";
 import { handleAvararOfPostAndComments } from "../../utils/AvatarUtils";
 import { forumSession } from "../../utils/SessionStorage";
-import ColapseComments from "../Comments/ColapseComments";
+import ColapseComments from "../ColapseComments/ColapseComments";
 import SkeletonPosts from "../Skeletons/SkeletonPosts";
 import "./Posts.css";
 

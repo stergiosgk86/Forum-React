@@ -13,7 +13,7 @@ import {
   makeStyles,
   TextField,
   Typography,
-  withStyles
+  withStyles,
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import moment from "moment";
@@ -240,7 +240,6 @@ const ColapseComments = ({ postId, user }) => {
         <Grid item xs={10} sm={11}>
           <TextField
             ref={textFieldRef}
-            id="input"
             multiline
             variant="standard"
             fullWidth
