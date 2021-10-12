@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn }) => {
+const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn, ...props }) => {
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -62,7 +62,7 @@ const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn }) => {
     api
       .login(values.username, values.password)
       .then((res) => {
-        AuthenticationService.successfulLogin(
+        const loggedInUser = AuthenticationService.successfulLogin(
           res.data.username,
           res.data.roles,
           res.data.avatarId
@@ -70,6 +70,8 @@ const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn }) => {
 
         updateIsUserLoggedIn(true);
         updateIsAdminLoggedIn(UserService.isAdmin());
+
+        props.setUser(loggedInUser);
 
         successToast("Congratulations! You have been successfully logged in");
         if (UserService.isAdmin()) {

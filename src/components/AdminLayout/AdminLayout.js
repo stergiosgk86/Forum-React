@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Avatar,
@@ -15,11 +14,11 @@ import {
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
+import React, { useState } from "react";
+import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
+import AuthenticationService from "../security/AuthenticationService";
 import MainListItems from "./ListItems/MainListItems";
 import SecondaryListItems from "./ListItems/SecondaryListItems";
-import AuthenticationService from "../security/AuthenticationService";
-import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
-import UserService from "../../utils/UserService";
 
 const drawerWidth = 240;
 
@@ -111,11 +110,11 @@ const AdminLayout = ({
   updateIsAdminLoggedIn,
   darkMode,
   handleDarkModeChange,
+  user,
   ...props
 }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
-  const [avatar, setAvatar] = useState({});
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -123,10 +122,6 @@ const AdminLayout = ({
     setOpen(false);
   };
   const username = AuthenticationService.getLoggedInUserName();
-
-  useEffect(() => {
-    setAvatar(UserService.findAvatarOfLoggedInUser());
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -158,8 +153,11 @@ const AdminLayout = ({
             Dashboard
           </Typography>
           <Grid item className={classes.appbarUsernameGrid}>
-            {/* <Typography>Welcome,</Typography> */}
-            <Avatar src={avatar?.path} alt="" className={classes.avatar} />
+            <Avatar
+              src={`${window.location.origin}/` + user.avatar?.path}
+              alt=""
+              className={classes.avatar}
+            />
             <Typography className={classes.appbarUsername}>
               {username}
             </Typography>

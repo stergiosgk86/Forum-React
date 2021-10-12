@@ -21,8 +21,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { NavLink } from "react-router-dom";
 import { api, BASE_URL } from "../../utils/Api";
+import { handleAvararOfPostAndComments } from "../../utils/AvatarUtils";
 import { forumSession } from "../../utils/SessionStorage";
-import UserService from "../../utils/UserService";
 import ColapseComments from "../Comments/ColapseComments";
 import SkeletonPosts from "../Skeletons/SkeletonPosts";
 import "./Posts.css";
@@ -142,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Posts = () => {
+const Posts = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
 
@@ -239,9 +239,7 @@ const Posts = () => {
                         <Grid className={classes.avatar}>
                           <Avatar
                             alt=""
-                            src={
-                              UserService.findAvatarById(post.avatarId)?.path
-                            }
+                            src={handleAvararOfPostAndComments(user, post)}
                           />
                         </Grid>
                         <Grid item component={Box}>
@@ -327,7 +325,11 @@ const Posts = () => {
                         </Button>
                       </Grid>
                       {post.showComments ? (
-                        <ColapseComments size={post.size} postId={post.id} />
+                        <ColapseComments
+                          user={user}
+                          size={post.size}
+                          postId={post.id}
+                        />
                       ) : (
                         ""
                       )}

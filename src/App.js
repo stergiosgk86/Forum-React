@@ -1,9 +1,10 @@
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import React, { useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import AdminLayout from "./components/AdminLayout/AdminLayout";
+import CategoriesList from "./components/AdminLayout/Categories/CategoriesList/CategoriesList";
 import Dashboard from "./components/AdminLayout/Dashboard";
-import User from "./components/AdminLayout/User/User";
 import UserList from "./components/AdminLayout/UserList/UserList";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
 import ForumLayout from "./components/ForumLayout/ForumLayout";
@@ -17,8 +18,6 @@ import AdminRoute from "./components/security/AdminRoute";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import AuthenticationService from "./components/security/AuthenticationService";
 import UserService from "./utils/UserService";
-import CategoriesList from "./components/AdminLayout/Categories/CategoriesList/CategoriesList";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
@@ -37,6 +36,8 @@ const App = () => {
     return mode === "true" || false;
   });
 
+  const [user, setUser] = useState(UserService.getUser());
+
   const handleDarkModeChange = () => {
     setDarkMode(!darkMode);
     localStorage.setItem("darkMode", !darkMode);
@@ -53,13 +54,7 @@ const App = () => {
       <Switch>
         <Route
           exact
-          path={[
-            "/",
-            "/login",
-            "/register",
-            "/createposts",
-            "/posts"
-          ]}
+          path={["/", "/login", "/register", "/createposts", "/posts"]}
         >
           <ForumLayout>
             <Navigationbar
@@ -69,6 +64,8 @@ const App = () => {
               updateIsAdminLoggedIn={updateIsAdminLoggedIn}
               darkMode={darkMode}
               handleDarkModeChange={handleDarkModeChange}
+              user={user}
+              setUser={setUser}
             />
             <Switch>
               <Route
@@ -81,6 +78,8 @@ const App = () => {
                 exact
                 component={() => (
                   <Login
+                    user={user}
+                    setUser={setUser}
                     updateIsUserLoggedIn={updateIsUserLoggedIn}
                     updateIsAdminLoggedIn={updateIsAdminLoggedIn}
                   />
@@ -96,7 +95,7 @@ const App = () => {
               <AuthenticatedRoute
                 path="/posts"
                 exact
-                component={Posts}
+                render={() => <Posts user={user} />}
                 isUserLoggedIn={isUserLoggedIn}
               />
             </Switch>
@@ -105,12 +104,7 @@ const App = () => {
 
         <Route
           exact
-          path={[
-            "/dashboard",
-            "/dashboard/categories",
-            "/dashboard/users",
-            "/dashboard/user/:id",
-          ]}
+          path={["/dashboard", "/dashboard/categories", "/dashboard/users"]}
         >
           <AdminLayout
             isUserLoggedIn={isUserLoggedIn}
@@ -119,6 +113,8 @@ const App = () => {
             updateIsAdminLoggedIn={updateIsAdminLoggedIn}
             darkMode={darkMode}
             handleDarkModeChange={handleDarkModeChange}
+            user={user}
+            setUser={setUser}
           >
             <Switch>
               <AdminRoute
@@ -131,12 +127,6 @@ const App = () => {
                 path="/dashboard/users"
                 exact
                 component={UserList}
-                isAdminLoggedIn={isAdminLoggedIn}
-              />
-              <AdminRoute
-                path="/dashboard/user/:id"
-                exact
-                component={User}
                 isAdminLoggedIn={isAdminLoggedIn}
               />
               <AdminRoute

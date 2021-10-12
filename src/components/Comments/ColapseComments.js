@@ -13,14 +13,14 @@ import {
   makeStyles,
   TextField,
   Typography,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import { api } from "../../utils/Api";
+import { handleAvararOfPostAndComments } from "../../utils/AvatarUtils";
 import { forumSession } from "../../utils/SessionStorage";
-import UserService from "../../utils/UserService";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ColapseComments = ({ postId }) => {
+const ColapseComments = ({ postId, user }) => {
   const [commentsPageable, setCommentsPageable] = useState({});
   const [text, setText] = useState("");
   const [pageable, setPageable] = useState({ size: 3, page: 0 });
@@ -233,7 +233,7 @@ const ColapseComments = ({ postId }) => {
             }}
             variant="dot"
           >
-            <Avatar src={UserService.findAvatarOfLoggedInUser()?.path} alt="" />
+            <Avatar src={user?.avatar?.path} alt="" />
           </StyledBadge>
         </Grid>
 
@@ -274,7 +274,7 @@ const ColapseComments = ({ postId }) => {
               <Grid item xs={2} sm={1} className={classes.avatar}>
                 <Avatar
                   alt=""
-                  src={UserService.findAvatarById(comment.avatarId)?.path}
+                  src={handleAvararOfPostAndComments(user, comment)}
                 />
               </Grid>
               <Grid item xs={10} sm={11}>

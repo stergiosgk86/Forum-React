@@ -138,7 +138,7 @@ const Navigationbar = ({
   updateIsAdminLoggedIn,
   darkMode,
   handleDarkModeChange,
-  props,
+  ...props
 }) => {
   const logoutHandler = () => {
     updateIsUserLoggedIn(false);
@@ -150,15 +150,7 @@ const Navigationbar = ({
   const [mobileMenuAnchorEl, setMobileMenuAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMenuAnchorEl);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const [userAvatar, setUserAvatar] = useState({});
   const avatarsArray = exportAvatarArray();
-
-  useEffect(() => {
-    const user = UserService.getUser();
-    const avatar = findAvatarById(user?.avatarId);
-    setUserAvatar(avatar);
-  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -189,8 +181,12 @@ const Navigationbar = ({
       .saveAvatar(avatarId)
       .then(() => {
         const avatar = findAvatarById(avatarId);
-        setUserAvatar(avatar); // save avatar state
-        UserService.saveAvatar(avatarId); //save in localstorage
+        props.setUser({
+          ...props.user,
+          avatar: avatar,
+        }); // save avatar state
+
+        UserService.saveAvatar(avatar); //save in localstorage
         handleClose(); //close popover
       })
       .catch((e) => console.error(e));
@@ -232,7 +228,7 @@ const Navigationbar = ({
               <ListItem className={classes.drawerListItemUsername}>
                 {/* <Typography>Welcome,</Typography> */}
                 <Avatar
-                  src={userAvatar?.path}
+                  src={props.user?.avatar?.path}
                   alt=""
                   onClick={handleClick}
                   className={classes.avatar}
@@ -425,7 +421,7 @@ const Navigationbar = ({
                     <Grid item className={classes.appbarUsernameGrid}>
                       {/* <Typography>Welcome,</Typography> */}
                       <Avatar
-                        src={userAvatar?.path}
+                        src={props.user?.avatar?.path}
                         alt=""
                         onClick={handleClick}
                         className={classes.avatar}

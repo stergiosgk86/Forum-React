@@ -3,7 +3,17 @@ import { exportAvatarArray } from "../utils/AvatarUtils";
 
 class UserService {
   getUser() {
-    return JSON.parse(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME));
+    const localStorageUser = JSON.parse(
+      localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+    );
+
+    const { username, roles, avatar } = { ...localStorageUser };
+
+    return {
+      username: username,
+      roles: roles,
+      avatar: avatar,
+    };
   }
 
   isAdmin() {
@@ -19,8 +29,8 @@ class UserService {
     localStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
   }
 
-  saveAvatar(avatarId) {
-    let user = { ...this.getUser(), avatarId: avatarId };
+  saveAvatar(avatar) {
+    let user = { ...this.getUser(), avatar: avatar };
     this.setUser(user, USER_NAME_SESSION_ATTRIBUTE_NAME);
   }
   findAvatarById = (avatarId) => {
