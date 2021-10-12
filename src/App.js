@@ -5,7 +5,6 @@ import AdminLayout from "./components/AdminLayout/AdminLayout";
 import Dashboard from "./components/AdminLayout/Dashboard";
 import User from "./components/AdminLayout/User/User";
 import UserList from "./components/AdminLayout/UserList/UserList";
-import Comments from "./components/Comments/Comments";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
 import ForumLayout from "./components/ForumLayout/ForumLayout";
 import Home from "./components/Home/Home";
@@ -59,8 +58,7 @@ const App = () => {
             "/login",
             "/register",
             "/createposts",
-            "/posts",
-            "/comments",
+            "/posts"
           ]}
         >
           <ForumLayout>
@@ -99,12 +97,6 @@ const App = () => {
                 path="/posts"
                 exact
                 component={Posts}
-                isUserLoggedIn={isUserLoggedIn}
-              />
-              <AuthenticatedRoute
-                path="/comments"
-                exact
-                component={Comments}
                 isUserLoggedIn={isUserLoggedIn}
               />
             </Switch>

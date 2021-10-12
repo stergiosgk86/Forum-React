@@ -30,6 +30,11 @@ const api = {
   getPostComments: (postId) => {
     return instance.get(`/posts/${postId}/comments`);
   },
+  getPostCommentsPageable: (postId, pageable) => {
+    return instance.get(
+      `/posts/${postId}/comments/page?size=${pageable.size}&page=${pageable.page}`
+    );
+  },
   submitLike: (postId) => {
     return instance.post(`/posts/${postId}/likes`);
   },
@@ -69,3 +74,4 @@ const api = {
 };
 
 export { api, BASE_URL, instance };
+
