@@ -327,8 +327,9 @@ const Posts = ({ user }) => {
                       {post.showComments ? (
                         <ColapseComments
                           user={user}
-                          size={post.size}
-                          postId={post.id}
+                          post={post}
+                          posts={posts}
+                          setPosts={setPosts}
                         />
                       ) : (
                         ""

@@ -154,9 +154,14 @@ const useStyles = makeStyles((theme) => ({
   cardActionArea: {
     outline: "none!important",
   },
+  viewMoreCommentsGrid: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 }));
 
-const ColapseComments = ({ postId, user }) => {
+const ColapseComments = ({ posts, post, setPosts, user }) => {
   const [commentsPageable, setCommentsPageable] = useState({});
   const [text, setText] = useState("");
   const [pageable, setPageable] = useState({ size: 3, page: 0 });
@@ -165,14 +170,14 @@ const ColapseComments = ({ postId, user }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    api.getPostCommentsPageable(postId, pageable).then((res) => {
+    api.getPostCommentsPageable(post.id, pageable).then((res) => {
       setCommentsPageable(res.data);
     });
   }, []);
 
   const viewMoreComments = () => {
     const newPageable = { ...pageable, size: pageable.size + 5 };
-    api.getPostCommentsPageable(postId, newPageable).then((res) => {
+    api.getPostCommentsPageable(post.id, newPageable).then((res) => {
       setCommentsPageable(res.data);
       setPageable(newPageable);
     });
@@ -180,7 +185,7 @@ const ColapseComments = ({ postId, user }) => {
 
   const submitComment = () => {
     api
-      .saveComment(postId, {
+      .saveComment(post.id, {
         text: text,
         userId: forumSession.user.getId(),
       })
@@ -191,6 +196,13 @@ const ColapseComments = ({ postId, user }) => {
           content: comments,
         });
         setText("");
+        const newPosts = posts.map((p) => {
+          if (p.id === post.id) {
+            p.numComments++;
+          }
+          return p;
+        });
+        setPosts(newPosts);
       })
       .catch((err) => {});
   };
@@ -307,14 +319,19 @@ const ColapseComments = ({ postId, user }) => {
               </Grid>
             </Grid>
           ))}
-          <Grid>
+          <Grid style={{ paddingTop: "10px" }}>
             {pageable.size < commentsPageable?.totalElements ? (
-              <Button
-                className="likeCommentBtn"
-                onClick={() => viewMoreComments()}
-              >
-                View more comments
-              </Button>
+              <Grid className={classes.viewMoreCommentsGrid}>
+                <Button
+                  className="likeCommentBtn"
+                  onClick={() => viewMoreComments()}
+                >
+                  View more comments
+                </Button>
+                <Typography>
+                  {pageable.size} of {commentsPageable.totalElements}
+                </Typography>
+              </Grid>
             ) : (
               ""
             )}
