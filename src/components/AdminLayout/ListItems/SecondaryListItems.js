@@ -11,12 +11,12 @@ import HomeIcon from "@material-ui/icons/Home";
 import AuthenticationService from "../../security/AuthenticationService";
 
 const SecondaryListItems = ({
-  updateIsUserLoggedIn,
-  updateIsAdminLoggedIn,
+  setIsUserLoggedIn,
+  setIsAdminLoggedIn,
 }) => {
   const logoutHandler = () => {
-    updateIsUserLoggedIn(false);
-    updateIsAdminLoggedIn(false);
+    setIsUserLoggedIn(false);
+    setIsAdminLoggedIn(false);
     AuthenticationService.logout();
   };
   return (

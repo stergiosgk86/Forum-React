@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn, ...props }) => {
+const Login = ({ setIsUserLoggedIn, setIsAdminLoggedIn, ...props }) => {
   const [values, setValues] = useState({
     username: "",
     password: "",
@@ -68,8 +68,8 @@ const Login = ({ updateIsUserLoggedIn, updateIsAdminLoggedIn, ...props }) => {
           res.data.avatarId
         );
 
-        updateIsUserLoggedIn(true);
-        updateIsAdminLoggedIn(UserService.isAdmin());
+        setIsUserLoggedIn(true);
+        setIsAdminLoggedIn(UserService.isAdmin());
 
         props.setUser(loggedInUser);
 

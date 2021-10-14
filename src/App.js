@@ -7,6 +7,7 @@ import CategoriesList from "./components/AdminLayout/Categories/CategoriesList/C
 import Dashboard from "./components/AdminLayout/Dashboard/Dashboard";
 import UserList from "./components/AdminLayout/UserList/UserList";
 import CreatePosts from "./components/CreatePosts/CreatePosts";
+import ErrorHandler from "./components/ErrorHandler/ErrorHandler";
 import ForumLayout from "./components/ForumLayout/ForumLayout";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
@@ -23,13 +24,8 @@ const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(
     AuthenticationService.isUserLoggedIn()
   );
-  const updateIsUserLoggedIn = (isLoggedIn) => {
-    setIsUserLoggedIn(isLoggedIn);
-  };
+
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(UserService.isAdmin());
-  const updateIsAdminLoggedIn = (adminLoggedIn) => {
-    setIsAdminLoggedIn(adminLoggedIn);
-  };
 
   const [darkMode, setDarkMode] = useState(() => {
     const mode = localStorage.getItem("darkMode");
@@ -51,6 +47,10 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <ErrorHandler
+        setIsUserLoggedIn={setIsUserLoggedIn}
+        setIsAdminLoggedIn={setIsAdminLoggedIn}
+      />
       <Switch>
         <Route
           exact
@@ -59,9 +59,9 @@ const App = () => {
           <ForumLayout>
             <Navigationbar
               isUserLoggedIn={isUserLoggedIn}
-              updateIsUserLoggedIn={updateIsUserLoggedIn}
+              setIsUserLoggedIn={setIsUserLoggedIn}
               isAdminLoggedIn={isAdminLoggedIn}
-              updateIsAdminLoggedIn={updateIsAdminLoggedIn}
+              setIsAdminLoggedIn={setIsAdminLoggedIn}
               darkMode={darkMode}
               handleDarkModeChange={handleDarkModeChange}
               user={user}
@@ -80,8 +80,8 @@ const App = () => {
                   <Login
                     user={user}
                     setUser={setUser}
-                    updateIsUserLoggedIn={updateIsUserLoggedIn}
-                    updateIsAdminLoggedIn={updateIsAdminLoggedIn}
+                    setIsUserLoggedIn={setIsUserLoggedIn}
+                    setIsAdminLoggedIn={setIsAdminLoggedIn}
                   />
                 )}
               />
@@ -108,9 +108,9 @@ const App = () => {
         >
           <AdminLayout
             isUserLoggedIn={isUserLoggedIn}
-            updateIsUserLoggedIn={updateIsUserLoggedIn}
+            setIsUserLoggedIn={setIsUserLoggedIn}
             isAdminLoggedIn={isAdminLoggedIn}
-            updateIsAdminLoggedIn={updateIsAdminLoggedIn}
+            setIsAdminLoggedIn={setIsAdminLoggedIn}
             darkMode={darkMode}
             handleDarkModeChange={handleDarkModeChange}
             user={user}

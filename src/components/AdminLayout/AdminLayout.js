@@ -105,9 +105,9 @@ const useStyles = makeStyles((theme) => ({
 
 const AdminLayout = ({
   isUserLoggedIn,
-  updateIsUserLoggedIn,
+  setIsUserLoggedIn,
   isAdminLoggedIn,
-  updateIsAdminLoggedIn,
+  setIsAdminLoggedIn,
   darkMode,
   handleDarkModeChange,
   user,
@@ -188,9 +188,9 @@ const AdminLayout = ({
         <List>
           <SecondaryListItems
             isUserLoggedIn={isUserLoggedIn}
-            updateIsUserLoggedIn={updateIsUserLoggedIn}
+            setIsUserLoggedIn={setIsUserLoggedIn}
             isAdminLoggedIn={isAdminLoggedIn}
-            updateIsAdminLoggedIn={updateIsAdminLoggedIn}
+            setIsAdminLoggedIn={setIsAdminLoggedIn}
           />
         </List>
       </Drawer>

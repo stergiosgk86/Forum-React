@@ -133,16 +133,16 @@ function HideOnScroll(props) {
 
 const Navigationbar = ({
   isUserLoggedIn,
-  updateIsUserLoggedIn,
+  setIsUserLoggedIn,
   isAdminLoggedIn,
-  updateIsAdminLoggedIn,
+  setIsAdminLoggedIn,
   darkMode,
   handleDarkModeChange,
   ...props
 }) => {
   const logoutHandler = () => {
-    updateIsUserLoggedIn(false);
-    updateIsAdminLoggedIn(false);
+    setIsUserLoggedIn(false);
+    setIsAdminLoggedIn(false);
     AuthenticationService.logout();
     setMobileMenuAnchorEl(null);
   };

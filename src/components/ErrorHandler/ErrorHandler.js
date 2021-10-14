@@ -5,7 +5,7 @@ import { instance } from "../../utils/Api";
 import UserService from "../../utils/UserService";
 import { errorToast } from "../Toastify/Toastify";
 
-const ErrorHandler = () => {
+const ErrorHandler = ({ setIsUserLoggedIn, setIsAdminLoggedIn }) => {
   const history = useHistory();
 
   function readJson() {
@@ -24,6 +24,8 @@ const ErrorHandler = () => {
       if (error.response.status === 403) {
       } else if (error.response?.status === 401) {
         UserService.removeUser();
+        setIsUserLoggedIn(false);
+        setIsAdminLoggedIn(false);
 
         history.push({
           pathname: "/login",
