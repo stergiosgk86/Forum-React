@@ -18,6 +18,7 @@ import Register from "./components/Register/Register";
 import AdminRoute from "./components/security/AdminRoute";
 import AuthenticatedRoute from "./components/security/AuthenticatedRoute";
 import AuthenticationService from "./components/security/AuthenticationService";
+import RedirectLoggedInUserRoute from "./components/security/RedirectLoggedInUserRoute";
 import UserService from "./utils/UserService";
 
 const App = () => {
@@ -73,9 +74,10 @@ const App = () => {
                 exact
                 component={() => <Home isAdminLoggedIn={isAdminLoggedIn} />}
               />
-              <Route
+              <RedirectLoggedInUserRoute
                 path="/login"
                 exact
+                isUserLoggedIn={isUserLoggedIn}
                 component={() => (
                   <Login
                     user={user}
@@ -85,7 +87,12 @@ const App = () => {
                   />
                 )}
               />
-              <Route path="/register" exact component={Register} />
+              <RedirectLoggedInUserRoute
+                path="/register"
+                exact
+                component={Register}
+                isUserLoggedIn={isUserLoggedIn}
+              />
               <AuthenticatedRoute
                 path="/createposts"
                 exact
