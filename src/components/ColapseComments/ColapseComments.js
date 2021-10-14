@@ -12,6 +12,7 @@ import {
   InputAdornment,
   makeStyles,
   TextField,
+  Tooltip,
   Typography,
   withStyles,
 } from "@material-ui/core";
@@ -109,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "0.7rem",
     display: "flex",
     justifyContent: "flex-end",
+    cursor: "pointer",
   },
   postTitle: {
     fontSize: "1rem",
@@ -290,7 +292,7 @@ const ColapseComments = ({ posts, post, setPosts, user }) => {
               </Grid>
               <Grid item xs={10} sm={11}>
                 <Card elevation={2} className={classes.commentBubble}>
-                  <CardActionArea className={classes.cardActionArea}>
+                  <Box className={classes.cardActionArea}>
                     <CardContent>
                       <Typography className={classes.nameBubble}>
                         {comment.username}
@@ -309,12 +311,18 @@ const ColapseComments = ({ posts, post, setPosts, user }) => {
                         variant="caption"
                         className={classes.commentCreated}
                       >
-                        {moment(comment.dateCreated).format(
-                          "dddd, MMMM D, YYYY [at] h:mm A"
-                        )}
+                        <Tooltip
+                          title={moment(comment.dateCreated).format(
+                            "MMMM D, YYYY [at] h:mm A"
+                          )}
+                        >
+                          <Box className={classes.date}>
+                            {moment(comment.dateCreated).fromNow()}
+                          </Box>
+                        </Tooltip>
                       </Typography>
                     </CardContent>
-                  </CardActionArea>
+                  </Box>
                 </Card>
               </Grid>
             </Grid>
