@@ -37,6 +37,8 @@ import { exportAvatarArray } from "../../utils/AvatarUtils";
 import UserService from "../../utils/UserService";
 import DarkModeBtn from "../DarkModeBtn/DarkModeBtn";
 import AuthenticationService from "../security/AuthenticationService";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { Badge } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
@@ -92,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
   },
   drawerListItemUsername: {
-    justifyContent: "center",
+    justifyContent: "start",
   },
   list: {
     width: 250,
@@ -104,6 +106,14 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     width: 50,
     height: 50,
+  },
+  avatarIcon: {
+    height: "35%!important",
+    width: "35%!important",
+    position: "absolute",
+    right: "-5%",
+    bottom: "0%",
+    cursor: "pointer",
   },
   avatarPopover: {
     marginBottom: "10px",
@@ -195,43 +205,24 @@ const Navigationbar = ({
   const mobileMenu = (
     <Drawer anchor="left" open={isMobileMenuOpen} onClose={closeMobileMenu}>
       <div className={classes.list}>
-        <List>
-          <ListItem
-            button
-            className={classes.navButton}
-            component={NavLink}
-            to="/"
-            onClick={closeMobileMenu}
-          >
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          {/* <ListItem
-            button
-            className={classes.navButton}
-            component={NavLink}
-            to="/aboutUs"
-            onClick={closeMobileMenu}
-          >
-            <ListItemIcon>
-              <InfoIcon />
-            </ListItemIcon>
-            <ListItemText primary="About Us" />
-          </ListItem> */}
-        </List>
-        <Divider />
-        <List>
-          {isUserLoggedIn ? (
-            <>
+        {isUserLoggedIn ? (
+          <>
+            <List>
               <ListItem className={classes.drawerListItemUsername}>
-                <Avatar
-                  src={props.user?.avatar?.path}
-                  alt=""
+                <Grid
+                  style={{
+                    position: "relative",
+                    display: "inline-block",
+                  }}
                   onClick={handleClick}
-                  className={classes.avatar}
-                />
+                >
+                  <Avatar
+                    src={props.user?.avatar?.path}
+                    alt=""
+                    className={classes.avatar}
+                  />
+                  <AddCircleIcon className={classes.avatarIcon} />
+                </Grid>
 
                 <Popover
                   open={open}
@@ -287,13 +278,27 @@ const Navigationbar = ({
                   {username}
                 </Typography>
               </ListItem>
-              <ListItem style={{ justifyContent: "center" }}>
-                <DarkModeBtn
-                  darkMode={darkMode}
-                  handleDarkModeChange={handleDarkModeChange}
-                />
-              </ListItem>
-
+            </List>
+            <Divider />
+          </>
+        ) : (
+          ""
+        )}
+        <List>
+          <ListItem
+            button
+            className={classes.navButton}
+            component={NavLink}
+            to="/"
+            onClick={closeMobileMenu}
+          >
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          {isUserLoggedIn ? (
+            <>
               {isAdminLoggedIn ? (
                 <ListItem
                   button
@@ -310,18 +315,7 @@ const Navigationbar = ({
               ) : (
                 ""
               )}
-              {/* <ListItem
-                button
-                className={classes.navButton}
-                component={NavLink}
-                to="/profile"
-                onClick={closeMobileMenu}
-              >
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Profile" />
-              </ListItem> */}
+
               <ListItem
                 button
                 className={classes.navButton}
@@ -337,12 +331,6 @@ const Navigationbar = ({
             </>
           ) : (
             <>
-              <ListItem style={{ justifyContent: "center" }}>
-                <DarkModeBtn
-                  darkMode={darkMode}
-                  handleDarkModeChange={handleDarkModeChange}
-                />
-              </ListItem>
               <ListItem
                 button
                 className={classes.navButton}
@@ -370,6 +358,12 @@ const Navigationbar = ({
             </>
           )}
         </List>
+        <Grid style={{ display: "flex", justifyContent: "center" }}>
+          <DarkModeBtn
+            darkMode={darkMode}
+            handleDarkModeChange={handleDarkModeChange}
+          />
+        </Grid>
       </div>
     </Drawer>
   );
@@ -418,12 +412,20 @@ const Navigationbar = ({
                 {isUserLoggedIn ? (
                   <>
                     <Grid item className={classes.appbarUsernameGrid}>
-                      <Avatar
-                        src={props.user?.avatar?.path}
-                        alt=""
+                      <Grid
+                        style={{
+                          position: "relative",
+                          display: "inline-block",
+                        }}
                         onClick={handleClick}
-                        className={classes.avatar}
-                      />
+                      >
+                        <Avatar
+                          src={props.user?.avatar?.path}
+                          alt=""
+                          className={classes.avatar}
+                        />
+                        <AddCircleIcon className={classes.avatarIcon} />
+                      </Grid>
 
                       <Popover
                         open={open}

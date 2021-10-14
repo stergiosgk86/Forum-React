@@ -30,7 +30,7 @@ const App = () => {
 
   const [darkMode, setDarkMode] = useState(() => {
     const mode = localStorage.getItem("darkMode");
-    return mode === "true" || false;
+    return !mode ? true : mode === "true" ? true : false;
   });
 
   const [user, setUser] = useState(UserService.getUser());
