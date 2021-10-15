@@ -7,8 +7,10 @@ import {
   Container,
   Divider,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
+  styled,
   Typography,
 } from "@material-ui/core";
 import { CameraAlt } from "@material-ui/icons";
@@ -25,6 +27,8 @@ import { handleAvararOfPostAndComments } from "../../utils/AvatarUtils";
 import { forumSession } from "../../utils/SessionStorage";
 import ColapseComments from "../ColapseComments/ColapseComments";
 import SkeletonPosts from "../Skeletons/SkeletonPosts";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import SendIcon from "@mui/icons-material/Send";
 import "./Posts.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -107,8 +111,9 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "capitalize",
     paddingBottom: "10px",
   },
-  sendBtn: {
+  iconBtn: {
     outline: "none!important",
+    padding: "5px!important",
   },
   date: {
     fontSize: "0.7rem",
@@ -145,6 +150,7 @@ const useStyles = makeStyles((theme) => ({
 const Posts = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [expanded, setExpanded] = useState(false);
 
   const userId = forumSession.user.getId();
   const categoryId = forumSession.category.getId();
@@ -184,6 +190,17 @@ const Posts = ({ user }) => {
     });
     setPosts(newPosts);
   };
+
+  const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
 
   return (
     <>
@@ -297,32 +314,53 @@ const Posts = ({ user }) => {
                         component={Box}
                         justifyContent="space-between"
                       >
-                        <Button
-                          className="likeCommentBtn"
-                          onClick={() => {
-                            submitLike(post.id);
-                            post.hasLikeByLoggedInUser =
-                              !post.hasLikeByLoggedInUser;
-                          }}
-                        >
-                          <Typography variant="body2">
-                            {post.likes}
-                            {post.hasLikeByLoggedInUser ? (
-                              <FavoriteIcon color="error" />
-                            ) : (
-                              <FavoriteBorderIcon />
-                            )}
-                          </Typography>
-                        </Button>
-                        <Button
-                          className="likeCommentBtn"
+                        <Grid style={{ alignItems: "center", display: "flex" }}>
+                          <Button
+                            className="likeCommentBtn"
+                            onClick={() => {
+                              submitLike(post.id);
+                              post.hasLikeByLoggedInUser =
+                                !post.hasLikeByLoggedInUser;
+                            }}
+                          >
+                            <Typography variant="body2">
+                              {post.likes}
+                              {post.hasLikeByLoggedInUser ? (
+                                <FavoriteIcon color="error" />
+                              ) : (
+                                <FavoriteBorderIcon />
+                              )}
+                            </Typography>
+                          </Button>
+                          <IconButton className={classes.iconBtn}>
+                            <SendIcon
+                              fontSize="small"
+                              onClick={() => showComments(post)}
+                            />
+                          </IconButton>
+                        </Grid>
+
+                        <Grid
+                          style={{ display: "flex", cursor: "pointer" }}
                           onClick={() => showComments(post)}
                         >
                           <Box className={classes.boxbtn}>
                             {post.numComments}
                             <Box style={{ marginLeft: "5px" }}>Comments</Box>
                           </Box>
-                        </Button>
+                          <Box
+                            style={{ alignItems: "center", display: "flex" }}
+                          >
+                            <ExpandMore
+                              expand={post?.showComments}
+                              aria-expanded={expanded}
+                              aria-label="show more"
+                              className={classes.iconBtn}
+                            >
+                              <ExpandMoreIcon fontSize="small" />
+                            </ExpandMore>
+                          </Box>
+                        </Grid>
                       </Grid>
                       {post.showComments ? (
                         <ColapseComments

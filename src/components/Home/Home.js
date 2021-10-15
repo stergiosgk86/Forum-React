@@ -1,11 +1,13 @@
 import {
   Box,
   Button,
+  CardActionArea,
   Container,
   Grid,
   Hidden,
   makeStyles,
   Paper,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -60,9 +62,6 @@ const Home = ({ isAdminLoggedIn }) => {
       color: "#fff",
       borderRadius: 10,
       textTransform: "uppercase",
-    },
-    description: {
-      opacity: 0.5,
     },
     border: {
       borderRight: "2px solid rgba(0, 0, 0, 0.05)",
@@ -167,7 +166,7 @@ const Home = ({ isAdminLoggedIn }) => {
                       className={classes.border}
                       className="seperate"
                     >
-                      <Typography
+                      <CardActionArea
                         component={Link}
                         color="textPrimary"
                         to="/posts"
@@ -179,14 +178,10 @@ const Home = ({ isAdminLoggedIn }) => {
                         <Typography variant="h6" noWrap={true}>
                           {category.title}
                         </Typography>
-                        <Typography
-                          className={classes.description}
-                          variant="subtitle1"
-                          noWrap={true}
-                        >
+                        <Typography variant="body2" noWrap={true}>
                           {category.description}
                         </Typography>
-                      </Typography>
+                      </CardActionArea>
                     </Grid>
                     <Hidden smDown>
                       <Grid container item xs={6}>
@@ -232,12 +227,21 @@ const Home = ({ isAdminLoggedIn }) => {
                             <>
                               <Grid item>
                                 <Typography
-                                  className={classes.description}
+                                  style={{ cursor: "pointer" }}
                                   variant="subtitle1"
+                                  color="textSecondary"
                                 >
-                                  {moment(
-                                    category?.lastComment?.dateCreated
-                                  ).fromNow()}
+                                  <Tooltip
+                                    title={moment(
+                                      category?.lastComment?.dateCreated
+                                    ).format("MMMM D, YYYY [at] h:mm A")}
+                                  >
+                                    <Box className={classes.date}>
+                                      {moment(
+                                        category?.lastComment?.dateCreated
+                                      ).fromNow()}
+                                    </Box>
+                                  </Tooltip>
                                 </Typography>
                               </Grid>
                               <Grid item>
