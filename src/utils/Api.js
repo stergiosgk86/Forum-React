@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "http://stergiosgk.xyz:8082/api";
-const BASE_URL = "http://localhost:8082/api";
+const BASE_URL = "http://stergiosgk.eu:8082/api";
+// const BASE_URL = "http://localhost:8082/api";
 
 const instance = axios.create({
   withCredentials: true,
